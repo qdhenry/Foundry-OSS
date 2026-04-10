@@ -32,7 +32,8 @@ export const dispatchAgent = action({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new ConvexError("Not authenticated");
 
-    // @ts-expect-error Convex type depth limit with 81-table schema
+    // biome-ignore lint/suspicious/noTsIgnore: intermittent TS2589 with 81-table Convex schema
+    // @ts-ignore
     const agent = await ctx.runQuery(api.agentTeam.agents.get, {
       agentId: args.agentId,
     });
