@@ -6,3 +6,8 @@ pre-commit:
     - name: coverage-check
       glob: "*.{ts,tsx}"
       run: bash scripts/check-coverage-gate.sh {staged_files}
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: bunx commitlint --edit {1}
