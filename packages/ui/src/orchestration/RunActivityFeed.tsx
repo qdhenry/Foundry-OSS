@@ -39,8 +39,6 @@ export function RunActivityFeed({ events }: RunActivityFeedProps) {
   const sorted = [...(events ?? [])].sort(
     (a, b) => (b._creationTime ?? 0) - (a._creationTime ?? 0),
   );
-    (a: any, b: any) => (b._creationTime ?? 0) - (a._creationTime ?? 0),
-  );
 
   if (sorted.length === 0) {
     return <div className="py-8 text-center text-sm text-text-muted">No activity yet.</div>;
