@@ -79,8 +79,8 @@ export function DailyDigest({ programId, lastVisitTime }: DailyDigestProps) {
   // Use refs for refresh tracking — immune to React batching/stale closure issues
   const isRefreshingRef = useRef(false);
   const refreshStartRef = useRef(0);
-  const successTimerRef = useRef<ReturnType<typeof setTimeout>>();
-  const loadingTimerRef = useRef<ReturnType<typeof setTimeout>>();
+  const successTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const loadingTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const showRefreshSuccess = useCallback(() => {
     setShowLoading(false);

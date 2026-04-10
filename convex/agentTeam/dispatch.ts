@@ -2,6 +2,7 @@
 
 import { ConvexError, v } from "convex/values";
 import { api, internal } from "../_generated/api";
+import type { Id } from "../_generated/dataModel";
 import { action } from "../_generated/server";
 import { callAgentService } from "../lib/agentServiceClient";
 
@@ -18,7 +19,7 @@ export const dispatchAgent = action({
     ctx,
     args,
   ): Promise<{
-    executionId: string;
+    executionId: Id<"agentTaskExecutions">;
     result: {
       summary: string;
       findings: string[];
@@ -31,6 +32,7 @@ export const dispatchAgent = action({
     const identity = await ctx.auth.getUserIdentity();
     if (!identity) throw new ConvexError("Not authenticated");
 
+    // @ts-expect-error Convex type depth limit with 81-table schema
     const agent = await ctx.runQuery(api.agentTeam.agents.get, {
       agentId: args.agentId,
     });
@@ -48,7 +50,7 @@ export const dispatchAgent = action({
       status: "executing",
     });
 
-    const executionId: string = await ctx.runMutation(api.agentTeam.executions.create, {
+    const executionId = await ctx.runMutation(api.agentTeam.executions.create, {
       orgId: args.orgId,
       programId: args.programId,
       agentId: args.agentId,

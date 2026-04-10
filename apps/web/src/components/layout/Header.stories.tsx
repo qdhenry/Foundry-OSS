@@ -41,7 +41,7 @@ const meta = {
       );
     },
   ],
-} satisfies Meta<typeof Header>;
+} satisfies Meta;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

@@ -39,6 +39,7 @@ const STATUS_CONFIG: Record<string, { dot: string; border: string; label: string
 
 export function WorkstreamGrid({ workstreams, programId }: WorkstreamGridProps) {
   const { slug } = useProgramContext();
+  // @ts-expect-error Convex type depth limit with 81-table schema
   const dependencies = useQuery(api.workstreamDependencies.listByProgram, { programId });
 
   // Compute per-workstream dependency counts (incoming + outgoing)
