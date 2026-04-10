@@ -6,7 +6,7 @@ describe("orgIdMiddleware", () => {
   it("sets orgId from x-org-id header", async () => {
     let capturedOrgId: string | undefined;
 
-    const app = new Hono();
+    const app = new Hono<{ Variables: { orgId: string } }>();
     app.use("/*", orgIdMiddleware);
     app.get("/test", (c) => {
       capturedOrgId = c.get("orgId");
@@ -23,7 +23,7 @@ describe("orgIdMiddleware", () => {
   it("defaults to 'unknown' when x-org-id is missing", async () => {
     let capturedOrgId: string | undefined;
 
-    const app = new Hono();
+    const app = new Hono<{ Variables: { orgId: string } }>();
     app.use("/*", orgIdMiddleware);
     app.get("/test", (c) => {
       capturedOrgId = c.get("orgId");
