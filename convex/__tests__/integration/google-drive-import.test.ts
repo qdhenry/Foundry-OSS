@@ -104,7 +104,7 @@ function mockFetchForImport({
         if (driveStatus !== 200) {
           return new Response("Error", { status: driveStatus });
         }
-        return new Response(driveBytes, {
+        return new Response(driveBytes.buffer as ArrayBuffer, {
           status: 200,
           headers: { "Content-Type": "application/pdf" },
         });
