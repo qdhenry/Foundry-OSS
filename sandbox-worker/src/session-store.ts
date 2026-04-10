@@ -2066,6 +2066,7 @@ export class SessionStore extends DurableObject<Env> {
         cwd: workingDirectory,
         timeout: request.timeoutMs ?? DEFAULT_EXEC_TIMEOUT_MS,
       });
+      if (!proc) throw new Error("Failed to start process — no SDK handle available");
 
       this.activeProcessId = proc.id;
       // Store process handle for interactive message delivery.

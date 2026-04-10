@@ -312,7 +312,7 @@ export async function validateTerminalToken(
     false,
     ["verify"],
   );
-  const sigBytes = new Uint8Array(sig.match(/.{2}/g)?.map((b) => parseInt(b, 16)));
+  const sigBytes = new Uint8Array(sig.match(/.{2}/g)?.map((b) => parseInt(b, 16)) ?? []);
   return crypto.subtle.verify("HMAC", key, sigBytes, new TextEncoder().encode(payload));
 }
 
