@@ -1,0 +1,40 @@
+---
+title: "orchestration/runs.create"
+description: "mutation — Create a new orchestration run with scope, repository, and branch configuration."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/orchestration/runs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/orchestration/runs.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    name: string,
+    scopeType: orchestrationScopeTypeValidator,
+    sprintId: Id<"sprints"> /* optional */,
+    workstreamId: Id<"workstreams"> /* optional */,
+    taskIds: Id<"tasks"> /* optional */[],
+    repositoryIds: Id<"sourceControlRepositories">[],
+    branchStrategy: orchestrationBranchStrategyValidator,
+    branchPattern: string /* optional */,
+    targetBranch: string,
+    maxConcurrency: number,
+    tokenBudget: number,
+  }
+```
+
+Create a new orchestration run with scope, repository, and branch configuration.
+@param orgId - Organization ID
+@param programId - Target program
+@param name - Run display name
+@param scopeType - Scope (sprint, workstream, or custom task selection)

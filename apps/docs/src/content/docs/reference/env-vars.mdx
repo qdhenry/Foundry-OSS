@@ -1,0 +1,131 @@
+---
+title: Environment Variables
+description: Canonical reference for every environment variable used by Foundry, grouped by service.
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This page documents every environment variable that Foundry reads at runtime. Variables are grouped by the service that consumes them.
+
+<Aside type="tip">
+For Convex server-side variables, use `bunx convex env set KEY value` (see [CLI Commands](/reference/cli/#convex-env)). For frontend and Vercel variables, set them in the Vercel dashboard or `.env.local`.
+</Aside>
+
+---
+
+## Frontend (Next.js)
+
+These variables are read by the Next.js app at build time or runtime. Variables prefixed with `NEXT_PUBLIC_` are exposed to the browser.
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `NEXT_PUBLIC_CONVEX_URL` | Yes | Vercel + `.env.local` | Full URL of the Convex deployment (e.g., `https://your-deployment.convex.cloud`). Used by the Convex React client to establish the WebSocket connection. |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Yes | Vercel + `.env.local` | Clerk publishable key for frontend authentication. Starts with `pk_live_` or `pk_test_`. |
+
+---
+
+## Clerk (Authentication)
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `CLERK_SECRET_KEY` | Yes | Vercel | Clerk backend secret key. Used by Next.js middleware for server-side auth verification. Starts with `sk_live_` or `sk_test_`. Never expose to the browser. |
+| `CLERK_WEBHOOK_SECRET` | Yes | Convex Dashboard | Svix signing secret for the Clerk user webhook (`/clerk-users-webhook`). Used to verify HMAC signatures on incoming webhook payloads. Starts with `whsec_`. |
+
+<Aside type="caution">
+`CLERK_SECRET_KEY` must only be set on the server (Vercel environment variables). Leaking it to the client enables impersonation of any user.
+</Aside>
+
+---
+
+## Convex (Backend)
+
+Convex server-side environment variables are set via the Convex Dashboard or `bunx convex env set`. They are available in Convex **actions** (Node.js runtime) via `process.env`.
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `ANTHROPIC_API_KEY` | Yes | Convex Dashboard | Anthropic API key for Claude model calls. Used by Convex actions for document analysis, skill execution, and AI scoring. |
+
+<Aside type="note">
+Convex **queries** and **mutations** run in the Convex runtime (not Node.js) and cannot access `process.env`. Only **actions** declared with `"use node"` can read environment variables.
+</Aside>
+
+---
+
+## Agent Service
+
+The agent service is a stateless AI inference sidecar. In local development it runs as an Express server; in production it runs as a Cloudflare Worker.
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `AGENT_SERVICE_URL` | Yes | Convex Dashboard + Vercel | URL of the agent service. Local: `http://localhost:3001`. Production: the Cloudflare Worker URL (e.g., `https://foundry-agent-worker.<account>.workers.dev`). |
+| `AGENT_SERVICE_SECRET` | Prod only | Convex Dashboard + Wrangler | Bearer token shared between Convex and the agent worker for request authentication. Not needed in local dev where the Express server runs without auth. |
+| `ANTHROPIC_API_KEY` | Yes | Wrangler secrets | Same Anthropic API key, set separately on the Cloudflare Worker so it can call Claude directly. |
+
+---
+
+## Sandbox
+
+The sandbox system provisions ephemeral Claude Code environments for task execution. It consists of a Cloudflare Worker with Durable Objects and Docker containers.
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `SANDBOX_WORKER_URL` | Yes | Convex Dashboard | URL of the Cloudflare sandbox worker (e.g., `https://migration-sandbox-worker.<account>.workers.dev`). Convex calls this to provision and manage sandbox sessions. |
+| `SANDBOX_API_SECRET` | Yes | Convex Dashboard + Wrangler | Shared secret for authenticating requests between Convex and the sandbox worker. Set on both sides. |
+
+---
+
+## GitHub (Source Control)
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `GITHUB_WEBHOOK_SECRET` | Yes | Convex Dashboard | HMAC secret for validating GitHub webhook signatures. Set this to the same value configured in your GitHub App's webhook settings. Used by the `/api/webhooks/github` HTTP endpoint. |
+
+<Aside type="note">
+GitHub App credentials (App ID, private key, client secret) are stored in the `sourceControlInstallations` table, not as environment variables. They are configured through the GitHub App integration UI.
+</Aside>
+
+---
+
+## Atlassian (Jira & Confluence)
+
+| Variable | Required | Where Set | Description |
+|----------|----------|-----------|-------------|
+| `ATLASSIAN_WEBHOOK_SECRET` | Yes | Convex Dashboard | HMAC secret for validating Atlassian webhook payloads. Used by the `/api/webhooks/jira` and `/api/webhooks/confluence` HTTP endpoints. |
+
+<Aside type="note">
+Atlassian OAuth credentials are stored AES-256-GCM encrypted in the `atlassianConnections` table. The OAuth flow is initiated through the Foundry UI, not via environment variables.
+</Aside>
+
+---
+
+## Summary table
+
+| Variable | Frontend | Convex | Agent Worker | Sandbox Worker |
+|----------|----------|--------|-------------|----------------|
+| `NEXT_PUBLIC_CONVEX_URL` | Yes | -- | -- | -- |
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Yes | -- | -- | -- |
+| `CLERK_SECRET_KEY` | Yes | -- | -- | -- |
+| `CLERK_WEBHOOK_SECRET` | -- | Yes | -- | -- |
+| `ANTHROPIC_API_KEY` | -- | Yes | Yes | -- |
+| `AGENT_SERVICE_URL` | -- | Yes | -- | -- |
+| `AGENT_SERVICE_SECRET` | -- | Yes | Yes | -- |
+| `SANDBOX_WORKER_URL` | -- | Yes | -- | -- |
+| `SANDBOX_API_SECRET` | -- | Yes | -- | Yes |
+| `GITHUB_WEBHOOK_SECRET` | -- | Yes | -- | -- |
+| `ATLASSIAN_WEBHOOK_SECRET` | -- | Yes | -- | -- |
+
+---
+
+## Local development `.env.local`
+
+Create a `.env.local` file in `apps/web/` with at minimum:
+
+```bash
+NEXT_PUBLIC_CONVEX_URL=https://your-dev-deployment.convex.cloud
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+```
+
+All other variables are set on the Convex deployment via `bunx convex env set` or on the Cloudflare Workers via `wrangler secret put`.

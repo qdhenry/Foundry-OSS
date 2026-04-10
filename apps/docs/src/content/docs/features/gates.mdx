@@ -1,0 +1,50 @@
+---
+title: "Gates"
+description: "Sprint gate evaluations with criteria checklists, code evidence, and approval workflows."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Gates are quality checkpoints at sprint boundaries. Before a sprint can be marked complete, it must pass through a gate evaluation that checks defined criteria, gathers code evidence, and routes through an approval workflow.
+
+## Why it matters
+
+Gates enforce delivery standards. They prevent untested or incomplete work from advancing and create a documented record of what was verified at each sprint boundary — critical for client-facing engagements where audit trails matter.
+
+## Key concepts
+
+- **Gate card**: `GateCard` summarizes the gate with status, criteria completion, and evaluation results
+- **Criteria checklist**: `CriteriaChecklist` lists pass/fail criteria that must be satisfied
+- **Code evidence section**: `CodeEvidenceSection` links gate criteria to actual code changes and test results
+- **Sprint gate evaluator**: `SprintGateEvaluator` runs AI-assisted evaluation against the criteria
+- **Approval panel**: `ApprovalPanel` manages the approval workflow with approve/reject actions
+- **Detail route**: Full gate detail page for deep inspection and sign-off
+- **New gate route**: Dedicated page for creating a new gate with custom criteria
+
+## How to use it
+
+1. Navigate to **[Program] > Gates**.
+2. View gate cards showing status across sprints.
+3. Click a gate card to open the detail page.
+4. Review the **Criteria Checklist** — each criterion shows pass/fail status.
+5. Inspect the **Code Evidence** section for linked code changes.
+6. Run the **Sprint Gate Evaluator** for AI-assisted evaluation.
+7. Use the **Approval Panel** to approve or reject the gate.
+8. Create new gates from the gates page to define custom checkpoints.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`sprintGates`](/reference/generated/schema/sprintGates) — Gate record with criteria, status, evaluation results, and linked sprint
+- [`evidence`](/reference/generated/schema/evidence) — Code and test evidence linked to gate criteria
+
+## Related
+
+<LinkCard title="Sprints" href="/features/sprints/" />
+<LinkCard title="Audit" href="/features/audit/" />
+<LinkCard title="Source Control" href="/features/source-control/" />

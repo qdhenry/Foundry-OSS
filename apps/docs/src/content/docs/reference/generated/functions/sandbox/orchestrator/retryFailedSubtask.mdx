@@ -1,0 +1,26 @@
+---
+title: "sandbox/orchestrator.retryFailedSubtask"
+description: "action — Retry a failed subtask by resetting its status to retrying."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/orchestrator.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/sandbox/orchestrator.ts`
+
+## Arguments
+
+```typescript
+{
+    sessionId: Id<"sandboxSessions">,
+    taskId: Id<"tasks">,
+    subtaskId: Id<"subtasks">,
+  }
+```
+
+Retry a failed subtask by resetting its status to retrying.

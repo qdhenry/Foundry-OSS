@@ -1,0 +1,40 @@
+---
+title: "agentExecutions"
+description: "Schema reference for the agentExecutions table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Agent Executions — telemetry for AI agent invocations
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| skillId | `Id<"skills">` | No |  |
+| workstreamId | `Id<"workstreams">` | No | Parent workstream reference |
+| taskId | `Id<"tasks">` | No |  |
+| executionMode | "local" \| "platform" | Yes |  |
+| trigger | "manual" \| "pr_event" \| "gate_trigger" \| "scheduled" | Yes |  |
+| taskType | string | Yes |  |
+| inputSummary | string | No |  |
+| outputSummary | string | No |  |
+| reviewStatus | "pending" \| "accepted" \| "revised" \| "rejected" | Yes |  |
+| tokensUsed | number | No |  |
+| durationMs | number | No |  |
+| userId | `Id<"users">` | No |  |
+| modelId | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_skill | skillId |
+| by_org | orgId |
+| by_task | taskId |

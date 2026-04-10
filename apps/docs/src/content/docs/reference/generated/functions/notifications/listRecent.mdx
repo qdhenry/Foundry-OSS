@@ -1,0 +1,23 @@
+---
+title: "notifications.listRecent"
+description: "query — List recent notifications (unread + read) for the authenticated user."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/notifications.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/notifications.ts`
+
+## Arguments
+
+```typescript
+{ limit: number /* optional */ }
+```
+
+List recent notifications (unread + read) for the authenticated user.
+@param limit - Maximum number of notifications (default 20, max 100)

@@ -1,0 +1,31 @@
+---
+title: "sandbox/configs.upsert"
+description: "mutation — Create or update the sandbox configuration for an organization."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/configs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sandbox/configs.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    claudeSettings: any /* optional */,
+    hooks: hookBucketsValidator /* optional */,
+    mcpServers: mcpServerValidator /* optional */[],
+    dotfiles: dotfileValidator /* optional */[],
+    shellAliases: shellAliasValidator /* optional */[],
+    devToolConfigs: devToolConfigValidator /* optional */[],
+    setupScripts: setupScriptValidator /* optional */[],
+  }
+```
+
+Create or update the sandbox configuration for an organization.

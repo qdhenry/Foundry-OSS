@@ -1,0 +1,13 @@
+# Architecture Rules for Foundry Codebase
+
+# Component files must be PascalCase
+ARCH-001|BLOCK|src/components/**/*.tsx files must be PascalCase (e.g., GateCard.tsx not gate-card.tsx)
+
+# Route directories must be kebab-case
+ARCH-002|BLOCK|src/app/**/ directories must be kebab-case (e.g., agent-activity not agentActivity)
+
+# Next.js 15: params and searchParams are Promises
+ARCH-003|BLOCK|page.tsx/layout.tsx must await params and searchParams (Next.js 15 breaking change)
+
+# Test co-location
+ARCH-004|WARN|new component files should have adjacent .test.tsx file

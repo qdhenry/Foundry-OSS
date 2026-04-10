@@ -1,0 +1,172 @@
+---
+/**
+ * Hero — Foundry docs home hero.
+ *
+ * Pure Astro component. No React imports. Uses tokens from
+ * `foundry-tokens.css` and Starlight theme variables so it responds to
+ * light/dark mode automatically.
+ *
+ * Pairs with a copy-pasteable quickstart snippet and <FeatureGrid /> on
+ * the home page. Starlight's native Hero is intentionally not used so
+ * that the layout matches the Foundry brand rather than Starlight's
+ * default `splash` template.
+ */
+
+import { Code } from "@astrojs/starlight/components";
+
+interface Props {
+  tagline?: string;
+  primaryCta?: { text: string; href: string };
+  secondaryCta?: { text: string; href: string };
+}
+
+const {
+  tagline = "The open-source Agentic Delivery Platform. Turn plans, conversations, and requirements into shipping software.",
+  primaryCta = { text: "Get started in 15 minutes", href: "/getting-started/quickstart/" },
+  secondaryCta = { text: "View on GitHub", href: "https://github.com/qdhenry/Foundry" },
+} = Astro.props;
+
+const quickstartSnippet = `git clone https://github.com/qdhenry/Foundry.git
+cd Foundry
+bun install
+cp .env.local.example .env.local   # fill in Clerk + Convex + Anthropic keys
+bun run dev:convex                  # terminal 1
+bun run dev                         # terminal 2`;
+---
+
+<section class="foundry-hero">
+  <div class="foundry-hero__content">
+    <p class="foundry-hero__eyebrow">Foundry · open source · Apache-2.0</p>
+    <h1 class="foundry-hero__title">
+      Ship software at the <span class="foundry-hero__accent">speed of thought</span>.
+    </h1>
+    <p class="foundry-hero__tagline">{tagline}</p>
+    <div class="foundry-hero__actions">
+      <a class="foundry-hero__cta foundry-hero__cta--primary" href={primaryCta.href}>
+        {primaryCta.text}
+        <span aria-hidden="true">→</span>
+      </a>
+      <a
+        class="foundry-hero__cta foundry-hero__cta--secondary"
+        href={secondaryCta.href}
+        target={secondaryCta.href.startsWith("http") ? "_blank" : undefined}
+        rel={secondaryCta.href.startsWith("http") ? "noopener noreferrer" : undefined}
+      >
+        {secondaryCta.text}
+      </a>
+    </div>
+  </div>
+
+  <div class="foundry-hero__snippet">
+    <Code code={quickstartSnippet} lang="bash" title="Quickstart" />
+  </div>
+</section>
+
+<style>
+  .foundry-hero {
+    display: grid;
+    gap: 2.5rem;
+    padding: 3.5rem 0 2.5rem;
+    border-bottom: 1px solid var(--sl-color-hairline, var(--border-subtle, rgba(148, 163, 184, 0.2)));
+  }
+
+  @media (min-width: 900px) {
+    .foundry-hero {
+      grid-template-columns: 1.1fr 1fr;
+      align-items: center;
+      gap: 3rem;
+    }
+  }
+
+  .foundry-hero__eyebrow {
+    margin: 0 0 0.75rem;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+  }
+
+  .foundry-hero__title {
+    margin: 0;
+    font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
+    line-height: 1.05;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--sl-color-white, var(--text-primary));
+  }
+
+  .foundry-hero__accent {
+    background: linear-gradient(
+      135deg,
+      var(--brand-blue-400, #60a5fa),
+      var(--brand-blue-600, #2563eb)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  .foundry-hero__tagline {
+    margin: 1.25rem 0 2rem;
+    font-size: 1.125rem;
+    line-height: 1.55;
+    max-width: 42rem;
+    color: var(--sl-color-gray-2, var(--text-secondary));
+  }
+
+  .foundry-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .foundry-hero__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.25rem;
+    border-radius: 0.625rem;
+    font-size: 0.9375rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition:
+      background-color 120ms ease,
+      border-color 120ms ease,
+      transform 120ms ease;
+  }
+
+  .foundry-hero__cta--primary {
+    background: var(--sl-color-accent, var(--brand-blue-600, #2563eb));
+    color: var(--sl-color-black, #fff);
+    border: 1px solid transparent;
+  }
+
+  .foundry-hero__cta--primary:hover {
+    background: var(--sl-color-accent-high, var(--brand-blue-700, #1d4ed8));
+    transform: translateY(-1px);
+  }
+
+  .foundry-hero__cta--secondary {
+    background: transparent;
+    color: var(--sl-color-text, var(--text-primary));
+    border: 1px solid var(--sl-color-gray-5, var(--border-default, rgba(148, 163, 184, 0.35)));
+  }
+
+  .foundry-hero__cta--secondary:hover {
+    border-color: var(--sl-color-accent, var(--brand-blue-500, #3b82f6));
+    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+  }
+
+  .foundry-hero__snippet {
+    min-width: 0;
+  }
+
+  /* Starlight's <Code /> renders a framed panel; nudge it to feel like
+     a terminal output in the hero without overriding token colors. */
+  .foundry-hero__snippet :global(.expressive-code) {
+    box-shadow: var(--shadow-lg, 0 10px 30px rgba(15, 23, 42, 0.2));
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+</style>

@@ -1,0 +1,165 @@
+---
+title: Environment variables
+description: Every env var Foundry reads, grouped by service, with defaults and required flags.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 4
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Foundry reads environment variables from three locations depending on the service. This page documents every variable, where it is set, and whether it is required for local development.
+
+## Where variables are set
+
+| Location | What goes here |
+|----------|---------------|
+| **`.env.local`** | Next.js frontend vars (`NEXT_PUBLIC_*`), Clerk keys, local dev URLs |
+| **Convex Dashboard** | Backend secrets -- Anthropic API key, webhook secrets, service URLs |
+| **Wrangler Secrets** | Cloudflare Worker secrets -- sandbox and agent worker auth |
+
+<Aside type="caution">
+  Never commit `.env.local` to version control. It is already listed in `.gitignore`.
+</Aside>
+
+## Core variables (required for local dev)
+
+### Convex
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `NEXT_PUBLIC_CONVEX_URL` | `.env.local` | Convex deployment URL for client WebSocket connection | -- | Yes |
+| `CONVEX_DEPLOYMENT` | `.env.local` | Convex deployment identifier (set by `bunx convex dev`) | -- | Yes |
+| `NEXT_PUBLIC_CONVEX_SITE_URL` | `.env.local` | Convex HTTP actions URL (for webhook endpoints) | -- | Yes |
+
+<Aside type="note">
+  All three Convex variables are populated automatically when you first run `bunx convex dev` and link a project.
+</Aside>
+
+### Clerk Authentication
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | `.env.local` | Clerk frontend authentication key | -- | Yes |
+| `CLERK_SECRET_KEY` | `.env.local` | Clerk backend key for server-side verification | -- | Yes |
+| `CLERK_JWT_ISSUER_DOMAIN` | `.env.local` | Clerk JWT issuer domain for token validation | -- | Yes |
+| `CLERK_WEBHOOK_SECRET` | Convex Dashboard | HMAC secret for Clerk webhook signature verification | -- | Yes (for user sync) |
+
+### Anthropic (AI)
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `ANTHROPIC_API_KEY` | Convex Dashboard | Claude API key for AI analysis, decomposition, code generation | -- | Yes |
+
+<Aside type="caution">
+  Set this in the **Convex Dashboard** under Settings > Environment Variables, not in `.env.local`. Convex actions invoke Claude server-side.
+</Aside>
+
+### Agent Service
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `AGENT_SERVICE_URL` | `.env.local` + Convex Dashboard | URL of the agent inference service | `http://localhost:3001` | Yes |
+| `AGENT_SERVICE_SECRET` | Convex Dashboard + Wrangler | Bearer token for agent worker authentication (production only) | -- | No (local dev) |
+
+In local development, the agent service runs on port 3001 without bearer auth. In production, set `AGENT_SERVICE_URL` to your Cloudflare Worker URL and configure `AGENT_SERVICE_SECRET` as a shared secret.
+
+## Integration variables (optional)
+
+### GitHub App
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `NEXT_PUBLIC_GITHUB_APP_SLUG` | `.env.local` | GitHub App slug for installation links | -- | No |
+| `GITHUB_APP_ID` | `.env.local` | GitHub App numeric ID | -- | No |
+| `GITHUB_APP_CLIENT_ID` | `.env.local` | OAuth client ID for GitHub login flow | -- | No |
+| `GITHUB_APP_CLIENT_SECRET` | `.env.local` | OAuth client secret | -- | No |
+| `GITHUB_APP_PRIVATE_KEY` | `.env.local` | RSA private key (PEM format, newlines as `\n`) | -- | No |
+| `GITHUB_WEBHOOK_SECRET` | Convex Dashboard | HMAC secret for GitHub webhook signature validation | -- | No |
+
+Generate the webhook secret with:
+
+```bash
+openssl rand -hex 32
+```
+
+### Sandbox Worker
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `SANDBOX_WORKER_URL` | Convex Dashboard | Cloudflare sandbox worker URL | `http://127.0.0.1:8788` (local) | No |
+| `SANDBOX_API_SECRET` | Convex Dashboard + Wrangler | Shared secret between Convex and sandbox worker | -- | No |
+
+<Aside type="note">
+  The `SANDBOX_API_SECRET` must match between the Convex Dashboard and the sandbox worker's Wrangler secrets. Generate with `openssl rand -hex 32`.
+</Aside>
+
+### Atlassian (Jira + Confluence)
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `ATLASSIAN_CLIENT_ID` | `.env.local` + Wrangler | Atlassian OAuth client ID | -- | No |
+| `ATLASSIAN_CLIENT_SECRET` | `.env.local` + Wrangler | Atlassian OAuth client secret | -- | No |
+| `ATLASSIAN_OAUTH_REDIRECT_URI` | `.env.local` + Wrangler | OAuth callback URL | `http://localhost:3000/api/atlassian/callback` | No |
+| `ATLASSIAN_WEBHOOK_SECRET` | Convex Dashboard | HMAC secret for Atlassian webhook signature validation | -- | No |
+| `ATLASSIAN_TOKEN_ENCRYPTION_KEY` | Convex Dashboard | AES-256 key for OAuth token storage (base64, 32 bytes) | -- | No |
+
+Generate the encryption key with:
+
+```bash
+openssl rand -base64 32
+```
+
+### AI and Media Services
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `DEEPGRAM_API_KEY` | Convex Dashboard | Speech-to-text transcription | -- | No |
+| `TWELVELABS_API_KEY` | Convex Dashboard | Video understanding and analysis | -- | No |
+| `ELEVENLABS_API_KEY` | Convex Dashboard | Audio transcription (Scribe v2) | -- | No |
+
+### Billing (Stripe)
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `STRIPE_SECRET_KEY` | Convex Dashboard | Stripe API key for billing operations | -- | No |
+| `STRIPE_WEBHOOK_SECRET` | Convex Dashboard | Stripe webhook signature verification | -- | No |
+
+### Google Drive
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `GOOGLE_CLIENT_ID` | `.env.local` | Google OAuth client ID for Drive import | -- | No |
+| `GOOGLE_CLIENT_SECRET` | `.env.local` | Google OAuth client secret | -- | No |
+
+### Auth Provider
+
+| Variable | Where | Purpose | Default | Required |
+|----------|-------|---------|---------|----------|
+| `FOUNDRY_AUTH_PROVIDER` | `.env.local` | Auth mode: `clerk` (multi-tenant) or `simple` (single-tenant) | `clerk` | No |
+| `FOUNDRY_ADMIN_EMAIL` | `.env.local` | Admin email (simple auth only) | -- | No |
+| `FOUNDRY_ADMIN_PASSWORD` | `.env.local` | Admin password (simple auth only) | -- | No |
+
+## Quick reference: minimum local dev setup
+
+The smallest set of variables to get Foundry running locally:
+
+```bash
+# .env.local
+NEXT_PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
+CONVEX_DEPLOYMENT=dev:your-deployment
+NEXT_PUBLIC_CONVEX_SITE_URL=https://your-deployment.convex.site
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
+CLERK_JWT_ISSUER_DOMAIN=https://your-domain.clerk.accounts.dev
+AGENT_SERVICE_URL=http://localhost:3001
+```
+
+Plus in the **Convex Dashboard**:
+
+```
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+Everything else is optional and enables specific integrations as you need them.

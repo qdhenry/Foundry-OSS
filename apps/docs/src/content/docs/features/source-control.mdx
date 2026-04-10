@@ -1,0 +1,56 @@
+---
+title: "Source Control"
+description: "GitHub App integration with repository connection, role inference, and PR tracking."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Source Control integrates Foundry with GitHub via a GitHub App installation. It provides repository connection, role inference (frontend, backend, infrastructure, etc.), inline repository pickers across the platform, and feeds code events back into Foundry's data model.
+
+## Why it matters
+
+Delivery work produces code. Source control integration closes the loop between Foundry's planning artifacts and the actual codebase, enabling code-aware features like codebase analysis, gate evidence, and sandbox auto-push.
+
+## Key concepts
+
+- **GitHub App installation**: `useGitHubInstallation` hook tracks whether the GitHub App is installed for the current org, with state: `checking`, `installed`, `not_installed`, `error`
+- **Install CTA**: `GitHubInstallCTA` prompts users to install the GitHub App if not yet configured
+- **Repo picker dropdown**: `RepoPickerDropdown` provides a searchable dropdown for selecting repositories, used across tasks, workstreams, and agents
+- **Repo create modal**: `RepoCreateModal` allows creating new GitHub repositories directly from Foundry
+- **Connect repository inline**: `ConnectRepositoryInline` provides a compact inline widget for connecting a repo
+- **Repo badge**: `RepoBadge` displays a compact repository identifier with icon
+- **Role inference**: `inferRepoRole` heuristic function classifies repositories as frontend, backend, infrastructure, monorepo, etc.
+- **Role options**: Predefined `ROLE_OPTIONS` for manual role assignment
+- **Repo list hook**: `useRepoList` fetches available and connected repositories with filtering
+
+## How to use it
+
+1. Install the **Foundry GitHub App** on your GitHub organization (prompted via `GitHubInstallCTA` on first use).
+2. Navigate to **[Program] > Repositories** to connect repos to the program.
+3. Use the **Repo Picker** to search and select repositories — roles are auto-inferred.
+4. Override inferred roles manually if the heuristic is incorrect.
+5. Connected repos appear as `RepoBadge` icons across tasks, workstreams, and agent configurations.
+6. Create new repositories directly from Foundry via the create modal.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`sourceControl/repositories`](/reference/generated/schema/repositories) — Connected repository records with roles
+- [`sourceControl/installations`](/reference/generated/schema/installations) — GitHub App installation state per org
+- [`sourceControl/events`](/reference/generated/schema/events) — Raw GitHub webhook events
+- [`sourceControl/pullRequests`](/reference/generated/schema/pullRequests) — PR records synced from GitHub
+- [`sourceControl/commits`](/reference/generated/schema/commits) — Commit records synced from GitHub
+- [`sourceControl/deployments`](/reference/generated/schema/deployments) — Deployment records
+- [`sourceControl/reviews`](/reference/generated/schema/reviews) — PR review records
+- [`sourceControl/tokenCache`](/reference/generated/schema/tokenCache) — GitHub token cache for API calls
+
+## Related
+
+<LinkCard title="Repositories" href="/features/repositories/" />
+<LinkCard title="Codebase Analysis" href="/features/codebase-analysis/" />
+<LinkCard title="Gates" href="/features/gates/" />

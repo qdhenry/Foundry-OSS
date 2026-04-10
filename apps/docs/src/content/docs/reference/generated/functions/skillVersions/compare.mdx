@@ -1,0 +1,28 @@
+---
+title: "skillVersions.compare"
+description: "query — Return two skill version snapshots side-by-side for comparison."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/skillVersions.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/skillVersions.ts`
+
+## Arguments
+
+```typescript
+{
+    versionAId: Id<"skillVersions">,
+    versionBId: Id<"skillVersions">,
+  }
+```
+
+Return two skill version snapshots side-by-side for comparison.
+Both versions must belong to the same skill.
+@param versionAId - First version
+@param versionBId - Second version

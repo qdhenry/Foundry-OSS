@@ -1,0 +1,187 @@
+---
+/**
+ * FeatureGrid — home-page feature grid for Foundry docs.
+ *
+ * Pure Astro component (no React). Rendered below the Hero on the home
+ * page. Each card links into one of the four top-level IA groups plus
+ * the headline flagship surfaces (Sandbox, Mission Control).
+ *
+ * Icons are inlined SVG strings so we don't depend on @foundry/ui
+ * React components.
+ */
+
+interface Feature {
+  title: string;
+  description: string;
+  href: string;
+  icon: "compass" | "layers" | "bolt" | "terminal" | "shield" | "book";
+}
+
+const features: Feature[] = [
+  {
+    title: "Getting Started",
+    description:
+      "Prerequisites, quickstart, and your first Foundry program running against AcmeCorp seed data.",
+    href: "/getting-started/",
+    icon: "compass",
+  },
+  {
+    title: "Architecture & Concepts",
+    description:
+      "Programs, workstreams, requirements, skills, sandboxes — and how the four-process distributed system fits together.",
+    href: "/architecture/",
+    icon: "layers",
+  },
+  {
+    title: "Deployment & Operations",
+    description:
+      "Production setup on Vercel + Convex Cloud + Cloudflare, cost estimates, and rollback procedures.",
+    href: "/deployment/",
+    icon: "shield",
+  },
+  {
+    title: "Features Walkthroughs",
+    description:
+      "Step-by-step tours of every user-facing surface: tasks, discovery, pipeline lab, skills, risks, gates, billing.",
+    href: "/features/",
+    icon: "bolt",
+  },
+  {
+    title: "Sandbox Execution",
+    description:
+      "Provision ephemeral Claude Code environments, watch real-time logs, and autocommit your way to a PR.",
+    href: "/features/sandbox/",
+    icon: "terminal",
+  },
+  {
+    title: "Reference",
+    description:
+      "Auto-generated schema and function reference, plus hand-written CLI and environment variable deep dives.",
+    href: "/reference/",
+    icon: "book",
+  },
+];
+
+const icons: Record<Feature["icon"], string> = {
+  compass: `<circle cx="12" cy="12" r="9" /><path d="M15.5 8.5 13 13l-4.5 2.5L11 11z" />`,
+  layers: `<path d="m12 3 9 4.5L12 12 3 7.5z" /><path d="m3 12 9 4.5L21 12" /><path d="m3 16.5 9 4.5 9-4.5" />`,
+  bolt: `<path d="M13 2 4.5 13H12l-1 9 8.5-11H13z" />`,
+  terminal: `<rect x="3" y="4" width="18" height="16" rx="2" /><path d="m7 9 3 3-3 3" /><path d="M13 15h4" />`,
+  shield: `<path d="M12 3 4 6v6c0 4.5 3.2 8.5 8 9 4.8-.5 8-4.5 8-9V6z" />`,
+  book: `<path d="M4 4h11a3 3 0 0 1 3 3v13" /><path d="M4 4v16h14" /><path d="M8 8h7M8 12h7" />`,
+};
+---
+
+<section class="foundry-features" aria-label="Documentation sections">
+  <h2 class="foundry-features__title">Find what you need</h2>
+  <div class="foundry-features__grid">
+    {
+      features.map((feature) => (
+        <a class="foundry-features__card" href={feature.href}>
+          <span class="foundry-features__icon" aria-hidden="true">
+            <svg
+              width="22"
+              height="22"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={icons[feature.icon]}
+            />
+          </span>
+          <h3 class="foundry-features__card-title">{feature.title}</h3>
+          <p class="foundry-features__card-desc">{feature.description}</p>
+          <span class="foundry-features__card-arrow" aria-hidden="true">→</span>
+        </a>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .foundry-features {
+    margin: 3rem 0 1rem;
+  }
+
+  .foundry-features__title {
+    margin: 0 0 1.25rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--sl-color-white, var(--text-primary));
+  }
+
+  .foundry-features__grid {
+    display: grid;
+    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  }
+
+  .foundry-features__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem 1.25rem 1.5rem;
+    border-radius: 0.875rem;
+    border: 1px solid var(--sl-color-gray-5, var(--border-subtle, rgba(148, 163, 184, 0.2)));
+    background: var(--sl-color-gray-6, var(--surface-raised, rgba(255, 255, 255, 0.02)));
+    color: inherit;
+    text-decoration: none;
+    transition:
+      transform 140ms ease,
+      border-color 140ms ease,
+      background-color 140ms ease;
+  }
+
+  .foundry-features__card:hover {
+    transform: translateY(-2px);
+    border-color: var(--sl-color-accent, var(--brand-blue-500, #3b82f6));
+    background: var(--interactive-subtle, rgba(59, 130, 246, 0.05));
+  }
+
+  .foundry-features__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    background: color-mix(in srgb, var(--sl-color-accent, #3b82f6) 12%, transparent);
+    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+  }
+
+  .foundry-features__card-title {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--sl-color-white, var(--text-primary));
+  }
+
+  .foundry-features__card-desc {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    color: var(--sl-color-gray-2, var(--text-secondary));
+  }
+
+  .foundry-features__card-arrow {
+    position: absolute;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    font-size: 1rem;
+    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+    opacity: 0;
+    transform: translateX(-4px);
+    transition:
+      opacity 140ms ease,
+      transform 140ms ease;
+  }
+
+  .foundry-features__card:hover .foundry-features__card-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+</style>

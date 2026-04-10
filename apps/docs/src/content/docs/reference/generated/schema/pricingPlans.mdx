@@ -1,0 +1,36 @@
+---
+title: "pricingPlans"
+description: "Schema reference for the pricingPlans table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Pricing plan definitions — three branded tiers
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| slug | "crucible" \| "forge" \| "foundry" | Yes |  |
+| displayName | string | Yes |  |
+| tagline | string | Yes |  |
+| monthlyPriceUsd | number | Yes |  |
+| annualPriceUsd | number | No |  |
+| stripePriceId | string | Yes |  |
+| stripeAnnualPriceId | string | No |  |
+| stripeOveragePriceId | string | Yes |  |
+| overageRateUsd | number | Yes |  |
+| limits | object | Yes |  |
+| features | string[] | Yes |  |
+| isPublic | boolean | Yes |  |
+| sortOrder | number | Yes |  |
+| buyingMotion | "self_serve" \| "sales_assisted" \| "annual_contract" | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_slug | slug |

@@ -1,0 +1,30 @@
+---
+title: "orchestration/planner.generatePlan"
+description: "action — Generate an AI-powered execution plan for an orchestration run. Analyzes"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/orchestration/planner.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/orchestration/planner.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    runId: Id<"orchestrationRuns">,
+  }
+```
+
+Generate an AI-powered execution plan for an orchestration run. Analyzes
+tasks, skills, and repository context to produce an optimal execution sequence.
+@param orgId - Organization ID
+@param programId - Target program
+@param runId - The orchestration run to plan

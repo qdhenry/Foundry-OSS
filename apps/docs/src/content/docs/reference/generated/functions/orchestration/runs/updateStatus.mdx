@@ -1,0 +1,27 @@
+---
+title: "orchestration/runs.updateStatus"
+description: "mutation — Transition an orchestration run to a new status with state machine validation."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/orchestration/runs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/orchestration/runs.ts`
+
+## Arguments
+
+```typescript
+{
+    runId: Id<"orchestrationRuns">,
+    status: orchestrationRunStatusValidator,
+  }
+```
+
+Transition an orchestration run to a new status with state machine validation.
+@param runId - The run to update
+@param status - Target status

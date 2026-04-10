@@ -1,0 +1,49 @@
+---
+title: "Google Drive"
+description: "Import documents directly from Google Drive for AI-powered analysis."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Google Drive integration lets you import documents directly from Google Drive into Foundry's discovery pipeline. Connect your Google account via OAuth, browse files with the Google Picker, and import them for AI analysis — all without manual download and re-upload.
+
+## Why it matters
+
+Project documents often live in Google Drive. Direct import eliminates the friction of downloading files locally and re-uploading them, and it preserves the connection to the source for re-import.
+
+## Key concepts
+
+- **Google Drive import button**: `GoogleDriveImportButton` triggers the import flow from the Discovery page
+- **Google Picker hook**: `useGooglePicker` launches the native Google file picker for file selection
+- **Drive import queue**: `useDriveImportQueue` manages the import pipeline with progress tracking
+- **Duplicate detection**: `DuplicateImportDialog` warns when an imported file matches a previously imported document
+- **Google Drive connection settings**: `GoogleDriveConnectionSettings` (in Settings) manages OAuth connection and disconnection
+- **Connect/disconnect buttons**: `ConnectGoogleDriveButton` and `DisconnectGoogleDriveDialog` handle OAuth lifecycle
+- **Connection list**: `GoogleDriveConnectionList` shows all connected Google accounts
+
+## How to use it
+
+1. Navigate to **[Program] > Settings** and connect your Google account under the Google Drive section.
+2. Go to **[Program] > Discovery > Documents**.
+3. Click **Import from Google Drive**.
+4. Select files from the Google Picker.
+5. If duplicates are detected, choose whether to replace or skip.
+6. Files are imported and queued for AI analysis automatically.
+7. To disconnect, use the disconnect option in Settings.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`documents`](/reference/generated/schema/documents) — Imported files stored with source metadata
+- [`documentAnalyses`](/reference/generated/schema/documentAnalyses) — AI analysis records for imported documents
+
+## Related
+
+<LinkCard title="Discovery" href="/features/discovery/" />
+<LinkCard title="Documents" href="/features/documents/" />
+<LinkCard title="Settings" href="/features/settings/" />

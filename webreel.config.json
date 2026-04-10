@@ -1,0 +1,44 @@
+{
+  "$schema": "https://webreel.dev/schema/v1.json",
+  "outDir": "videos/",
+  "viewport": { "width": 1920, "height": 1600 },
+  "defaultDelay": 1000,
+  "videos": {
+    "foundry-demo": {
+      "url": "http://localhost:3000/programs",
+      "output": "foundry-demo.mp4",
+      "waitFor": "[data-testid='program-list'], a[href*='/programs']",
+      "steps": [
+        { "action": "pause", "ms": 1500 },
+
+        { "action": "click", "text": "Admiral", "delay": 1500 },
+
+        { "action": "pause", "ms": 2000 },
+        { "action": "scroll", "y": 400, "delay": 1500 },
+
+        { "action": "click", "text": "Discovery", "within": "nav", "delay": 1500 },
+
+        { "action": "pause", "ms": 1500 },
+
+        { "action": "click", "text": "Tasks", "within": "nav", "delay": 1500 },
+
+        { "action": "pause", "ms": 1500 },
+        { "action": "click", "selector": ".cursor-pointer.rounded-xl h3", "delay": 2000 },
+
+        { "action": "pause", "ms": 2000 },
+
+        { "action": "click", "text": "Sprints", "within": "nav", "delay": 1500 },
+
+        { "action": "pause", "ms": 1500 },
+
+        { "action": "click", "text": "Skills", "within": "nav", "delay": 1500 },
+
+        { "action": "pause", "ms": 1500 },
+
+        { "action": "click", "text": "Risks", "within": "nav", "delay": 1500 },
+
+        { "action": "pause", "ms": 3000 }
+      ]
+    }
+  }
+}

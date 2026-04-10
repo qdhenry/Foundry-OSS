@@ -1,0 +1,32 @@
+---
+title: "sandbox/presets.upsert"
+description: "mutation — Create or update a sandbox preset with editor, runtime, and tool settings."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/presets.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sandbox/presets.ts`
+
+## Arguments
+
+```typescript
+{
+    presetId: Id<"sandboxPresets"> /* optional */,
+    orgId: string,
+    name: string,
+    editorType: presetEditorTypeValidator,
+    ttlMinutes: number,
+    envVarOverrides: envVarOverrideValidator /* optional */[],
+    mcpServerOverrides: string /* optional */[],
+    isDefault: boolean /* optional */,
+    scope: presetScopeValidator /* optional */,
+  }
+```
+
+Create or update a sandbox preset with editor, runtime, and tool settings.

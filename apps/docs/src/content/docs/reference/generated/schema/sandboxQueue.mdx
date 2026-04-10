@@ -1,0 +1,32 @@
+---
+title: "sandboxQueue"
+description: "Schema reference for the sandboxQueue table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+e. Sandbox Queue — queued work when sandbox infra is unavailable
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| taskId | `Id<"tasks">` | Yes |  |
+| config | any | Yes |  |
+| queuedAt | number | Yes |  |
+| queuedBy | `Id<"users">` | Yes |  |
+| status | "queued" \| "processing" \| "completed" \| "failed" | Yes |  |
+| processedAt | number | No |  |
+| error | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_status | orgId, status |
+| by_task | taskId |

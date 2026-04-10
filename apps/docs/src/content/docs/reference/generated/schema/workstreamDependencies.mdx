@@ -1,0 +1,37 @@
+---
+title: "workstreamDependencies"
+description: "Schema reference for the workstreamDependencies table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Workstream Dependencies — cross-workstream dependency tracking
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| sourceWorkstreamId | `Id<"workstreams">` | Yes |  |
+| targetWorkstreamId | `Id<"workstreams">` | Yes |  |
+| description | string | No |  |
+| status | "active" \| "resolved" \| "blocked" \| "suggested" \| "approved" | Yes |  |
+| dependencyType | union | No |  |
+| suggestedBy | "manual" \| "ai" | No |  |
+| aiConfidence | number | No |  |
+| requirementIds | `Id<"requirements">[]` | No |  |
+| approvedBy | string | No |  |
+| approvedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_source | sourceWorkstreamId |
+| by_target | targetWorkstreamId |
+| by_org_status | orgId, status |

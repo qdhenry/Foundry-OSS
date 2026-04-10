@@ -1,0 +1,152 @@
+---
+title: Rollback Procedures
+description: Per-service rollback procedures for Vercel, Cloudflare Workers, and Convex backend deployments.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 3
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Each service in the Foundry stack has its own rollback mechanism. In an incident, identify which service is affected and roll back that service independently.
+
+## Vercel (Frontend)
+
+Vercel maintains a full deployment history. Rollback takes effect immediately with zero downtime.
+
+<Steps>
+1. Go to Vercel Dashboard -> your project -> Deployments
+2. Find the last working deployment (green checkmark)
+3. Click the **"..."** menu -> **"Promote to Production"**
+</Steps>
+
+The previous deployment is promoted instantly. No rebuild required. All traffic shifts to the rolled-back version.
+
+<Aside type="tip">
+Vercel keeps all deployment artifacts. You can roll back to any previous deployment, not just the most recent one.
+</Aside>
+
+## Cloudflare Workers (Agent Worker / Sandbox Worker)
+
+### Via Wrangler CLI
+
+<Steps>
+1. List recent deployments:
+
+   ```bash
+   cd agent-worker
+   wrangler deployments list
+   ```
+
+2. Roll back to a specific deployment:
+
+   ```bash
+   wrangler rollback <deployment-id>
+   ```
+</Steps>
+
+Repeat for `sandbox-worker/` if the sandbox worker needs rollback.
+
+### Via Dashboard
+
+1. Go to Cloudflare Dashboard -> Workers & Pages -> your worker
+2. Click the "Deployments" tab
+3. Select the deployment to roll back to
+4. Click "Rollback"
+
+<Aside type="caution">
+Worker secrets (like `ANTHROPIC_API_KEY` and `AGENT_SERVICE_SECRET`) persist across rollbacks. Rolling back the worker code does not change secret values. If you changed a secret and need to revert it, use `wrangler secret put` to set the previous value.
+</Aside>
+
+## Convex (Backend)
+
+Convex does not have a one-click rollback button. The safest approach is to redeploy from a known-good commit.
+
+<Steps>
+1. Identify the last known-good commit:
+
+   ```bash
+   git log --oneline -20
+   ```
+
+2. Check out that commit and redeploy:
+
+   ```bash
+   git checkout <good-commit-hash>
+   bunx convex deploy
+   ```
+
+3. Return to your working branch:
+
+   ```bash
+   git checkout main
+   ```
+</Steps>
+
+### Preview deployments
+
+For risky schema or function changes, use Convex preview deployments to test before deploying to production:
+
+```bash
+bunx convex deploy --preview <preview-name>
+```
+
+Preview deployments create an isolated Convex instance with its own database. Test against it before promoting to production.
+
+<Aside type="caution">
+**Schema changes require care.** If a production deploy adds a required field to an existing table, rolling back the code does not remove the field from the schema. Plan schema migrations so they can be applied incrementally and are backward-compatible:
+
+- **Adding a field:** Make it optional first. Deploy. Backfill data. Then make it required in a second deploy.
+- **Removing a field:** Stop reading the field first. Deploy. Then remove it from the schema in a second deploy.
+- **Renaming a field:** Add the new field, migrate data, update reads, remove the old field — each as a separate deploy.
+</Aside>
+
+## Environment variable rollback
+
+If a broken deploy was caused by incorrect environment variables rather than code:
+
+<Tabs>
+  <TabItem label="Vercel">
+    1. Go to Vercel project -> Settings -> Environment Variables
+    2. Edit the incorrect variable
+    3. Redeploy (Vercel does not auto-redeploy on env var changes)
+  </TabItem>
+  <TabItem label="Convex">
+    ```bash
+    bunx convex env set <VARIABLE_NAME> <correct-value>
+    ```
+    Takes effect immediately — no redeploy needed.
+  </TabItem>
+  <TabItem label="Cloudflare">
+    ```bash
+    cd agent-worker  # or sandbox-worker
+    wrangler secret put <SECRET_NAME>
+    # Paste the correct value
+    ```
+    Takes effect on next request — no redeploy needed.
+  </TabItem>
+</Tabs>
+
+## Incident response order
+
+When multiple services are affected, restore in dependency order:
+
+<Steps>
+1. **Cloudflare Workers** — restore the agent worker and sandbox worker first. Other services depend on their availability.
+
+2. **Convex** — restore backend functions. The frontend cannot operate without a working backend.
+
+3. **Vercel** — restore the frontend last. It is the least critical to restore first since the backend and workers must be healthy for it to function.
+
+4. **Webhooks** — verify webhook endpoints are receiving and processing events. Check the retry queue tables for accumulated failures during the outage.
+</Steps>
+
+## Monitoring after rollback
+
+After rolling back any service:
+
+1. **Check Convex function logs** for errors. The Convex dashboard shows real-time function invocations with success/failure status.
+2. **Check Cloudflare Worker logs** via `wrangler tail` for real-time log streaming.
+3. **Verify webhook processing** by checking buffer tables (`sourceControlEvents`, `atlassianWebhookEvents`) for events stuck in `"pending"` status.
+4. **Run the verification checklist** from the [Production Setup](/deployment/production-setup#verification-checklist) page to confirm all services are healthy.

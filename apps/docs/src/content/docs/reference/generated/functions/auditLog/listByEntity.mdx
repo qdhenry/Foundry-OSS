@@ -1,0 +1,27 @@
+---
+title: "auditLog.listByEntity"
+description: "query — List audit log entries for a specific entity, newest first."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/auditLog.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/auditLog.ts`
+
+## Arguments
+
+```typescript
+{
+    entityType: string,
+    entityId: string,
+  }
+```
+
+List audit log entries for a specific entity, newest first.
+@param entityType - Entity type (e.g., "requirement", "task")
+@param entityId - Entity ID to filter by

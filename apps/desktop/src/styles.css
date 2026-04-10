@@ -1,0 +1,54 @@
+@import "@foundry/ui/theme/globals.css";
+
+/* Ensure desktop Tailwind build scans shared workspace sources. */
+@source "./";
+@source "../../../packages/ui/src";
+@source "../../web/src";
+
+.desktop-fallback {
+  display: flex;
+  min-height: 100vh;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.desktop-fallback-card {
+  width: min(640px, 100%);
+  border-radius: 0.9rem;
+  border: 1px solid var(--border-default);
+  background: color-mix(in oklab, var(--surface-raised) 92%, black);
+  padding: 1.25rem;
+}
+
+.desktop-fallback-card h1 {
+  margin: 0.1rem 0 0.5rem;
+  font-size: 1.25rem;
+}
+
+.desktop-fallback-card p {
+  margin: 0.5rem 0 0;
+  color: var(--text-muted);
+}
+
+.desktop-fallback-eyebrow {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.72rem;
+  color: #f59e0b;
+}
+
+.desktop-fallback-detail {
+  margin-top: 0.75rem;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in oklab, #ef4444 45%, var(--border-default));
+  background: color-mix(in oklab, #ef4444 12%, var(--surface-raised));
+  color: #fecaca;
+  padding: 0.6rem 0.65rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.78rem;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-break: break-word;
+}

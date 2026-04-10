@@ -1,0 +1,31 @@
+---
+title: "tasks.listByProgram"
+description: "query — List tasks for a program with optional filters (workstream, sprint, status,"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/tasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/tasks.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    workstreamId: Id<"workstreams"> /* optional */,
+    sprintId: Id<"sprints"> /* optional */,
+    status: statusValidator /* optional */,
+    priority: priorityValidator /* optional */,
+    assigneeId: Id<"users"> /* optional */,
+  }
+```
+
+List tasks for a program with optional filters (workstream, sprint, status,
+priority, assignee). Returns enriched records with resolved names.
+@param programId - The program to query

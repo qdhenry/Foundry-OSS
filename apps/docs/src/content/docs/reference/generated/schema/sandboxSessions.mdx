@@ -1,0 +1,67 @@
+---
+title: "sandboxSessions"
+description: "Schema reference for the sandboxSessions table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Sandbox Sessions — lifecycle for Cloudflare sandbox task execution
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| taskId | `Id<"tasks">` | Yes |  |
+| repositoryId | `Id<"sourceControlRepositories">` | No |  |
+| runtime | "cloud" \| "local" | No |  |
+| localDeviceId | string | No |  |
+| localDeviceName | string | No |  |
+| sandboxId | string | Yes |  |
+| worktreeBranch | string | Yes |  |
+| status | "provisioning" \| "cloning" \| "executing" \| "sleeping" \| "ready" \| "finalizing" \| "completed" \| "failed" \| "cancelled" \| "deleting" | Yes |  |
+| taskPrompt | string | Yes |  |
+| skillId | `Id<"skills">` | No |  |
+| assignedBy | `Id<"users">` | Yes |  |
+| prUrl | string | No |  |
+| prNumber | number | No |  |
+| commitSha | string | No |  |
+| filesChanged | number | No |  |
+| error | string | No |  |
+| startedAt | number | Yes |  |
+| completedAt | number | No |  |
+| durationMs | number | No |  |
+| tokensUsed | number | No |  |
+| keepAlive | boolean | No |  |
+| sleepAfter | string | No |  |
+| editorType | union | No |  |
+| ttlMinutes | number | No |  |
+| authProvider | union | No |  |
+| model | string | No |  |
+| isPinned | boolean | No |  |
+| pinnedAt | number | No |  |
+| pinnedBy | `Id<"users">` | No |  |
+| setupProgress | setupProgressValidator | No |  |
+| runtimeMode | sandboxRuntimeModeValidator | No |  |
+| claudeSessionId | string | No |  |
+| presetId | `Id<"sandboxPresets">` | No |  |
+| subtaskId | `Id<"subtasks">` | No |  |
+| executionMode | "standard" \| "subtask" | No |  |
+| workerMode | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_task | taskId |
+| by_program | programId |
+| by_org | orgId |
+| by_runtime | orgId, runtime |
+| by_status | orgId, status |
+| by_sandboxId | sandboxId |
+| by_task_started | taskId, startedAt |
+| by_worktree_branch | worktreeBranch |

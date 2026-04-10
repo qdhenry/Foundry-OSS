@@ -1,0 +1,56 @@
+---
+title: Contributing
+description: How to set up a dev environment, run tests, follow the code style, and submit PRs to Foundry.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 0
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Foundry is open source under the [Apache License, Version 2.0](https://github.com/qdhenry/Foundry/blob/main/LICENSE). Contributions are welcome -- from bug fixes and test improvements to new provider adapters and documentation.
+
+This section covers everything you need to go from fork to merged PR.
+
+## Where to start
+
+**Bug fixes** -- especially around sandbox lifecycle, real-time sync, or task decomposition edge cases -- are high value. **Tests** are another strong entry point: coverage is currently low, and any improvements help.
+
+**Contributions we welcome:**
+- Provider adapters (OpenAI, Ollama, local LLMs, GitLab, Gitea)
+- Bug fixes across all domains
+- Documentation and tutorials
+- Test coverage improvements
+- Accessibility audit and improvements
+- Performance optimizations (Convex queries, frontend rendering, bundle size)
+
+**Things to avoid:**
+- Style-only refactors unrelated to a bug fix
+- Adding dependencies without opening an issue first
+- Schema changes without prior discussion (schema changes affect every tenant)
+
+## Sections
+
+<CardGrid>
+  <LinkCard
+    title="Dev setup"
+    description="Fork, clone, install dependencies, and run the local dev stack."
+    href="/contributing/dev-setup/"
+  />
+  <LinkCard
+    title="Code style"
+    description="Biome configuration, naming conventions, and TypeScript strictness."
+    href="/contributing/code-style/"
+  />
+  <LinkCard
+    title="Testing"
+    description="Unit tests with Vitest, Convex tests, and end-to-end testing with Playwright."
+    href="/contributing/testing/"
+  />
+  <LinkCard
+    title="Submitting PRs"
+    description="Branch naming, PR template, CI checks, and the review process."
+    href="/contributing/submitting-prs/"
+  />
+</CardGrid>

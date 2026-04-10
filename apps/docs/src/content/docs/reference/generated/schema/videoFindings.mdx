@@ -1,0 +1,43 @@
+---
+title: "videoFindings"
+description: "Schema reference for the videoFindings table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Video Findings — video-sourced findings with source attribution
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| videoAnalysisId | `Id<"videoAnalyses">` | Yes |  |
+| documentId | `Id<"documents">` | Yes |  |
+| type | videoFindingTypeValidator | Yes |  |
+| status | findingReviewStatusValidator | Yes |  |
+| data | any | Yes |  |
+| sourceTimestamp | number | Yes |  |
+| sourceTimestampEnd | number | No |  |
+| sourceExcerpt | string | Yes |  |
+| sourceSpeaker | videoSourceSpeakerValidator | No |  |
+| sourceKeyframeUrls | string[] | No |  |
+| sourceAttribution | videoFindingAttributionValidator | No |  |
+| confidence | findingConfidenceValidator | Yes |  |
+| segmentIndex | number | No |  |
+| synthesisNote | string | No |  |
+| suggestedWorkstream | string | No |  |
+| importedAs | any | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_video_analysis | videoAnalysisId |
+| by_program_type | programId, type |
+| by_program_status | programId, status |
+| by_document | documentId |

@@ -1,0 +1,57 @@
+---
+title: "Orchestration"
+description: "Multi-agent orchestration runs with wave-based task assignment and real-time monitoring."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Orchestration coordinates multiple AI agents working in parallel on a set of tasks. You define the scope (sprint, workstream, or custom task list), and the orchestration engine generates a wave-based plan that assigns agents to tasks with dependency awareness. Each run tracks progress in real time with status badges, activity feeds, and a dependency graph.
+
+## Why it matters
+
+Dispatching agents one-by-one does not scale. Orchestration automates the coordination problem — it figures out which tasks can run in parallel, assigns the right agent to each, and monitors the entire fleet through a single view.
+
+## Key concepts
+
+- **Orchestration wizard**: `OrchestrationWizard` guides run creation through three steps:
+  1. `WizardStepScope` — select sprint, workstream, or custom tasks plus target repositories
+  2. `WizardStepAssignments` — review and adjust AI-generated agent-to-task assignments
+  3. `WizardStepPreview` — preview the full plan before launching
+- **Wizard progress states**: `creating_run`, `generating_plan`, `starting` — shown with elapsed timer
+- **Run detail**: `OrchestrationRunDetail` shows the live state of a running orchestration
+- **Run status badge**: `RunStatusBadge` indicates `pending`, `running`, `completed`, `failed`, `cancelled`
+- **Run activity feed**: `RunActivityFeed` streams real-time events from the orchestration
+- **Run task list**: `RunTaskList` shows tasks with their assigned agents and individual status
+- **Run control bar**: `RunControlBar` provides pause, resume, and cancel actions
+- **Wave dependency graph**: `WaveDependencyGraph` visualizes the dependency structure between task waves
+- **Notifications**: `useOrchestrationNotifications` hook provides real-time alerts for run state changes
+- **Agent run card**: `AgentRunCard` shows a single agent's progress within a run
+
+## How to use it
+
+1. Navigate to **[Program] > Orchestration** (or launch from the Agents page or a Sprint detail).
+2. Click **New Run** to open the orchestration wizard.
+3. Select the **scope** — a sprint, workstream, or custom set of tasks.
+4. Choose target **repositories** for code execution.
+5. Review the AI-generated **assignments** — adjust agent-to-task mappings if needed.
+6. **Preview** the plan and click **Start** to launch the orchestration.
+7. Monitor the run via the **activity feed**, **task list**, and **dependency graph**.
+8. Use the **control bar** to pause, resume, or cancel the run.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`orchestrationRuns`](/reference/generated/schema/orchestrationRuns) — Run records with scope, status, plan, and timing
+- [`orchestrationTasks`](/reference/generated/schema/orchestrationTasks) — Individual task assignments within a run
+- [`agentExecutions`](/reference/generated/schema/agentExecutions) — Execution records from agent work during orchestration
+
+## Related
+
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Sprints" href="/features/sprints/" />
+<LinkCard title="Tasks" href="/features/tasks/" />

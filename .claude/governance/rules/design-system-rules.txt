@@ -1,0 +1,21 @@
+# Design System Rules for Foundry Codebase
+# Reference: src/app/globals.css design tokens
+
+# No arbitrary color values in Tailwind classes
+DS-001|BLOCK|no arbitrary color values: text-[#...] bg-[#...] border-[#...]
+DS-002|BLOCK|no purple/violet colors anywhere (UI rule: use blue/slate palette)
+
+# Use CSS custom properties, not hardcoded values
+DS-003|BLOCK|use var(--spacing-*) not hardcoded px/rem in inline styles
+DS-004|BLOCK|use var(--radius-*) not hardcoded border-radius values
+
+# Use component utility classes when applicable
+DS-005|WARN|prefer .btn-primary/.btn-secondary/.btn-ghost over manual button styling
+DS-006|WARN|prefer .badge/.badge-* over manual badge styling
+DS-007|WARN|prefer .card/.card-interactive over manual card styling
+
+# Typography
+DS-008|WARN|use .type-* classes for consistent typography
+
+# Forbidden Tailwind 3 patterns (we use CSS-first Tailwind 4)
+DS-009|BLOCK|no dark: prefix in className — use .dark selector in CSS instead

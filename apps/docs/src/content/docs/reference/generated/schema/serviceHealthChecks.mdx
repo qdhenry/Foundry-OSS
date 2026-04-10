@@ -1,0 +1,31 @@
+---
+title: "serviceHealthChecks"
+description: "Schema reference for the serviceHealthChecks table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Service health checks — point-in-time health snapshots per service
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| service | string | Yes |  |
+| status | "healthy" \| "degraded" \| "outage" \| "unknown" | Yes |  |
+| latencyMs | number | No |  |
+| errorMessage | string | No |  |
+| checkedAt | number | Yes |  |
+| checkType | "cron" \| "probe" \| "inferred" | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_service_checked | service, checkedAt |
+| by_org_service | orgId, service |
+| by_checked | checkedAt |

@@ -1,0 +1,27 @@
+---
+title: "subtasks.reorder"
+description: "mutation — Reorder subtasks within a task by providing the new ID sequence."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/subtasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/subtasks.ts`
+
+## Arguments
+
+```typescript
+{
+    taskId: Id<"tasks">,
+    subtaskIds: Id<"subtasks">[],
+  }
+```
+
+Reorder subtasks within a task by providing the new ID sequence.
+@param taskId - Parent task
+@param subtaskIds - Ordered array of subtask IDs

@@ -1,0 +1,38 @@
+---
+title: "risks.create"
+description: "mutation — Create a new risk entry for a program."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/risks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/risks.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    title: string,
+    description: string /* optional */,
+    severity: severityValidator,
+    probability: probabilityValidator,
+    mitigation: string /* optional */,
+    ownerId: Id<"users"> /* optional */,
+    workstreamIds: Id<"workstreams"> /* optional */[],
+    status: statusValidator /* optional */,
+  }
+```
+
+Create a new risk entry for a program.
+@param orgId - Organization ID
+@param programId - Parent program
+@param title - Risk title
+@param severity - Severity level (critical, high, medium, low)
+@param probability - Likelihood of occurrence

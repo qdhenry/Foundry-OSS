@@ -1,0 +1,117 @@
+---
+title: Cost Estimates
+description: Monthly cost breakdown by service for evaluation, early production, and scaling tiers.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 2
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Foundry's infrastructure cost scales with usage. The platform costs are modest at evaluation and early production tiers; AI API usage is the primary variable cost.
+
+## Infrastructure costs
+
+| Service | Plan | Monthly Estimate | Notes |
+|---------|------|:----------------:|-------|
+| **Vercel** | Pro | ~$20 | Compute offloaded to Convex and Cloudflare. Vercel handles SSR, Edge Middleware, and OAuth callback routes. |
+| **Cloudflare Workers** | Paid ($5/mo) | ~$5-15 | Agent worker is low-volume (structured analysis requests). Sandbox worker costs depend on container usage. |
+| **Convex Cloud** | Free / Pro | $0-25 | Free tier covers evaluation. Pro tier ($25/mo) for production with higher function call limits and bandwidth. |
+| **Clerk** | Free / Pro | $0-25 | Free tier covers up to 10,000 MAU. Pro tier at $0.02/MAU beyond that. |
+| **Total infrastructure** | | **~$25-65/mo** | Evaluation can run on free tiers for all services. |
+
+<Aside>
+Anthropic API costs are separate and usage-dependent. They are typically the largest line item once you move past evaluation.
+</Aside>
+
+## AI API costs (Anthropic)
+
+AI costs depend on which features you use and how frequently. Here are estimates per operation based on the context assembly pipeline and model tiers.
+
+### Per-operation estimates
+
+| Operation | Model | Input Tokens | Output Tokens | Est. Cost |
+|-----------|-------|:------------:|:-------------:|:---------:|
+| Document analysis | Opus 4.6 | ~8,000 | ~4,000 | ~$0.30 |
+| Task decomposition | Sonnet 4.5 v2 | ~5,000 | ~3,000 | ~$0.04 |
+| Subtask generation | Sonnet 4.5 v2 | ~4,000 | ~2,000 | ~$0.03 |
+| Sprint planning | Sonnet 4.5 v2 | ~6,000 | ~3,000 | ~$0.04 |
+| Gate evaluation | Sonnet 4.5 v2 | ~5,000 | ~2,000 | ~$0.03 |
+| Risk assessment | Sonnet 4.5 v2 | ~4,000 | ~2,000 | ~$0.03 |
+| Health scoring (per workstream) | Sonnet 4.5 v2 | ~3,000 | ~1,000 | ~$0.02 |
+| Daily digest | Sonnet 4.5 v2 | ~2,000 | ~500 | ~$0.01 |
+| Skill execution (sandbox) | Sonnet 4.5 | ~10,000 | ~5,000 | ~$0.05 |
+
+<Aside type="tip">
+Foundry uses prompt caching (`cache_control: { type: "ephemeral" }`) on static context blocks. Repeated calls within a ~5 minute window read cached tokens at 10% of the original cost, reducing effective per-operation cost by up to 90% for sequential operations.
+</Aside>
+
+### Monthly estimates by usage tier
+
+<Tabs>
+  <TabItem label="Evaluation">
+    **1 program, 10-20 requirements, light usage**
+
+    | Category | Monthly Estimate |
+    |----------|:----------------:|
+    | Document analysis (5 docs) | ~$1.50 |
+    | Task decomposition (20 reqs) | ~$0.80 |
+    | Subtask generation (20 tasks) | ~$0.60 |
+    | Sandbox executions (10 runs) | ~$0.50 |
+    | Health scoring + digests | ~$1.00 |
+    | **AI total** | **~$4-5** |
+    | **Infrastructure** | **$0** (free tiers) |
+    | **Grand total** | **~$5/mo** |
+  </TabItem>
+  <TabItem label="Early Production">
+    **3-5 programs, 50-100 requirements, regular usage**
+
+    | Category | Monthly Estimate |
+    |----------|:----------------:|
+    | Document analysis (20 docs) | ~$6 |
+    | Task decomposition (80 reqs) | ~$3 |
+    | Subtask generation (60 tasks) | ~$2 |
+    | Sandbox executions (40 runs) | ~$2 |
+    | Health scoring + digests | ~$5 |
+    | Sprint planning + gates | ~$3 |
+    | **AI total** | **~$20-25** |
+    | **Infrastructure** | **~$50** |
+    | **Grand total** | **~$70-75/mo** |
+  </TabItem>
+  <TabItem label="Scaling">
+    **10+ programs, 200+ requirements, heavy sandbox usage**
+
+    | Category | Monthly Estimate |
+    |----------|:----------------:|
+    | Document analysis (50+ docs) | ~$15 |
+    | Task decomposition (200+ reqs) | ~$8 |
+    | Subtask generation (150+ tasks) | ~$5 |
+    | Sandbox executions (100+ runs) | ~$5 |
+    | Health scoring + digests | ~$10 |
+    | All other AI features | ~$10 |
+    | **AI total** | **~$50-60** |
+    | **Infrastructure** | **~$65** |
+    | **Grand total** | **~$115-125/mo** |
+
+    At this tier, Convex Pro and Clerk Pro are required. Cloudflare Container costs increase with sandbox concurrency.
+  </TabItem>
+</Tabs>
+
+## Cloudflare container costs
+
+The sandbox worker provisions Docker containers on Cloudflare. Container costs are separate from the Workers Paid plan.
+
+- **Compute:** Billed per GB-second of container runtime
+- **Concurrency:** Up to 20 concurrent containers per sandbox worker
+- **TTL:** Containers expire after 5-60 minutes (configurable per session)
+
+Short-lived sandbox sessions (5-15 minute TTL) keep container costs low. Long-running interactive sessions (30-60 minute TTL) cost more but are less frequent.
+
+## Cost optimization strategies
+
+1. **Use prompt caching aggressively.** Batch sequential AI operations within the same program to maximize cache hits on shared context.
+2. **Set appropriate sandbox TTLs.** Default to 15 minutes for automated execution. Reserve 30-60 minute TTLs for interactive debugging sessions.
+3. **Monitor AI usage records.** The `aiUsageRecords` table tracks every API call with model, token count, and cost. Use the Agent Activity dashboard to identify expensive patterns.
+4. **Leverage free tiers for evaluation.** Convex Free, Clerk Free (10K MAU), Vercel Hobby, and Cloudflare Workers Free cover evaluation workloads.
+5. **Right-size model tiers.** Opus 4.6 is reserved for document analysis where extraction quality matters. All structured analysis routes use the more cost-effective Sonnet tiers.

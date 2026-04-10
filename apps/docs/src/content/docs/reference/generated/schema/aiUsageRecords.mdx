@@ -1,0 +1,40 @@
+---
+title: "aiUsageRecords"
+description: "Schema reference for the aiUsageRecords table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Append-only AI cost ledger — single source of truth for billing queries
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | No | Parent program reference |
+| source | "document_analysis" \| "design_analysis" \| "video_analysis" \| "skill_execution" \| "subtask_generation" \| "health_scoring" \| "dependency_detection" \| "sprint_planning" \| "risk_assessment" \| "gate_evaluation" \| "daily_digest" \| "pr_review" \| "requirement_refinement" \| "task_decomposition" \| "sandbox_chat" \| "other" | Yes |  |
+| claudeModelId | string | Yes |  |
+| inputTokens | number | Yes |  |
+| outputTokens | number | Yes |  |
+| cacheReadTokens | number | Yes |  |
+| cacheCreationTokens | number | Yes |  |
+| costUsd | number | Yes |  |
+| durationMs | number | No |  |
+| sourceEntityId | string | No |  |
+| sourceEntityTable | string | No |  |
+| recordedAt | number | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_recorded | orgId, recordedAt |
+| by_org_source | orgId, source |
+| by_program | programId |
+| by_program_recorded | programId, recordedAt |
+| by_source_entity | sourceEntityId |

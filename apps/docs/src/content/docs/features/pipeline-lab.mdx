@@ -1,0 +1,55 @@
+---
+title: "Pipeline Lab"
+description: "Visual metro-map view tracking requirements through delivery stages from discovery to deployment."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Pipeline Lab provides a visual metro-map visualization of requirements flowing through the delivery pipeline. Each requirement is a dot on a multi-line map, positioned at its current pipeline stage. Workstream lines are color-coded, and you can filter, select, and inspect requirements with keyboard navigation.
+
+## Why it matters
+
+Flat lists of requirements hide bottlenecks. The metro-map makes it immediately clear where requirements are stacking up, which stages are moving slowly, and which workstreams are progressing fastest.
+
+## Key concepts
+
+- **Pipeline stages**: `discovery`, `gap_analysis`, `solution_design`, `sprint_planning`, `implementation`, `testing`, `uat`, `deployed` — the eight stages requirements move through
+- **Metro map**: `PipelineMetroMap` renders the visual pipeline with workstream lines and requirement dots
+- **Workstream lines**: `WorkstreamLine` draws a color-coded path per workstream through the pipeline
+- **Requirement dot**: `RequirementDot` represents a single requirement on the map with health coloring
+- **Requirement tooltip**: `RequirementTooltip` shows details on hover (title, priority, fit-gap, days in stage)
+- **Station header**: `StationHeader` labels each pipeline stage column
+- **Detail panel**: `PipelineDetailPanel` slides in when you select a requirement, showing full details
+- **Summary bar**: `PipelineSummaryBar` shows aggregate counts per stage
+- **Stepper**: `PipelineStepper` provides an alternative step-by-step navigation through stages
+- **Workstream filter tabs**: `WorkstreamFilterTabs` filter the map to a single workstream
+- **Keyboard navigation**: `usePipelineKeyboard` enables arrow keys and Enter/Escape for accessible interaction
+- **Health**: `on_track`, `at_risk`, `blocked` per requirement
+- **Fit-gap**: `native`, `config`, `custom_dev`, `third_party`, `not_feasible`
+- **Effort**: `low`, `medium`, `high`, `very_high`
+
+## How to use it
+
+1. Navigate to **[Program] > Pipeline Lab**.
+2. View the metro map showing all requirements positioned at their current stage.
+3. Use **workstream filter tabs** to focus on a single workstream.
+4. Click a requirement dot (or use arrow keys) to select it and open the detail panel.
+5. Review the summary bar for stage-by-stage counts and bottleneck identification.
+6. Press `Escape` to close the detail panel.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`requirements`](/reference/generated/schema/requirements) — Requirements with their current pipeline stage, health, priority, and fit-gap classification
+- [`workstreams`](/reference/generated/schema/workstreams) — Workstreams providing the lines on the metro map
+
+## Related
+
+<LinkCard title="Requirements" href="/features/requirements/" />
+<LinkCard title="Workstreams" href="/features/workstreams/" />
+<LinkCard title="Mission Control" href="/features/mission-control/" />

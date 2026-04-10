@@ -1,0 +1,30 @@
+[package]
+name = "foundry_desktop_tauri"
+version = "0.1.0"
+description = "Foundry desktop backend scaffold"
+authors = ["Foundry"]
+edition = "2021"
+
+[lib]
+name = "foundry_desktop_tauri"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tauri = { version = "2", features = [] }
+tauri-plugin-shell = "2"
+tauri-plugin-deep-link = "2"
+tokio = { version = "1", features = ["macros", "net", "rt-multi-thread", "sync"] }
+tokio-tungstenite = "0.24"
+futures-util = "0.3"
+portable-pty = "0.8"
+reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+tauri-plugin-mcp = { git = "https://github.com/P3GLEG/tauri-plugin-mcp" }
+rfd = "0.15"
+[features]
+default = ["custom-protocol"]
+custom-protocol = ["tauri/custom-protocol"]

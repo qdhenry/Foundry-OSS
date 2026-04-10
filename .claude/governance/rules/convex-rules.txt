@@ -1,0 +1,13 @@
+# Convex Pattern Rules for Foundry Codebase
+
+# Table naming must be camelCase plural
+CVX-001|BLOCK|defineTable table names must be camelCase plural (e.g., agentExecutions not agent_executions)
+
+# Exported function names must be camelCase
+CVX-002|BLOCK|exported query/mutation/action names must be camelCase (e.g., listByProgram not list_by_program)
+
+# Enum-like fields must use v.union(v.literal(...))
+CVX-003|BLOCK|status/type/priority fields must use v.union(v.literal()) not v.string()
+
+# New tables must have orgId + by_org index
+CVX-004|BLOCK|tenant-scoped tables must include orgId field and by_org index

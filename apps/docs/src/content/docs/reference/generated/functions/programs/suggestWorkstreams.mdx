@@ -1,0 +1,42 @@
+---
+title: "programs.suggestWorkstreams"
+description: "action — AI-powered workstream suggestions based on engagement type and project context."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/programs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/programs.ts`
+
+## Arguments
+
+```typescript
+{
+    engagementType: v.union(
+      "greenfield",
+      "migration",
+      "integration",
+      "ongoing_product_dev",
+    ),
+    description: string /* optional */,
+    techStack: 
+      
+        v.object({
+          category: string,
+          technologies: v.array(string /* optional */,
+        }[],
+      ),
+    ),
+  }
+```
+
+AI-powered workstream suggestions based on engagement type and project context.
+Falls back to built-in defaults on failure.
+@param engagementType - The type of delivery engagement
+@param description - Optional project description for context
+@param techStack - Optional tech stack details for tailored suggestions

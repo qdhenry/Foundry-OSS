@@ -1,0 +1,189 @@
+---
+title: Dev setup
+description: Fork, clone, install dependencies, and run the full Foundry development stack.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 1
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide walks through setting up a Foundry development environment for contributors. If you are self-hosting for evaluation, see the [Quickstart](/getting-started/quickstart/) instead.
+
+## Prerequisites
+
+Before starting, confirm you have:
+
+- **Bun** 1.1+ (`bun --version`)
+- **Node.js** 20+ (`node --version`)
+- **Git** 2.30+ (`git --version`)
+- A **Convex** account (free tier) at [convex.dev](https://www.convex.dev/)
+- A **Clerk** account (development instance) at [clerk.com](https://clerk.com/)
+
+See [Prerequisites](/getting-started/prerequisites/) for installation instructions.
+
+## Fork and clone
+
+<Steps>
+
+1. **Fork the repository** on GitHub: [github.com/qdhenry/Foundry](https://github.com/qdhenry/Foundry)
+
+2. **Clone your fork**
+
+    ```bash
+    git clone https://github.com/YOUR_USERNAME/Foundry.git
+    cd Foundry
+    ```
+
+3. **Add the upstream remote**
+
+    ```bash
+    git remote add upstream https://github.com/qdhenry/Foundry.git
+    ```
+
+4. **Install dependencies**
+
+    ```bash
+    bun install
+    ```
+
+    This installs dependencies for all workspaces: `apps/web`, `packages/ui`, `convex`, `agent-service`, `agent-worker`, and `sandbox-worker`.
+
+5. **Copy the environment template**
+
+    ```bash
+    cp .env.example .env.local
+    ```
+
+    Fill in the required values. See [Environment variables](/getting-started/environment-variables/) for the full reference. At minimum you need:
+
+    - `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` from your Clerk dashboard
+    - `AGENT_SERVICE_URL=http://localhost:3001`
+
+    The Convex variables are populated automatically in the next step.
+
+6. **Initialize Convex**
+
+    ```bash
+    bunx convex dev
+    ```
+
+    Follow the prompts to log in and create a development project. This:
+    - Deploys the schema (55+ tables)
+    - Deploys all server functions
+    - Populates `CONVEX_DEPLOYMENT` and `NEXT_PUBLIC_CONVEX_URL`
+
+    Set your `ANTHROPIC_API_KEY` in the Convex Dashboard (Settings > Environment Variables) if you need AI features.
+
+</Steps>
+
+## Running the dev stack
+
+Foundry runs as a 4-process distributed system locally.
+
+<Tabs>
+  <TabItem label="Zellij (recommended)">
+    ```bash
+    bun run dev:zellij
+    ```
+    Opens a multi-pane terminal with all services.
+  </TabItem>
+  <TabItem label="Manual (4 terminals)">
+    ```bash
+    # Terminal 1 — Convex backend (keep running)
+    bunx convex dev
+
+    # Terminal 2 — Next.js frontend (port 3000)
+    bun run dev
+
+    # Terminal 3 — Agent service (port 3001)
+    bun run dev:agent
+
+    # Terminal 4 — Sandbox worker (port 8788)
+    bun run dev:worker
+    ```
+  </TabItem>
+</Tabs>
+
+For most frontend and backend work, two processes are sufficient:
+
+```bash
+# Terminal 1
+bunx convex dev
+
+# Terminal 2
+bun run dev
+```
+
+The agent service and sandbox worker are only needed when working on AI inference or sandbox execution features.
+
+## Project structure
+
+All feature UI lives in `packages/ui/src/`. App route pages in `apps/web/` are thin wrappers:
+
+```
+apps/
+  web/              # Next.js frontend (thin route wrappers only)
+  desktop/          # Tauri 2 desktop app (shares @foundry/ui)
+  docs/             # Documentation site (Starlight)
+packages/
+  ui/               # All feature UI (@foundry/ui, 547 components)
+  types/            # Shared TypeScript types
+convex/             # Backend: schema, queries, mutations, actions
+  schema.ts         # Data model (55+ tables)
+  sandbox/          # Sandbox orchestration
+  sourceControl/    # GitHub App integration
+  atlassian/        # Jira/Confluence integration
+agent-service/      # Express 5 AI inference sidecar (local dev)
+agent-worker/       # Cloudflare Worker AI inference (production)
+sandbox-worker/     # Cloudflare Worker + Durable Objects sandbox execution
+```
+
+<Aside type="caution">
+  Add UI logic to `packages/ui/`, not `apps/web/`. Page files should be 3-7 line wrappers that import from `@foundry/ui`. This enables the Tauri desktop app to share every component without forking.
+</Aside>
+
+## Seed test data
+
+The AcmeCorp reference dataset provides realistic data for development:
+
+```bash
+bunx convex run seed:seedAcmeCorp '{"orgId": "org_YOUR_ORG_ID"}'
+```
+
+This creates a program with 118 requirements, 8 skills, and 7 workstreams. See [Your first program](/getting-started/first-program/) for details on exploring the seeded data.
+
+## Running tests
+
+```bash
+# Run all tests once
+bun run test
+
+# Watch mode (re-runs on file changes)
+bun run test:watch
+
+# Coverage report for the web app
+bun run test:coverage:web
+
+# Type checking across all workspaces
+bun run typecheck
+
+# End-to-end tests (requires Playwright browsers installed)
+bun run test:e2e
+```
+
+## Keeping your fork in sync
+
+```bash
+git fetch upstream
+git checkout main
+git merge upstream/main
+```
+
+Then rebase your feature branch:
+
+```bash
+git checkout your-feature-branch
+git rebase main
+```

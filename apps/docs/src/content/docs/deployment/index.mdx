@@ -1,0 +1,55 @@
+---
+title: Deployment & Operations
+description: Production setup on Vercel, Convex Cloud, and Cloudflare — plus cost estimates, rollback procedures, and operational checklists.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 0
+---
+
+import { LinkCard, CardGrid, Aside } from '@astrojs/starlight/components';
+
+Foundry deploys to three managed platforms. There is no Docker Compose self-host path in v1 — all deployment assumes a BYO-cloud footprint across Vercel, Convex Cloud, and Cloudflare.
+
+```
+Vercel          → Next.js frontend (SSR, Edge Middleware, OAuth callbacks)
+Convex Cloud    → Backend (81 tables, server functions, AI actions, webhooks)
+Cloudflare      → Agent Worker (AI analysis) + Sandbox Worker (code execution)
+```
+
+## Section map
+
+<CardGrid>
+  <LinkCard
+    title="Production Setup"
+    description="Step-by-step deployment of all four services — Cloudflare Workers, Convex, Vercel, and webhook configuration."
+    href="/deployment/production-setup"
+  />
+  <LinkCard
+    title="Cost Estimates"
+    description="Monthly cost breakdown by service at evaluation, early production, and scaling tiers."
+    href="/deployment/cost-estimates"
+  />
+  <LinkCard
+    title="Rollback Procedures"
+    description="Per-service rollback procedures for Vercel, Cloudflare Workers, and Convex."
+    href="/deployment/rollback"
+  />
+</CardGrid>
+
+## Prerequisites
+
+Before deploying, ensure you have:
+
+- **Cloudflare account** with Workers Paid plan (needed for Durable Objects and Containers)
+- **Vercel account** (Pro recommended for production)
+- **Convex Cloud deployment** provisioned via `bunx convex deploy`
+- **Clerk production instance** with organizations enabled
+- **GitHub App** configured with webhook URL and OAuth credentials
+- **Atlassian OAuth app** (optional, for Jira/Confluence integration)
+- **`wrangler` CLI** authenticated: `wrangler login`
+- **Anthropic API key** with sufficient credits
+
+<Aside type="tip">
+Deploy in order: Cloudflare Workers first (you need their URLs), then Convex (needs Worker URLs as env vars), then Vercel (needs Convex URL). Webhooks are configured last since they point to the Convex HTTP endpoints.
+</Aside>

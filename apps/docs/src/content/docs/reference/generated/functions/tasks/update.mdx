@@ -1,0 +1,36 @@
+---
+title: "tasks.update"
+description: "mutation — Update task fields such as title, description, priority, assignee, or sprint."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/tasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/tasks.ts`
+
+## Arguments
+
+```typescript
+{
+    taskId: Id<"tasks">,
+    title: string /* optional */,
+    description: string /* optional */,
+    acceptanceCriteria: string /* optional */[],
+    storyPoints: number /* optional */,
+    workstreamId: Id<"workstreams"> /* optional */,
+    sprintId: Id<"sprints"> /* optional */,
+    requirementId: Id<"requirements"> /* optional */,
+    assigneeId: Id<"users"> /* optional */,
+    priority: priorityValidator /* optional */,
+    blockedBy: Id<"tasks"> /* optional */[],
+    dueDate: number /* optional */,
+  }
+```
+
+Update task fields such as title, description, priority, assignee, or sprint.
+@param taskId - The task to update

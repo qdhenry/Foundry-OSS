@@ -1,0 +1,44 @@
+---
+title: "programs"
+description: "Schema reference for the programs table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Programs — root entity for a delivery program
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| name | string | Yes |  |
+| clientName | string | Yes |  |
+| sourcePlatform | union | No |  |
+| targetPlatform | union | No |  |
+| engagementType | union | No |  |
+| techStack | `v.array( v.object({ category: v.string(), technologies: v.array(v.string()), }), ),` | No |  |
+| phase | "discovery" \| "build" \| "test" \| "deploy" \| "complete" | Yes |  |
+| status | "active" \| "paused" \| "complete" \| "archived" | Yes |  |
+| startDate | number | No |  |
+| targetEndDate | number | No |  |
+| description | string | No |  |
+| setupStatus | union | No |  |
+| discoveryStats | any | No |  |
+| jiraSyncMode | union | No |  |
+| jiraWorkflowConfigured | boolean | No |  |
+| confluenceAutoIngest | boolean | No |  |
+| confluenceIngestFilter | string | No |  |
+| slug | string | No |  |
+| agentTeamGenerated | boolean | No |  |
+| defaultSprintWorkflowConfig | any | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_slug | orgId, slug |

@@ -1,0 +1,12 @@
+# Security Rules for Foundry Codebase
+# Format: RULE_ID|SEVERITY|DESCRIPTION
+
+# Every query/mutation handler must call assertOrgAccess or getAuthUser
+SEC-001|BLOCK|query handler must call assertOrgAccess or getAuthUser
+SEC-002|BLOCK|mutation handler must call assertOrgAccess or getAuthUser
+
+# Must use withIndex, not bare .filter()
+SEC-003|BLOCK|.filter() without preceding .withIndex() on same query chain
+
+# Must use access helpers, not raw ctx.auth
+SEC-004|BLOCK|direct ctx.auth.getUserIdentity() — use assertOrgAccess/getAuthUser from model/access.ts

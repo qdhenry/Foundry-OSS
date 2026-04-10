@@ -1,0 +1,6 @@
+# Copy to .dev.vars and fill in values
+ANTHROPIC_API_KEY=sk-ant-...
+AGENT_SERVICE_SECRET=your-shared-secret
+ATLASSIAN_CLIENT_ID=your-atlassian-client-id
+ATLASSIAN_CLIENT_SECRET=your-atlassian-client-secret
+ATLASSIAN_OAUTH_REDIRECT_URI=https://your-domain/api/atlassian/callback

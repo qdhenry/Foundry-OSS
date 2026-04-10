@@ -1,0 +1,27 @@
+---
+title: "subtasks.updateStatus"
+description: "mutation — Transition a subtask to a new status. Rolls up counts to the parent task."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/subtasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/subtasks.ts`
+
+## Arguments
+
+```typescript
+{
+    subtaskId: Id<"subtasks">,
+    status: subtaskStatusValidator,
+  }
+```
+
+Transition a subtask to a new status. Rolls up counts to the parent task.
+@param subtaskId - The subtask to update
+@param status - New status (pending, executing, retrying, completed, failed, skipped)

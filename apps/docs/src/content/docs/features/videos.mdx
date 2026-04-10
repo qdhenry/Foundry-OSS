@@ -1,0 +1,49 @@
+---
+title: "Videos"
+description: "Upload and analyze video recordings with Twelve Labs for visual discovery."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Videos feature enables video-based discovery. Upload client meeting recordings, product demos, or walkthrough videos and Foundry uses the Twelve Labs integration to extract transcripts, keyframes, and structured findings from video content.
+
+## Why it matters
+
+Valuable project context often lives in recorded meetings and screen shares. Video analysis captures requirements, decisions, and context that would otherwise be lost in hour-long recordings — surfacing them as structured findings alongside document-based discovery.
+
+## Key concepts
+
+- **Video upload**: `VideoUploadPage` handles file selection and upload to storage
+- **Analysis pipeline**: `PipelineProgress` tracks the multi-stage video analysis workflow
+- **Video detail**: `VideoAnalysisDetailPage` shows transcripts, extracted keyframes, and findings
+- **Visual discovery gallery**: `VisualDiscoveryGallery` displays extracted keyframes with annotations
+- **Activity feed**: `VideoActivityFeed` shows events from the analysis pipeline
+- **Analysis completion card**: `AnalysisCompletionCard` summarizes results when analysis finishes
+- **Twelve Labs integration**: External video intelligence API used for transcript generation and scene analysis
+
+## How to use it
+
+1. Navigate to **[Program] > Discovery > Videos** (or the dedicated Videos route).
+2. Click **Upload Video** and select a recording.
+3. Watch the pipeline progress as the video is processed through analysis stages.
+4. Once analysis completes, review the transcript and extracted keyframes.
+5. Browse the **Visual Discovery Gallery** for annotated frames.
+6. Review extracted findings alongside document-based discovery findings.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`videoAnalysis`](/reference/generated/schema/videoAnalysis) — Video analysis records with transcript and metadata
+- [`videoTranscripts`](/reference/generated/schema/videoTranscripts) — Extracted transcript segments
+- [`videoKeyframes`](/reference/generated/schema/videoKeyframes) — Keyframe images extracted from video
+- [`videoFindings`](/reference/generated/schema/videoFindings) — Structured findings extracted from video content
+
+## Related
+
+<LinkCard title="Discovery" href="/features/discovery/" />
+<LinkCard title="Documents" href="/features/documents/" />

@@ -1,0 +1,24 @@
+---
+title: "sprintGates.finalize"
+description: "mutation — Finalize a gate by evaluating all criteria and approvals. Sets status to"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sprintGates.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sprintGates.ts`
+
+## Arguments
+
+```typescript
+{ gateId: Id<"sprintGates"> }
+```
+
+Finalize a gate by evaluating all criteria and approvals. Sets status to
+"passed" if all criteria pass and all approvals are granted, otherwise "failed".
+@param gateId - The sprint gate to finalize

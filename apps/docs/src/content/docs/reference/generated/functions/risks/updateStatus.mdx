@@ -1,0 +1,27 @@
+---
+title: "risks.updateStatus"
+description: "mutation — Transition a risk to a new status (open, mitigating, resolved, accepted)."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/risks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/risks.ts`
+
+## Arguments
+
+```typescript
+{
+    riskId: Id<"risks">,
+    status: statusValidator,
+  }
+```
+
+Transition a risk to a new status (open, mitigating, resolved, accepted).
+@param riskId - The risk to update
+@param status - New status value

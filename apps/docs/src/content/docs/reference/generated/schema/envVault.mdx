@@ -1,0 +1,29 @@
+---
+title: "envVault"
+description: "Schema reference for the envVault table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+b. Env Vault — encrypted org-level secret storage
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| name | string | Yes |  |
+| encryptedValue | string | Yes |  |
+| description | string | No |  |
+| createdBy | `Id<"users">` | Yes |  |
+| updatedAt | number | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_name | orgId, name |

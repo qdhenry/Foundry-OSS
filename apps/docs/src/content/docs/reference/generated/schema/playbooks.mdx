@@ -1,0 +1,30 @@
+---
+title: "playbooks"
+description: "Schema reference for the playbooks table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Playbooks — reusable migration playbook templates
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| name | string | Yes |  |
+| description | string | No |  |
+| targetPlatform | "salesforce_b2b" \| "bigcommerce_b2b" \| "sitecore" \| "wordpress" \| "none" \| "platform_agnostic" | Yes |  |
+| steps | object[] | Yes |  |
+| status | "draft" \| "published" \| "archived" | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |

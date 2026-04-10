@@ -1,0 +1,37 @@
+---
+title: Reference
+description: Schema, function, CLI, and environment variable reference for Foundry self-hosters.
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+The Reference section provides canonical documentation for every public surface a Foundry self-hoster interacts with: database schema, server functions, CLI commands, and environment variables.
+
+**Generated pages** (Schema, Functions) are emitted by `scripts/generate-reference.ts` from `convex/schema.ts` and TSDoc comments on whitelisted Convex functions. They are regenerated on every docs build and marked with a `<!-- DO NOT EDIT -->` banner.
+
+**Hand-written pages** (CLI, Environment Variables) are maintained directly in MDX.
+
+<CardGrid>
+  <LinkCard
+    title="Schema Reference"
+    description="Every Convex table, field, type, and index — generated from convex/schema.ts."
+    href="/reference/generated/schema/"
+  />
+  <LinkCard
+    title="Functions Reference"
+    description="Whitelisted public queries, mutations, and actions with argument signatures."
+    href="/reference/generated/functions/"
+  />
+  <LinkCard
+    title="CLI Commands"
+    description="Convex CLI commands for local development, deployment, and data management."
+    href="/reference/cli/"
+  />
+  <LinkCard
+    title="Environment Variables"
+    description="Every environment variable grouped by service, with required/optional status."
+    href="/reference/env-vars/"
+  />
+</CardGrid>

@@ -1,0 +1,48 @@
+---
+title: "Requirements"
+description: "Track requirements with priority, fit-gap analysis, and CSV export."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Requirements are the atomic units of scope in Foundry. Each requirement describes a capability the delivery engagement must produce. Requirements are linked to workstreams, assigned priorities, and annotated with fit-gap classifications that determine how much custom development is needed.
+
+## Why it matters
+
+Requirements drive every downstream activity — task creation, skill execution, risk assessment, and sprint planning all reference requirements. Keeping them structured and up-to-date prevents scope drift and gives AI agents the context they need for accurate analysis.
+
+## Key concepts
+
+- **Reference ID**: A human-readable identifier (e.g., `FOUND-01`, `DISC-03`) for cross-referencing
+- **Priority**: `critical`, `high`, `medium`, `low`
+- **Fit-gap classification**: `native`, `config`, `custom_dev`, `third_party`, `not_feasible` — determines implementation strategy
+- **Status**: Tracks whether a requirement has been reviewed, approved, or deferred
+- **Workstream assignment**: Links each requirement to a workstream for organizational grouping
+- **Detail panel**: Slide-out panel showing full requirement details, linked tasks, and edit history
+- **CSV export**: Export requirements to CSV for external reporting
+
+## How to use it
+
+1. Navigate to **[Program] > Requirements**.
+2. Browse the requirements table with sortable columns for priority, status, and workstream.
+3. Click any row to open the **detail panel** with full content and linked data.
+4. Use the **row action menu** to edit, delete, or change status.
+5. Click **Export CSV** to download the current view.
+6. Create new requirements manually, or let the Discovery feature extract them from documents.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`requirements`](/reference/generated/schema/requirements) — Core requirement record with refId, title, description, priority, fitGap, status, workstreamId
+- [`discoveryFindings`](/reference/generated/schema/discoveryFindings) — AI-extracted findings that can be promoted to requirements
+
+## Related
+
+<LinkCard title="Discovery" href="/features/discovery/" />
+<LinkCard title="Workstreams" href="/features/workstreams/" />
+<LinkCard title="Codebase Analysis" href="/features/codebase-analysis/" />

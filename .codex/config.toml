@@ -1,0 +1,24 @@
+[mcp_servers.convex]
+args = [
+    "convex@latest",
+    "mcp",
+    "start",
+]
+command = "npx"
+
+[mcp_servers.tauri_mcp_plugin]
+args = [
+    "",
+    "--extension",
+]
+command = "npx"
+
+[shell_environment_policy]
+inherit = "core"
+
+[shell_environment_policy.set]
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1"
+
+[[skills.config]]
+enabled = true
+path = "/Users/quintinhenry/Documents/Projects/FOUNDRY_ECOSYSTEM/Foundry-App/.worktrees/bun-workspace-tauri/.claude/skills/tauri-mcp/SKILL.md"

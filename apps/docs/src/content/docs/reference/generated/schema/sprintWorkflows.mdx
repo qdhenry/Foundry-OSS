@@ -1,0 +1,38 @@
+---
+title: "sprintWorkflows"
+description: "Schema reference for the sprintWorkflows table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Database table for sprintWorkflows records.
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| sprintId | `Id<"sprintGates">` | Yes |  |
+| workflowId | string | No |  |
+| status | "pending" \| "running" \| "paused" \| "completed" \| "failed" \| "cancelled" | Yes |  |
+| branchName | string | Yes |  |
+| prUrl | string | No |  |
+| agentAssignments | object[] | Yes |  |
+| totalTokensUsed | number | Yes |  |
+| totalCost | number | Yes |  |
+| startedAt | number | Yes |  |
+| completedAt | number | No |  |
+| startedBy | `Id<"users">` | Yes |  |
+| pausedBy | `Id<"users">` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_sprint | sprintId |
+| by_status | status |

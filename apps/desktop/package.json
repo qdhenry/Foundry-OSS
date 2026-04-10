@@ -1,0 +1,31 @@
+{
+  "name": "@foundry/desktop",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "cd ../.. && bunx vitest run apps/desktop/src/lib/*.test.ts",
+    "tauri": "tauri",
+    "tauri:build:debug": "tauri build --debug",
+    "tauri:run:debug-prod": "RUST_LOG=debug RUST_BACKTRACE=1 \"./src-tauri/target/debug/bundle/macos/Foundry Desktop.app/Contents/MacOS/foundry_desktop_tauri\"",
+    "tauri:debug-prod": "bun run tauri:build:debug && bun run tauri:run:debug-prod"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-deep-link": "^2.0.0",
+    "@tauri-apps/plugin-shell": "^2.0.0",
+    "@foundry/types": "workspace:*",
+    "@foundry/ui": "workspace:*",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "tauri-plugin-mcp": "^0.1.0"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^2.0.0",
+    "@types/react": "^19.2.2",
+    "@types/react-dom": "^19.2.2",
+    "vite": "^7.3.1"
+  }
+}

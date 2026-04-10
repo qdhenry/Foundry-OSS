@@ -1,0 +1,46 @@
+---
+title: "sandbox/orchestrator.start"
+description: "action — Provision and start a cloud sandbox session for a task. Handles container"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/orchestrator.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/sandbox/orchestrator.ts`
+
+## Arguments
+
+```typescript
+{
+    taskId: Id<"tasks">,
+    repositoryId: Id<"sourceControlRepositories">,
+    taskPrompt: string /* optional */,
+    skillId: Id<"skills"> /* optional */,
+    editorType: 
+      "monaco" /* optional */, "codemirror" | "none",
+    ,
+    ttlMinutes: number /* optional */,
+    authProvider: 
+      v.union(
+        "anthropic" /* optional */,
+        v.literal("bedrock",
+        "vertex",
+        "azure",
+      ),
+    ),
+    model: string /* optional */,
+    presetId: Id<"sandboxPresets"> /* optional */,
+    mcpServerOverrides: string /* optional */[],
+    queueReplayToken: string /* optional */,
+    queueReplayQueuedBy: Id<"users"> /* optional */,
+    suppressQueueFallback: boolean /* optional */,
+  }
+```
+
+Provision and start a cloud sandbox session for a task. Handles container
+provisioning, git clone, dependency install, and health check.

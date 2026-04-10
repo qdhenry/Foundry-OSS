@@ -1,0 +1,35 @@
+layout {
+    default_tab_template {
+        pane size=1 borderless=true {
+            plugin location="zellij:tab-bar"
+        }
+        children
+        pane size=2 borderless=true {
+            plugin location="zellij:status-bar"
+        }
+    }
+
+    tab name="Migration Conductor Dev" {
+        pane split_direction="vertical" {
+            pane split_direction="horizontal" {
+                pane name="web" command="bun" {
+                    args "run" "dev:web"
+                }
+                pane name="convex" command="bun" {
+                    args "run" "dev:convex"
+                }
+            }
+            pane split_direction="horizontal" {
+                pane name="agent" cwd="agent-service" command="bun" {
+                    args "run" "dev"
+                }
+                pane name="worker" cwd="sandbox-worker" command="bun" {
+                    args "run" "dev:local"
+                }
+                pane name="ngrok" command="ngrok" {
+                    args "http" "--domain" "bespokeagentics.ngrok.io" "3001"
+                }
+            }
+        }
+    }
+}

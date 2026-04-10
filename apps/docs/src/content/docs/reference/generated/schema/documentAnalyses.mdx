@@ -1,0 +1,40 @@
+---
+title: "documentAnalyses"
+description: "Schema reference for the documentAnalyses table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Document Analyses — AI analysis results per uploaded document
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| documentId | `Id<"documents">` | Yes |  |
+| status | "queued" \| "extracting" \| "analyzing" \| "complete" \| "failed" | Yes |  |
+| extractedText | string | No |  |
+| tokenCount | number | No |  |
+| findings | any | No |  |
+| error | string | No |  |
+| claudeModelId | string | No |  |
+| claudeRequestId | string | No |  |
+| inputTokens | number | No |  |
+| outputTokens | number | No |  |
+| cacheReadTokens | number | No |  |
+| cacheCreationTokens | number | No |  |
+| analysisVersion | number | Yes |  |
+| durationMs | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_document | documentId |
+| by_program | programId |
+| by_status | programId, status |

@@ -1,0 +1,46 @@
+---
+title: "Workstreams"
+description: "Decompose programs into parallel streams of work with RAG status tracking."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Workstreams break a program into parallel tracks of delivery. Each workstream groups related requirements, tasks, and sprints under a named stream with a short code, RAG status, and sprint cadence.
+
+## Why it matters
+
+Large engagements need structure beyond a flat backlog. Workstreams let teams organize by functional area (e.g., "Catalog," "Checkout," "Order Management") and track health independently, so blockers in one stream do not obscure progress in another.
+
+## Key concepts
+
+- **Short code**: A brief identifier (e.g., `CAT`, `CHK`) displayed on cards and filters across the platform
+- **RAG status**: `on_track`, `at_risk`, `blocked` — a traffic-light health indicator you can cycle through
+- **Sprint cadence**: How many sprints are planned for the workstream
+- **Requirement count**: Aggregated from requirements linked to the workstream
+- **Task progress**: Computed from task statuses within the workstream
+
+## How to use it
+
+1. Navigate to **[Program] > Workstreams**.
+2. View the card grid showing each workstream with its short code, RAG status, and requirement/task counts.
+3. Click a workstream card to open the detail page with linked requirements, tasks, and sprint information.
+4. Toggle the RAG status directly from the workstream card by clicking the status badge.
+5. Create new workstreams from the workstreams page header.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`workstreams`](/reference/generated/schema/workstreams) — Name, shortCode, status, sprintCadence, linked to a program
+- [`requirements`](/reference/generated/schema/requirements) — Each requirement has an optional `workstreamId`
+- [`tasks`](/reference/generated/schema/tasks) — Tasks can be scoped to a workstream
+
+## Related
+
+<LinkCard title="Requirements" href="/features/requirements/" />
+<LinkCard title="Tasks" href="/features/tasks/" />
+<LinkCard title="Pipeline Lab" href="/features/pipeline-lab/" />

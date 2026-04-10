@@ -1,0 +1,234 @@
+---
+title: Testing
+description: Unit tests with Vitest, Convex backend tests with convex-test, and end-to-end testing with Playwright.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 3
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Foundry uses [Vitest](https://vitest.dev/) for unit and integration tests, [`convex-test`](https://www.npmjs.com/package/convex-test) for Convex backend testing, and [Playwright](https://playwright.dev/) for end-to-end tests.
+
+<Aside type="note">
+  Test coverage is an active area of improvement. Any test contributions are valuable.
+</Aside>
+
+## Running tests
+
+```bash
+# Run all tests once
+bun run test
+
+# Watch mode (re-runs on file changes)
+bun run test:watch
+
+# Coverage report for the web app
+bun run test:coverage:web
+
+# Type checking across all workspaces
+bun run typecheck
+
+# End-to-end tests
+bun run test:e2e
+
+# E2E with visible browser
+bun run test:e2e:headed
+
+# E2E with Playwright UI
+bun run test:e2e:ui
+```
+
+## Unit tests with Vitest
+
+### File placement
+
+Place test files adjacent to the code they test, using the `.test.ts` or `.test.tsx` extension:
+
+```
+packages/ui/src/tasks/
+  TaskBoard.tsx
+  TaskBoard.test.tsx
+  TaskCard.tsx
+  TaskCard.test.tsx
+```
+
+### Frontend component tests
+
+Use `@testing-library/react` and `@testing-library/user-event` for component tests:
+
+```typescript
+import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { describe, expect, it } from "vitest";
+import { TaskCard } from "./TaskCard";
+
+describe("TaskCard", () => {
+  it("renders the task title", () => {
+    render(<TaskCard task={mockTask} />);
+    expect(screen.getByText("Migrate catalog data")).toBeInTheDocument();
+  });
+
+  it("calls onClick when clicked", async () => {
+    const user = userEvent.setup();
+    const onClick = vi.fn();
+    render(<TaskCard task={mockTask} onClick={onClick} />);
+    await user.click(screen.getByRole("article"));
+    expect(onClick).toHaveBeenCalledOnce();
+  });
+});
+```
+
+### Utility and logic tests
+
+Pure function tests do not need any React testing setup:
+
+```typescript
+import { describe, expect, it } from "vitest";
+import { normalizeStatus } from "./normalizeStatus";
+
+describe("normalizeStatus", () => {
+  it("normalizes mixed-case status strings", () => {
+    expect(normalizeStatus("In Progress")).toBe("in_progress");
+    expect(normalizeStatus("IN_PROGRESS")).toBe("in_progress");
+    expect(normalizeStatus("inProgress")).toBe("in_progress");
+  });
+});
+```
+
+## Convex backend tests
+
+Use `convex-test` to test queries, mutations, and actions against an in-memory Convex backend:
+
+```typescript
+import { convexTest } from "convex-test";
+import { describe, expect, it } from "vitest";
+import { api } from "./_generated/api";
+import schema from "./schema";
+
+describe("requirements.listByProgram", () => {
+  it("returns requirements for the given program", async () => {
+    const t = convexTest(schema);
+    await t.run(async (ctx) => {
+      // Seed test data
+      const programId = await ctx.db.insert("programs", {
+        orgId: "org_test",
+        name: "Test Program",
+        status: "active",
+      });
+      await ctx.db.insert("requirements", {
+        orgId: "org_test",
+        programId,
+        title: "Migrate catalog",
+        status: "draft",
+      });
+
+      // Test the query
+      const results = await ctx.query(api.requirements.listByProgram, {
+        orgId: "org_test",
+        programId,
+      });
+      expect(results).toHaveLength(1);
+      expect(results[0].title).toBe("Migrate catalog");
+    });
+  });
+});
+```
+
+<Aside type="tip">
+  Read `convex/_generated/ai/guidelines.md` before writing Convex tests. It documents patterns specific to this project's data model and security requirements.
+</Aside>
+
+### Testing mutations with auth
+
+Convex mutations require authentication context. Use `convex-test` identity helpers:
+
+```typescript
+const t = convexTest(schema);
+await t.run(async (ctx) => {
+  // Set up authenticated identity
+  const asUser = t.withIdentity({
+    subject: "user_123",
+    issuer: "https://clerk.example.com",
+  });
+
+  await asUser.mutation(api.tasks.create, {
+    orgId: "org_test",
+    programId,
+    title: "New task",
+  });
+});
+```
+
+## End-to-end tests with Playwright
+
+### Setup
+
+Install Playwright browsers (first time only):
+
+```bash
+bunx playwright install
+```
+
+### Writing E2E tests
+
+Playwright tests live in the `e2e/` directory or alongside features with `.e2e.ts` extension:
+
+```typescript
+import { expect, test } from "@playwright/test";
+
+test("programs page loads after sign-in", async ({ page }) => {
+  // Navigate to the app
+  await page.goto("http://localhost:3000");
+
+  // Sign in (assumes Clerk test mode)
+  await page.fill('[name="emailAddress"]', "test@example.com");
+  await page.click('button:has-text("Continue")');
+
+  // Verify programs page
+  await expect(page.getByRole("heading", { name: "Programs" })).toBeVisible();
+});
+```
+
+### Running E2E tests
+
+E2E tests require the full dev stack running (at minimum Next.js + Convex):
+
+```bash
+# Start the dev stack in one terminal
+bun run dev:zellij
+
+# Run E2E tests in another
+bun run test:e2e
+
+# Run with visible browser for debugging
+bun run test:e2e:headed
+
+# Run with Playwright UI for interactive debugging
+bun run test:e2e:ui
+```
+
+## Test guidelines
+
+1. **Name tests descriptively.** Use the pattern "it [does thing] when [condition]".
+2. **Test behavior, not implementation.** Assert on user-visible output, not internal state.
+3. **Keep tests independent.** Each test should set up its own data. Do not rely on test execution order.
+4. **Mock external services.** AI calls, webhook handlers, and external APIs should be mocked in unit tests.
+5. **Use the `noExplicitAny` override.** Test files have `noExplicitAny` disabled in the Biome config -- use `any` where it reduces test boilerplate.
+6. **Cover edge cases.** Empty arrays, null values, unauthorized access, and malformed input are high-value test targets.
+
+## Coverage
+
+Generate a coverage report:
+
+```bash
+bun run test:coverage:web
+```
+
+This produces an HTML report you can open in a browser. Focus coverage efforts on:
+
+- Convex queries and mutations (data integrity)
+- Row-level security (`assertOrgAccess` enforcement)
+- State machine transitions (sandbox lifecycle)
+- AI response normalization (lenient enum parsing)

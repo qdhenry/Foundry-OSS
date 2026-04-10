@@ -1,0 +1,51 @@
+---
+title: Architecture & Concepts
+description: How Foundry thinks — programs, workstreams, requirements, skills, sandboxes, and the four-process distributed system.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 0
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+Foundry runs as a **four-process distributed system** in local development and deploys to three managed platforms in production. The architecture is designed around one central idea: delivery knowledge (requirements, skills, workstreams, risks) is the moat, and AI agents consume that knowledge to turn plans into working software.
+
+This section covers the structural decisions behind the platform — how data flows, where AI executes, and why each layer exists.
+
+## Section map
+
+<CardGrid>
+  <LinkCard
+    title="System Overview"
+    description="Four-process architecture, dual-mode design, provider hierarchy, and key design decisions."
+    href="/architecture/overview"
+  />
+  <LinkCard
+    title="Data Model"
+    description="81 tables across 10 domains, entity hierarchy, row-level security, and indexing strategy."
+    href="/architecture/data-model"
+  />
+  <LinkCard
+    title="Convex Layer"
+    description="Queries, mutations, actions, HTTP actions — the reactive backend that powers everything."
+    href="/architecture/convex-layer"
+  />
+  <LinkCard
+    title="Background Jobs"
+    description="Scheduler patterns, webhook processing, retry logic, and cron jobs."
+    href="/architecture/background-jobs"
+  />
+  <LinkCard
+    title="Agent System"
+    description="Three AI services, three-tier model deployment, context assembly, and prompt caching."
+    href="/architecture/agent-system"
+  />
+</CardGrid>
+
+## Key principles
+
+- **No traditional API layer for data.** Convex queries and mutations are called directly from React via `useQuery`/`useMutation`. All data is automatically reactive.
+- **Row-level security on everything.** Every tenant-scoped query and mutation calls `assertOrgAccess()`. No exceptions except health checks.
+- **Index-driven queries only.** Every Convex query uses `.withIndex()`. The `.filter()` method causes full table scans and is banned in production paths.
+- **AI is a delivery participant, not an assistant.** Agents ingest project artifacts, extract requirements, decompose tasks, write code in sandboxes, push branches, and submit PRs.

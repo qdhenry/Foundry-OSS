@@ -1,0 +1,49 @@
+---
+title: "Skills"
+description: "Define AI skill templates with versioning, diff comparison, and execution metrics."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Skills define what AI agents can do within a program. Each skill is a structured prompt template that instructs Claude how to perform a specific task — analyzing documents, generating code, reviewing requirements, or any other delivery activity. Skills are versioned, so you can iterate on prompts while preserving history.
+
+## Why it matters
+
+Skills are the bridge between human intent and AI execution. A well-crafted skill encapsulates domain expertise into a reusable template that any agent can execute consistently. Versioning ensures you can compare prompt changes and roll back if quality degrades.
+
+## Key concepts
+
+- **Skill editor**: Rich text editor for authoring skill prompts with structured sections
+- **Templates**: Pre-built skill templates to bootstrap common use cases via `SkillTemplateModal`
+- **Versions**: Every save creates a new version; `VersionHistory` shows the full timeline
+- **Version diff**: Side-by-side comparison of any two versions via `VersionDiff` / `VersionDiffModal`
+- **Version metrics**: Execution success rates and performance data per version via `VersionMetrics`
+- **Execution**: Skills are invoked by agents or manually through the Activity page
+
+## How to use it
+
+1. Navigate to **[Program] > Skills**.
+2. Click **New Skill** or select a template from the template modal.
+3. Author the skill prompt in the editor — define the task, context requirements, and expected output format.
+4. Save to create version 1.
+5. View the detail page to see execution history, version timeline, and metrics.
+6. Edit the skill to create new versions; use the diff view to compare changes.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`skills`](/reference/generated/schema/skills) — Skill definition with name, description, prompt content, and program scope
+- [`skillVersions`](/reference/generated/schema/skillVersions) — Immutable version snapshots with prompt content and metadata
+- [`skillTemplates`](/reference/generated/schema/skillTemplates) — Pre-built templates for common skill patterns
+- [`agentExecutions`](/reference/generated/schema/agentExecutions) — Execution records linking a skill invocation to its results
+
+## Related
+
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Activity" href="/features/activity/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />

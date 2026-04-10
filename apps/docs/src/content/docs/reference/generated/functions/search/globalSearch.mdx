@@ -1,0 +1,30 @@
+---
+title: "search.globalSearch"
+description: "query — Search across programs, requirements, tasks, skills, and risks within an org."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/search.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/search.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    query: string,
+    limit: number /* optional */,
+  }
+```
+
+Search across programs, requirements, tasks, skills, and risks within an org.
+Returns ranked results with entity type and summary.
+@param orgId - Organization to search within
+@param query - Search query string
+@param limit - Maximum results (default varies by entity type)

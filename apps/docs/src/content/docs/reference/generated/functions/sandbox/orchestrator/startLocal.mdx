@@ -1,0 +1,44 @@
+---
+title: "sandbox/orchestrator.startLocal"
+description: "action — Start a local sandbox session that runs on the developer's machine"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/orchestrator.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/sandbox/orchestrator.ts`
+
+## Arguments
+
+```typescript
+{
+    taskId: Id<"tasks">,
+    repositoryId: Id<"sourceControlRepositories"> /* optional */,
+    taskPrompt: string /* optional */,
+    skillId: Id<"skills"> /* optional */,
+    editorType: 
+      "monaco" /* optional */, "codemirror" | "none",
+    ,
+    ttlMinutes: number /* optional */,
+    authProvider: 
+      v.union(
+        "anthropic" /* optional */,
+        v.literal("bedrock",
+        "vertex",
+        "azure",
+      ),
+    ),
+    model: string /* optional */,
+    presetId: Id<"sandboxPresets"> /* optional */,
+    localDeviceId: string,
+    localDeviceName: string /* optional */,
+  }
+```
+
+Start a local sandbox session that runs on the developer's machine
+instead of a cloud container.

@@ -1,0 +1,44 @@
+---
+title: "programAgents"
+description: "Schema reference for the programAgents table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Database table for programAgents records.
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| templateId | `Id<"agentTemplates">` | No |  |
+| name | string | Yes |  |
+| description | string | Yes |  |
+| role | agentRoleValidator | Yes |  |
+| model | agentModelValidator | Yes |  |
+| tools | string[] | Yes |  |
+| systemPrompt | string | Yes |  |
+| constraints | string[] | Yes |  |
+| specializations | string[] | Yes |  |
+| personalityProfile | personalityProfileValidator | Yes |  |
+| avatarSeed | string | Yes |  |
+| skillIds | `Id<"skills">[]` | Yes |  |
+| workstreamIds | `Id<"workstreams">[]` | No |  |
+| status | agentStatusValidator | Yes |  |
+| currentVersion | number | Yes |  |
+| tokenBudget | tokenBudgetValidator | Yes |  |
+| createdBy | `Id<"users">` | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_program_status | programId, status |
+| by_program_role | programId, role |
+| by_org | orgId |

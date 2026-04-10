@@ -1,0 +1,38 @@
+---
+title: "designTokenSets"
+description: "Schema reference for the designTokenSets table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Database table for designTokenSets records.
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| name | string | Yes |  |
+| version | number | Yes |  |
+| colors | string | No |  |
+| typography | string | No |  |
+| spacing | string | No |  |
+| breakpoints | string | No |  |
+| shadows | string | No |  |
+| radii | string | No |  |
+| tailwindConfig | string | No |  |
+| cssVariables | string | No |  |
+| scssVariables | string | No |  |
+| jsonTokens | string | No |  |
+| sourceType | "manual" \| "figma" \| "extracted" \| "imported" | Yes |  |
+| sourceAssetId | `Id<"designAssets">` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | orgId, programId |

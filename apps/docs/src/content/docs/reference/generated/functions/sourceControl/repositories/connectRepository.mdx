@@ -1,0 +1,41 @@
+---
+title: "sourceControl/repositories.connectRepository"
+description: "mutation — Connect a GitHub repository to a program and trigger initial sync."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sourceControl/repositories.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sourceControl/repositories.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    installationId: string,
+    repoFullName: string,
+    providerRepoId: string,
+    defaultBranch: string,
+    language: string /* optional */,
+    role: v.union(
+      "storefront",
+      "integration",
+      "data_migration",
+      "infrastructure",
+      "extension",
+      "documentation",
+    ),
+    isMonorepo: boolean,
+    pathFilters: string /* optional */[],
+  }
+```
+
+Connect a GitHub repository to a program and trigger initial sync.
+@param programId - Target program
+@param repoFullName - Full repository name (owner/repo)

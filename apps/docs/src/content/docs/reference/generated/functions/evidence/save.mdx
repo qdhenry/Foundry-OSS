@@ -1,0 +1,33 @@
+---
+title: "evidence.save"
+description: "mutation — Save an evidence file record after upload and link it to a requirement."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/evidence.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/evidence.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    requirementId: Id<"requirements">,
+    storageId: Id<"_storage">,
+    fileName: string,
+    fileType: string,
+    fileSize: number,
+  }
+```
+
+Save an evidence file record after upload and link it to a requirement.
+@param orgId - Organization ID
+@param requirementId - Requirement this evidence supports
+@param storageId - Convex storage ID from the upload
+@param fileName - Original file name

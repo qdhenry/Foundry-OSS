@@ -1,0 +1,393 @@
+---
+title: Functions reference
+description: Auto-generated reference for whitelisted public Convex queries, mutations, and actions.
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/*.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+This section contains auto-generated documentation for **187** Convex functions
+across **38** modules. Each page shows the function type, arguments, and any available documentation.
+
+Generated from Convex source files at commit `42c357d1`.
+
+## Modules
+
+### programs
+
+| Function | Link |
+|----------|------|
+| `list` | [programs.list](/reference/generated/functions/programs/list/) |
+| `get` | [programs.get](/reference/generated/functions/programs/get/) |
+| `create` | [programs.create](/reference/generated/functions/programs/create/) |
+| `update` | [programs.update](/reference/generated/functions/programs/update/) |
+| `updatePhase` | [programs.updatePhase](/reference/generated/functions/programs/updatePhase/) |
+| `getStats` | [programs.getStats](/reference/generated/functions/programs/getStats/) |
+| `remove` | [programs.remove](/reference/generated/functions/programs/remove/) |
+| `getBySlug` | [programs.getBySlug](/reference/generated/functions/programs/getBySlug/) |
+| `getNavigationState` | [programs.getNavigationState](/reference/generated/functions/programs/getNavigationState/) |
+| `suggestWorkstreams` | [programs.suggestWorkstreams](/reference/generated/functions/programs/suggestWorkstreams/) |
+
+### workstreams
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [workstreams.listByProgram](/reference/generated/functions/workstreams/listByProgram/) |
+| `get` | [workstreams.get](/reference/generated/functions/workstreams/get/) |
+| `update` | [workstreams.update](/reference/generated/functions/workstreams/update/) |
+
+### requirements
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [requirements.listByProgram](/reference/generated/functions/requirements/listByProgram/) |
+| `get` | [requirements.get](/reference/generated/functions/requirements/get/) |
+| `create` | [requirements.create](/reference/generated/functions/requirements/create/) |
+| `update` | [requirements.update](/reference/generated/functions/requirements/update/) |
+| `updateStatus` | [requirements.updateStatus](/reference/generated/functions/requirements/updateStatus/) |
+| `countByStatus` | [requirements.countByStatus](/reference/generated/functions/requirements/countByStatus/) |
+| `countByPriority` | [requirements.countByPriority](/reference/generated/functions/requirements/countByPriority/) |
+| `listAllByProgram` | [requirements.listAllByProgram](/reference/generated/functions/requirements/listAllByProgram/) |
+| `listWithPipelineContext` | [requirements.listWithPipelineContext](/reference/generated/functions/requirements/listWithPipelineContext/) |
+| `pipelineStageCounts` | [requirements.pipelineStageCounts](/reference/generated/functions/requirements/pipelineStageCounts/) |
+| `bulkAssignWorkstream` | [requirements.bulkAssignWorkstream](/reference/generated/functions/requirements/bulkAssignWorkstream/) |
+| `remove` | [requirements.remove](/reference/generated/functions/requirements/remove/) |
+
+### skills
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [skills.listByProgram](/reference/generated/functions/skills/listByProgram/) |
+| `get` | [skills.get](/reference/generated/functions/skills/get/) |
+| `create` | [skills.create](/reference/generated/functions/skills/create/) |
+| `update` | [skills.update](/reference/generated/functions/skills/update/) |
+| `updateContent` | [skills.updateContent](/reference/generated/functions/skills/updateContent/) |
+| `linkRequirement` | [skills.linkRequirement](/reference/generated/functions/skills/linkRequirement/) |
+| `unlinkRequirement` | [skills.unlinkRequirement](/reference/generated/functions/skills/unlinkRequirement/) |
+| `listTemplates` | [skills.listTemplates](/reference/generated/functions/skills/listTemplates/) |
+| `forkTemplate` | [skills.forkTemplate](/reference/generated/functions/skills/forkTemplate/) |
+
+### skillVersions
+
+| Function | Link |
+|----------|------|
+| `listBySkill` | [skillVersions.listBySkill](/reference/generated/functions/skillVersions/listBySkill/) |
+| `get` | [skillVersions.get](/reference/generated/functions/skillVersions/get/) |
+| `compare` | [skillVersions.compare](/reference/generated/functions/skillVersions/compare/) |
+
+### risks
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [risks.listByProgram](/reference/generated/functions/risks/listByProgram/) |
+| `get` | [risks.get](/reference/generated/functions/risks/get/) |
+| `create` | [risks.create](/reference/generated/functions/risks/create/) |
+| `update` | [risks.update](/reference/generated/functions/risks/update/) |
+| `updateStatus` | [risks.updateStatus](/reference/generated/functions/risks/updateStatus/) |
+| `remove` | [risks.remove](/reference/generated/functions/risks/remove/) |
+
+### tasks
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [tasks.listByProgram](/reference/generated/functions/tasks/listByProgram/) |
+| `get` | [tasks.get](/reference/generated/functions/tasks/get/) |
+| `create` | [tasks.create](/reference/generated/functions/tasks/create/) |
+| `update` | [tasks.update](/reference/generated/functions/tasks/update/) |
+| `updateStatus` | [tasks.updateStatus](/reference/generated/functions/tasks/updateStatus/) |
+| `remove` | [tasks.remove](/reference/generated/functions/tasks/remove/) |
+| `countBySprint` | [tasks.countBySprint](/reference/generated/functions/tasks/countBySprint/) |
+| `listUnassignedByWorkstream` | [tasks.listUnassignedByWorkstream](/reference/generated/functions/tasks/listUnassignedByWorkstream/) |
+| `bulkAssignToSprint` | [tasks.bulkAssignToSprint](/reference/generated/functions/tasks/bulkAssignToSprint/) |
+
+### subtasks
+
+| Function | Link |
+|----------|------|
+| `listByTask` | [subtasks.listByTask](/reference/generated/functions/subtasks/listByTask/) |
+| `get` | [subtasks.get](/reference/generated/functions/subtasks/get/) |
+| `create` | [subtasks.create](/reference/generated/functions/subtasks/create/) |
+| `update` | [subtasks.update](/reference/generated/functions/subtasks/update/) |
+| `updateStatus` | [subtasks.updateStatus](/reference/generated/functions/subtasks/updateStatus/) |
+| `reorder` | [subtasks.reorder](/reference/generated/functions/subtasks/reorder/) |
+| `remove` | [subtasks.remove](/reference/generated/functions/subtasks/remove/) |
+
+### sprints
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [sprints.listByProgram](/reference/generated/functions/sprints/listByProgram/) |
+| `listByWorkstream` | [sprints.listByWorkstream](/reference/generated/functions/sprints/listByWorkstream/) |
+| `get` | [sprints.get](/reference/generated/functions/sprints/get/) |
+| `create` | [sprints.create](/reference/generated/functions/sprints/create/) |
+| `update` | [sprints.update](/reference/generated/functions/sprints/update/) |
+| `activate` | [sprints.activate](/reference/generated/functions/sprints/activate/) |
+| `complete` | [sprints.complete](/reference/generated/functions/sprints/complete/) |
+| `getActive` | [sprints.getActive](/reference/generated/functions/sprints/getActive/) |
+| `remove` | [sprints.remove](/reference/generated/functions/sprints/remove/) |
+
+### sprintGates
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [sprintGates.listByProgram](/reference/generated/functions/sprintGates/listByProgram/) |
+| `listByWorkstream` | [sprintGates.listByWorkstream](/reference/generated/functions/sprintGates/listByWorkstream/) |
+| `get` | [sprintGates.get](/reference/generated/functions/sprintGates/get/) |
+| `create` | [sprintGates.create](/reference/generated/functions/sprintGates/create/) |
+| `evaluateCriterion` | [sprintGates.evaluateCriterion](/reference/generated/functions/sprintGates/evaluateCriterion/) |
+| `addApproval` | [sprintGates.addApproval](/reference/generated/functions/sprintGates/addApproval/) |
+| `finalize` | [sprintGates.finalize](/reference/generated/functions/sprintGates/finalize/) |
+| `remove` | [sprintGates.remove](/reference/generated/functions/sprintGates/remove/) |
+
+### agentExecutions
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [agentExecutions.listByProgram](/reference/generated/functions/agentExecutions/listByProgram/) |
+| `get` | [agentExecutions.get](/reference/generated/functions/agentExecutions/get/) |
+| `getDetail` | [agentExecutions.getDetail](/reference/generated/functions/agentExecutions/getDetail/) |
+| `listRecent` | [agentExecutions.listRecent](/reference/generated/functions/agentExecutions/listRecent/) |
+| `listByTask` | [agentExecutions.listByTask](/reference/generated/functions/agentExecutions/listByTask/) |
+| `updateReview` | [agentExecutions.updateReview](/reference/generated/functions/agentExecutions/updateReview/) |
+
+### users
+
+| Function | Link |
+|----------|------|
+| `getByClerkId` | [users.getByClerkId](/reference/generated/functions/users/getByClerkId/) |
+| `list` | [users.list](/reference/generated/functions/users/list/) |
+| `syncActiveOrg` | [users.syncActiveOrg](/reference/generated/functions/users/syncActiveOrg/) |
+
+### teamMembers
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [teamMembers.listByProgram](/reference/generated/functions/teamMembers/listByProgram/) |
+| `add` | [teamMembers.add](/reference/generated/functions/teamMembers/add/) |
+| `update` | [teamMembers.update](/reference/generated/functions/teamMembers/update/) |
+| `remove` | [teamMembers.remove](/reference/generated/functions/teamMembers/remove/) |
+
+### auditLog
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [auditLog.listByProgram](/reference/generated/functions/auditLog/listByProgram/) |
+| `listByEntity` | [auditLog.listByEntity](/reference/generated/functions/auditLog/listByEntity/) |
+
+### notifications
+
+| Function | Link |
+|----------|------|
+| `listUnread` | [notifications.listUnread](/reference/generated/functions/notifications/listUnread/) |
+| `listRecent` | [notifications.listRecent](/reference/generated/functions/notifications/listRecent/) |
+| `markRead` | [notifications.markRead](/reference/generated/functions/notifications/markRead/) |
+| `markAllRead` | [notifications.markAllRead](/reference/generated/functions/notifications/markAllRead/) |
+
+### documents
+
+| Function | Link |
+|----------|------|
+| `generateUploadUrl` | [documents.generateUploadUrl](/reference/generated/functions/documents/generateUploadUrl/) |
+| `save` | [documents.save](/reference/generated/functions/documents/save/) |
+| `listByProgram` | [documents.listByProgram](/reference/generated/functions/documents/listByProgram/) |
+| `get` | [documents.get](/reference/generated/functions/documents/get/) |
+| `update` | [documents.update](/reference/generated/functions/documents/update/) |
+| `remove` | [documents.remove](/reference/generated/functions/documents/remove/) |
+
+### comments
+
+| Function | Link |
+|----------|------|
+| `listByEntity` | [comments.listByEntity](/reference/generated/functions/comments/listByEntity/) |
+| `create` | [comments.create](/reference/generated/functions/comments/create/) |
+| `remove` | [comments.remove](/reference/generated/functions/comments/remove/) |
+
+### evidence
+
+| Function | Link |
+|----------|------|
+| `generateUploadUrl` | [evidence.generateUploadUrl](/reference/generated/functions/evidence/generateUploadUrl/) |
+| `save` | [evidence.save](/reference/generated/functions/evidence/save/) |
+| `listByRequirement` | [evidence.listByRequirement](/reference/generated/functions/evidence/listByRequirement/) |
+| `remove` | [evidence.remove](/reference/generated/functions/evidence/remove/) |
+
+### discoveryFindings
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [discoveryFindings.listByProgram](/reference/generated/functions/discoveryFindings/listByProgram/) |
+| `listByDocument` | [discoveryFindings.listByDocument](/reference/generated/functions/discoveryFindings/listByDocument/) |
+| `countPending` | [discoveryFindings.countPending](/reference/generated/functions/discoveryFindings/countPending/) |
+| `reviewFinding` | [discoveryFindings.reviewFinding](/reference/generated/functions/discoveryFindings/reviewFinding/) |
+| `bulkReviewFindings` | [discoveryFindings.bulkReviewFindings](/reference/generated/functions/discoveryFindings/bulkReviewFindings/) |
+| `importApprovedFindings` | [discoveryFindings.importApprovedFindings](/reference/generated/functions/discoveryFindings/importApprovedFindings/) |
+
+### integrations
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [integrations.listByProgram](/reference/generated/functions/integrations/listByProgram/) |
+| `get` | [integrations.get](/reference/generated/functions/integrations/get/) |
+| `create` | [integrations.create](/reference/generated/functions/integrations/create/) |
+| `update` | [integrations.update](/reference/generated/functions/integrations/update/) |
+| `remove` | [integrations.remove](/reference/generated/functions/integrations/remove/) |
+
+### playbooks
+
+| Function | Link |
+|----------|------|
+| `listByProgram` | [playbooks.listByProgram](/reference/generated/functions/playbooks/listByProgram/) |
+| `get` | [playbooks.get](/reference/generated/functions/playbooks/get/) |
+| `create` | [playbooks.create](/reference/generated/functions/playbooks/create/) |
+| `update` | [playbooks.update](/reference/generated/functions/playbooks/update/) |
+| `publish` | [playbooks.publish](/reference/generated/functions/playbooks/publish/) |
+| `remove` | [playbooks.remove](/reference/generated/functions/playbooks/remove/) |
+| `instantiate` | [playbooks.instantiate](/reference/generated/functions/playbooks/instantiate/) |
+
+### search
+
+| Function | Link |
+|----------|------|
+| `globalSearch` | [search.globalSearch](/reference/generated/functions/search/globalSearch/) |
+
+### sandbox/sessions
+
+| Function | Link |
+|----------|------|
+| `get` | [sandbox/sessions.get](/reference/generated/functions/sandbox/sessions/get/) |
+| `getByTask` | [sandbox/sessions.getByTask](/reference/generated/functions/sandbox/sessions/getByTask/) |
+| `listByProgram` | [sandbox/sessions.listByProgram](/reference/generated/functions/sandbox/sessions/listByProgram/) |
+| `listByOrg` | [sandbox/sessions.listByOrg](/reference/generated/functions/sandbox/sessions/listByOrg/) |
+| `cancel` | [sandbox/sessions.cancel](/reference/generated/functions/sandbox/sessions/cancel/) |
+| `getChatMessages` | [sandbox/sessions.getChatMessages](/reference/generated/functions/sandbox/sessions/getChatMessages/) |
+| `sendChatMessage` | [sandbox/sessions.sendChatMessage](/reference/generated/functions/sandbox/sessions/sendChatMessage/) |
+| `deleteSession` | [sandbox/sessions.deleteSession](/reference/generated/functions/sandbox/sessions/deleteSession/) |
+
+### sandbox/orchestrator
+
+| Function | Link |
+|----------|------|
+| `start` | [sandbox/orchestrator.start](/reference/generated/functions/sandbox/orchestrator/start/) |
+| `startLocal` | [sandbox/orchestrator.startLocal](/reference/generated/functions/sandbox/orchestrator/startLocal/) |
+| `stop` | [sandbox/orchestrator.stop](/reference/generated/functions/sandbox/orchestrator/stop/) |
+| `wake` | [sandbox/orchestrator.wake](/reference/generated/functions/sandbox/orchestrator/wake/) |
+| `shutdown` | [sandbox/orchestrator.shutdown](/reference/generated/functions/sandbox/orchestrator/shutdown/) |
+| `startSubtaskExecution` | [sandbox/orchestrator.startSubtaskExecution](/reference/generated/functions/sandbox/orchestrator/startSubtaskExecution/) |
+| `continueAfterPause` | [sandbox/orchestrator.continueAfterPause](/reference/generated/functions/sandbox/orchestrator/continueAfterPause/) |
+| `retryFailedSubtask` | [sandbox/orchestrator.retryFailedSubtask](/reference/generated/functions/sandbox/orchestrator/retryFailedSubtask/) |
+
+### sandbox/configs
+
+| Function | Link |
+|----------|------|
+| `getByOrg` | [sandbox/configs.getByOrg](/reference/generated/functions/sandbox/configs/getByOrg/) |
+| `upsert` | [sandbox/configs.upsert](/reference/generated/functions/sandbox/configs/upsert/) |
+| `remove` | [sandbox/configs.remove](/reference/generated/functions/sandbox/configs/remove/) |
+
+### sandbox/presets
+
+| Function | Link |
+|----------|------|
+| `listForOrg` | [sandbox/presets.listForOrg](/reference/generated/functions/sandbox/presets/listForOrg/) |
+| `get` | [sandbox/presets.get](/reference/generated/functions/sandbox/presets/get/) |
+| `upsert` | [sandbox/presets.upsert](/reference/generated/functions/sandbox/presets/upsert/) |
+| `remove` | [sandbox/presets.remove](/reference/generated/functions/sandbox/presets/remove/) |
+
+### sandbox/envVault
+
+| Function | Link |
+|----------|------|
+| `listByOrg` | [sandbox/envVault.listByOrg](/reference/generated/functions/sandbox/envVault/listByOrg/) |
+| `get` | [sandbox/envVault.get](/reference/generated/functions/sandbox/envVault/get/) |
+| `upsert` | [sandbox/envVault.upsert](/reference/generated/functions/sandbox/envVault/upsert/) |
+| `remove` | [sandbox/envVault.remove](/reference/generated/functions/sandbox/envVault/remove/) |
+
+### sandbox/logs
+
+| Function | Link |
+|----------|------|
+| `listBySession` | [sandbox/logs.listBySession](/reference/generated/functions/sandbox/logs/listBySession/) |
+| `listByTask` | [sandbox/logs.listByTask](/reference/generated/functions/sandbox/logs/listByTask/) |
+
+### sourceControl/repositories
+
+| Function | Link |
+|----------|------|
+| `connectRepository` | [sourceControl/repositories.connectRepository](/reference/generated/functions/sourceControl/repositories/connectRepository/) |
+| `disconnectRepository` | [sourceControl/repositories.disconnectRepository](/reference/generated/functions/sourceControl/repositories/disconnectRepository/) |
+| `listByProgram` | [sourceControl/repositories.listByProgram](/reference/generated/functions/sourceControl/repositories/listByProgram/) |
+| `getInstallation` | [sourceControl/repositories.getInstallation](/reference/generated/functions/sourceControl/repositories/getInstallation/) |
+
+### sourceControl/installations
+
+| Function | Link |
+|----------|------|
+| `listByOrg` | [sourceControl/installations.listByOrg](/reference/generated/functions/sourceControl/installations/listByOrg/) |
+| `claimInstallation` | [sourceControl/installations.claimInstallation](/reference/generated/functions/sourceControl/installations/claimInstallation/) |
+
+### atlassian/connections
+
+| Function | Link |
+|----------|------|
+| `getByProgram` | [atlassian/connections.getByProgram](/reference/generated/functions/atlassian/connections/getByProgram/) |
+| `listByOrg` | [atlassian/connections.listByOrg](/reference/generated/functions/atlassian/connections/listByOrg/) |
+| `startOAuth` | [atlassian/connections.startOAuth](/reference/generated/functions/atlassian/connections/startOAuth/) |
+| `completeOAuth` | [atlassian/connections.completeOAuth](/reference/generated/functions/atlassian/connections/completeOAuth/) |
+| `updateBindings` | [atlassian/connections.updateBindings](/reference/generated/functions/atlassian/connections/updateBindings/) |
+| `disconnect` | [atlassian/connections.disconnect](/reference/generated/functions/atlassian/connections/disconnect/) |
+
+### orchestration/runs
+
+| Function | Link |
+|----------|------|
+| `get` | [orchestration/runs.get](/reference/generated/functions/orchestration/runs/get/) |
+| `listByProgram` | [orchestration/runs.listByProgram](/reference/generated/functions/orchestration/runs/listByProgram/) |
+| `listActive` | [orchestration/runs.listActive](/reference/generated/functions/orchestration/runs/listActive/) |
+| `create` | [orchestration/runs.create](/reference/generated/functions/orchestration/runs/create/) |
+| `updateStatus` | [orchestration/runs.updateStatus](/reference/generated/functions/orchestration/runs/updateStatus/) |
+
+### orchestration/planner
+
+| Function | Link |
+|----------|------|
+| `generatePlan` | [orchestration/planner.generatePlan](/reference/generated/functions/orchestration/planner/generatePlan/) |
+| `estimateCost` | [orchestration/planner.estimateCost](/reference/generated/functions/orchestration/planner/estimateCost/) |
+
+### billing/subscriptions
+
+| Function | Link |
+|----------|------|
+| `getOrgSubscription` | [billing/subscriptions.getOrgSubscription](/reference/generated/functions/billing/subscriptions/getOrgSubscription/) |
+| `getOrgBillingState` | [billing/subscriptions.getOrgBillingState](/reference/generated/functions/billing/subscriptions/getOrgBillingState/) |
+
+### billing/plans
+
+| Function | Link |
+|----------|------|
+| `getPricingPlans` | [billing/plans.getPricingPlans](/reference/generated/functions/billing/plans/getPricingPlans/) |
+| `getPlanBySlug` | [billing/plans.getPlanBySlug](/reference/generated/functions/billing/plans/getPlanBySlug/) |
+
+### billing/trial
+
+| Function | Link |
+|----------|------|
+| `getTrialState` | [billing/trial.getTrialState](/reference/generated/functions/billing/trial/getTrialState/) |
+| `getTrialStatus` | [billing/trial.getTrialStatus](/reference/generated/functions/billing/trial/getTrialStatus/) |
+| `initializeTrial` | [billing/trial.initializeTrial](/reference/generated/functions/billing/trial/initializeTrial/) |
+
+### billing/analytics
+
+| Function | Link |
+|----------|------|
+| `getOrgCostSummary` | [billing/analytics.getOrgCostSummary](/reference/generated/functions/billing/analytics/getOrgCostSummary/) |
+| `getOrgCostTimeline` | [billing/analytics.getOrgCostTimeline](/reference/generated/functions/billing/analytics/getOrgCostTimeline/) |
+
+### health/serviceHealth
+
+| Function | Link |
+|----------|------|
+| `getLatestHealthByService` | [health/serviceHealth.getLatestHealthByService](/reference/generated/functions/health/serviceHealth/getLatestHealthByService/) |
+| `getActiveIncidents` | [health/serviceHealth.getActiveIncidents](/reference/generated/functions/health/serviceHealth/getActiveIncidents/) |
+| `recordHealthCheck` | [health/serviceHealth.recordHealthCheck](/reference/generated/functions/health/serviceHealth/recordHealthCheck/) |

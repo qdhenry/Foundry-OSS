@@ -1,0 +1,58 @@
+---
+title: "Agents"
+description: "Manage AI agent teams with role-based generation, dispatch, and execution tracking."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Agents feature lets you define, generate, and manage teams of AI agents within a program. Each agent has a name, role, model assignment, specializations, and an execution history. Agents can be created manually, generated via a wizard, or dispatched individually to specific tasks.
+
+## Why it matters
+
+Complex engagements need more than one AI perspective. Agent teams let you assign specialized roles (architect, developer, QA, analyst) with different models and prompt configurations, then dispatch them to appropriate tasks for parallel execution.
+
+## Key concepts
+
+- **Agent table**: `AgentTable` lists all agents with name, role, model, status, success rate, and last activity
+- **Agent drawer**: `AgentDrawer` slides in to show full agent details with profile, config, history, and version tabs
+- **Profile tab**: `AgentProfileTab` shows agent identity, role, and specializations
+- **Config tab**: `AgentConfigTab` configures model, prompt parameters, and behavior
+- **History tab**: `AgentHistoryTab` shows past execution records
+- **Versions tab**: `AgentVersionsTab` tracks prompt and configuration changes over time
+- **Agent avatar**: `AgentAvatar` generates a unique visual identity per agent based on `avatarSeed`
+- **Status badge**: `AgentStatusBadge` shows `active`, `idle`, `executing`, `archived`, etc.
+- **Create agent modal**: `CreateAgentModal` for manual agent creation
+- **Generate wizard**: `GenerateWizard` auto-generates a team of agents with three steps:
+  1. `WizardStepScope` — define scope (sprint, workstream, or custom task selection)
+  2. `WizardStepRoster` — AI generates a recommended team roster
+  3. `WizardStepConfirm` — review and confirm the generated team
+- **Dispatch modal**: `DispatchAgentModal` assigns a specific agent to a task for execution
+- **Orchestration access**: Launch the orchestration wizard directly from the agents page
+
+## How to use it
+
+1. Navigate to **[Program] > Agents**.
+2. View the agent table showing all agents, their roles, and performance metrics.
+3. Click **Generate Team** to launch the wizard — select scope, review the AI-recommended roster, and confirm.
+4. Click an agent row to open the drawer with profile, config, and history.
+5. Click **Dispatch** on an agent to assign it to a specific task.
+6. Click **New Orchestration** to launch a multi-agent run from the agents page.
+7. Archive agents that are no longer needed.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`agentTeam/agents`](/reference/generated/schema/agents) — Agent records with name, role, model, status, specializations, avatarSeed
+- [`agentTeam/executions`](/reference/generated/schema/executions) — Execution records per agent with input/output summaries and status
+- [`agentExecutions`](/reference/generated/schema/agentExecutions) — Global execution log across all agents
+
+## Related
+
+<LinkCard title="Orchestration" href="/features/orchestration/" />
+<LinkCard title="Skills" href="/features/skills/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />

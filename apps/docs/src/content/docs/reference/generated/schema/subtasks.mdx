@@ -1,0 +1,45 @@
+---
+title: "subtasks"
+description: "Schema reference for the subtasks table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+a. Subtasks — Level 2 task decomposition for sandbox agent execution
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| taskId | `Id<"tasks">` | Yes |  |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| title | string | Yes |  |
+| description | string | Yes |  |
+| prompt | string | Yes |  |
+| estimatedFiles | number | Yes |  |
+| complexityScore | number | Yes |  |
+| estimatedDurationMs | number | Yes |  |
+| allowedFiles | string[] | No |  |
+| order | number | Yes |  |
+| isPausePoint | boolean | Yes |  |
+| status | "pending" \| "executing" \| "retrying" \| "completed" \| "failed" \| "skipped" | Yes |  |
+| retryCount | number | Yes |  |
+| commitSha | string | No |  |
+| filesChanged | string[] | No |  |
+| scopeViolations | string[] | No |  |
+| executionDurationMs | number | No |  |
+| errorMessage | string | No |  |
+| priorChangelog | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_task | taskId, order |
+| by_program | programId |
+| by_org | orgId |
+| by_status | taskId, status |

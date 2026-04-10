@@ -1,0 +1,61 @@
+{
+  "name": "migration-sandbox-worker",
+  "account_id": "b14f8eb1f6984d1d17ae8ca435fc774e",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "containers": [
+    {
+      "class_name": "Sandbox",
+      "image": "./Dockerfile",
+      "instance_type": "standard-1",
+      "max_instances": 20
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "Sandbox",
+        "class_name": "Sandbox"
+      },
+      {
+        "name": "SessionStore",
+        "class_name": "SessionStore"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Sandbox"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["SessionStore"]
+    }
+  ],
+  "vars": {
+    "SANDBOX_LOG_LEVEL": "info",
+    "SANDBOX_LOG_FORMAT": "json"
+  },
+  "tail_consumers": [
+    {
+      "service": "migration-sandbox-tail"
+    }
+  ],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": true,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  }
+}

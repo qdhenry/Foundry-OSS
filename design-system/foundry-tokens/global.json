@@ -1,0 +1,593 @@
+{
+  "brandBlue": {
+    "50": {
+      "value": "#eff6ff",
+      "type": "color",
+      "description": "Lightest blue tint"
+    },
+    "100": {
+      "value": "#dbeafe",
+      "type": "color",
+      "description": "Light blue tint"
+    },
+    "200": {
+      "value": "#bfdbfe",
+      "type": "color",
+      "description": "Ice — primary gate node"
+    },
+    "300": {
+      "value": "#93c5fd",
+      "type": "color",
+      "description": "Sky — secondary nodes, gradient start"
+    },
+    "400": {
+      "value": "#60a5fa",
+      "type": "color",
+      "description": "Electric — crossbar, mid-accent"
+    },
+    "500": {
+      "value": "#3b82f6",
+      "type": "color",
+      "description": "Deep — terminus, gradient end"
+    },
+    "600": {
+      "value": "#2563eb",
+      "type": "color",
+      "description": "Vivid — light-mode primary"
+    },
+    "700": {
+      "value": "#1d4ed8",
+      "type": "color",
+      "description": "Depth — light-mode secondary"
+    },
+    "800": {
+      "value": "#1e40af",
+      "type": "color",
+      "description": "Anchor — light-mode deep"
+    },
+    "900": {
+      "value": "#1e3a8a",
+      "type": "color",
+      "description": "Ink — light-mode darkest"
+    }
+  },
+  "semantic": {
+    "success": {
+      "value": "#4ade80",
+      "type": "color",
+      "description": "Success green (dark theme)"
+    },
+    "successDeep": {
+      "value": "#16a34a",
+      "type": "color",
+      "description": "Success green (light theme)"
+    },
+    "warning": {
+      "value": "#fbbf24",
+      "type": "color",
+      "description": "Warning amber (dark theme)"
+    },
+    "warningDeep": {
+      "value": "#d97706",
+      "type": "color",
+      "description": "Warning amber (light theme)"
+    },
+    "error": {
+      "value": "#f87171",
+      "type": "color",
+      "description": "Error red (dark theme)"
+    },
+    "errorDeep": {
+      "value": "#dc2626",
+      "type": "color",
+      "description": "Error red (light theme)"
+    },
+    "info": {
+      "value": "#60a5fa",
+      "type": "color",
+      "description": "Info blue (dark theme)"
+    },
+    "infoDeep": {
+      "value": "#2563eb",
+      "type": "color",
+      "description": "Info blue (light theme)"
+    }
+  },
+  "fontFamily": {
+    "display": {
+      "value": "Instrument Serif",
+      "type": "fontFamilies",
+      "description": "Headlines, hero, editorial — weight 400 only"
+    },
+    "body": {
+      "value": "DM Sans",
+      "type": "fontFamilies",
+      "description": "UI, body, labels, wordmark — weights 300–700"
+    },
+    "mono": {
+      "value": "DM Mono",
+      "type": "fontFamilies",
+      "description": "Code, data, hex values — weights 300–500"
+    }
+  },
+  "fontWeight": {
+    "light": {
+      "value": "300",
+      "type": "fontWeights"
+    },
+    "regular": {
+      "value": "400",
+      "type": "fontWeights"
+    },
+    "medium": {
+      "value": "500",
+      "type": "fontWeights"
+    },
+    "semibold": {
+      "value": "600",
+      "type": "fontWeights"
+    },
+    "bold": {
+      "value": "700",
+      "type": "fontWeights"
+    }
+  },
+  "fontSize": {
+    "xs": {
+      "value": "0.55",
+      "type": "fontSizes",
+      "description": "8.8px — section numbers"
+    },
+    "sm": {
+      "value": "0.68",
+      "type": "fontSizes",
+      "description": "10.9px — helper text, tags"
+    },
+    "caption": {
+      "value": "0.72",
+      "type": "fontSizes",
+      "description": "11.5px — caption, labels, badges"
+    },
+    "bodyS": {
+      "value": "0.82",
+      "type": "fontSizes",
+      "description": "13.1px — small body, list items"
+    },
+    "bodyM": {
+      "value": "0.88",
+      "type": "fontSizes",
+      "description": "14.1px — standard body text"
+    },
+    "bodyL": {
+      "value": "1.1",
+      "type": "fontSizes",
+      "description": "17.6px — hero subheadline"
+    },
+    "button": {
+      "value": "0.85",
+      "type": "fontSizes",
+      "description": "13.6px — default button text"
+    },
+    "buttonSm": {
+      "value": "0.75",
+      "type": "fontSizes",
+      "description": "12px — small button text"
+    },
+    "buttonLg": {
+      "value": "0.95",
+      "type": "fontSizes",
+      "description": "15.2px — large button text"
+    },
+    "input": {
+      "value": "0.85",
+      "type": "fontSizes",
+      "description": "13.6px — input field text"
+    },
+    "label": {
+      "value": "0.75",
+      "type": "fontSizes",
+      "description": "12px — form labels"
+    },
+    "displayM": {
+      "value": "1.55",
+      "type": "fontSizes",
+      "description": "24.8px — card/feature title"
+    },
+    "displayL": {
+      "value": "2.8",
+      "type": "fontSizes",
+      "description": "44.8px — section heading"
+    },
+    "displayXL": {
+      "value": "4",
+      "type": "fontSizes",
+      "description": "64px — hero headline"
+    },
+    "mono": {
+      "value": "0.85",
+      "type": "fontSizes",
+      "description": "13.6px — code text"
+    },
+    "monoSm": {
+      "value": "0.72",
+      "type": "fontSizes",
+      "description": "11.5px — code block text"
+    }
+  },
+  "lineHeight": {
+    "tight": {
+      "value": "105%",
+      "type": "lineHeights",
+      "description": "Display XL headlines"
+    },
+    "display": {
+      "value": "115%",
+      "type": "lineHeights",
+      "description": "Display L headings"
+    },
+    "heading": {
+      "value": "120%",
+      "type": "lineHeights",
+      "description": "Display M, card titles"
+    },
+    "body": {
+      "value": "165%",
+      "type": "lineHeights",
+      "description": "Standard body text"
+    },
+    "relaxed": {
+      "value": "170%",
+      "type": "lineHeights",
+      "description": "Body L, descriptions"
+    },
+    "code": {
+      "value": "170%",
+      "type": "lineHeights",
+      "description": "Code blocks"
+    }
+  },
+  "letterSpacing": {
+    "tight": {
+      "value": "0.02em",
+      "type": "letterSpacing",
+      "description": "Buttons"
+    },
+    "normal": {
+      "value": "0.04em",
+      "type": "letterSpacing",
+      "description": "Badges, nav links"
+    },
+    "wide": {
+      "value": "0.08em",
+      "type": "letterSpacing",
+      "description": "Wordmark lockup"
+    },
+    "wider": {
+      "value": "0.1em",
+      "type": "letterSpacing",
+      "description": "Section numbers, card labels"
+    },
+    "widest": {
+      "value": "0.12em",
+      "type": "letterSpacing",
+      "description": "Caption/label overlines"
+    },
+    "ultra": {
+      "value": "0.14em",
+      "type": "letterSpacing",
+      "description": "Section numbers"
+    }
+  },
+  "typography": {
+    "displayXL": {
+      "value": {
+        "fontFamily": "{fontFamily.display}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.displayXL}",
+        "lineHeight": "{lineHeight.tight}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Hero headlines"
+    },
+    "displayL": {
+      "value": {
+        "fontFamily": "{fontFamily.display}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.displayL}",
+        "lineHeight": "{lineHeight.display}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Section headings"
+    },
+    "displayM": {
+      "value": {
+        "fontFamily": "{fontFamily.display}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.displayM}",
+        "lineHeight": "{lineHeight.heading}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Card/feature titles"
+    },
+    "bodyL": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.light}",
+        "fontSize": "{fontSize.bodyL}",
+        "lineHeight": "{lineHeight.relaxed}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Hero subheadline, section descriptions"
+    },
+    "bodyM": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.light}",
+        "fontSize": "{fontSize.bodyM}",
+        "lineHeight": "{lineHeight.body}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Standard body text"
+    },
+    "bodyS": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.bodyS}",
+        "lineHeight": "150%",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Small body, list items"
+    },
+    "captionLabel": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.medium}",
+        "fontSize": "{fontSize.caption}",
+        "lineHeight": "140%",
+        "letterSpacing": "{letterSpacing.widest}",
+        "textCase": "uppercase"
+      },
+      "type": "typography",
+      "description": "Caption/label overlines"
+    },
+    "wordmark": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.semibold}",
+        "fontSize": "1.4",
+        "lineHeight": "100%",
+        "letterSpacing": "{letterSpacing.wide}",
+        "textCase": "uppercase"
+      },
+      "type": "typography",
+      "description": "FOUNDRY wordmark lockup"
+    },
+    "button": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.medium}",
+        "fontSize": "{fontSize.button}",
+        "lineHeight": "140%",
+        "letterSpacing": "{letterSpacing.tight}"
+      },
+      "type": "typography",
+      "description": "Default button text"
+    },
+    "input": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.input}",
+        "lineHeight": "140%",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Input field text"
+    },
+    "label": {
+      "value": {
+        "fontFamily": "{fontFamily.body}",
+        "fontWeight": "{fontWeight.medium}",
+        "fontSize": "{fontSize.label}",
+        "lineHeight": "140%",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Form labels"
+    },
+    "code": {
+      "value": {
+        "fontFamily": "{fontFamily.mono}",
+        "fontWeight": "{fontWeight.regular}",
+        "fontSize": "{fontSize.monoSm}",
+        "lineHeight": "{lineHeight.code}",
+        "letterSpacing": "0"
+      },
+      "type": "typography",
+      "description": "Code blocks"
+    }
+  },
+  "spacing": {
+    "1": {
+      "value": "4",
+      "type": "spacing",
+      "description": "0.25rem — 4px"
+    },
+    "2": {
+      "value": "8",
+      "type": "spacing",
+      "description": "0.5rem — 8px"
+    },
+    "3": {
+      "value": "12",
+      "type": "spacing",
+      "description": "0.75rem — 12px"
+    },
+    "4": {
+      "value": "16",
+      "type": "spacing",
+      "description": "1rem — 16px"
+    },
+    "5": {
+      "value": "20",
+      "type": "spacing",
+      "description": "1.25rem — 20px"
+    },
+    "6": {
+      "value": "24",
+      "type": "spacing",
+      "description": "1.5rem — 24px"
+    },
+    "8": {
+      "value": "32",
+      "type": "spacing",
+      "description": "2rem — 32px"
+    },
+    "10": {
+      "value": "40",
+      "type": "spacing",
+      "description": "2.5rem — 40px"
+    },
+    "12": {
+      "value": "48",
+      "type": "spacing",
+      "description": "3rem — 48px"
+    },
+    "16": {
+      "value": "64",
+      "type": "spacing",
+      "description": "4rem — 64px"
+    },
+    "20": {
+      "value": "80",
+      "type": "spacing",
+      "description": "5rem — 80px"
+    },
+    "24": {
+      "value": "96",
+      "type": "spacing",
+      "description": "6rem — 96px"
+    }
+  },
+  "borderRadius": {
+    "sm": {
+      "value": "6",
+      "type": "borderRadius",
+      "description": "Buttons, inputs, small elements"
+    },
+    "md": {
+      "value": "10",
+      "type": "borderRadius",
+      "description": "Code blocks, icon containers"
+    },
+    "lg": {
+      "value": "14",
+      "type": "borderRadius",
+      "description": "Cards, swatches"
+    },
+    "xl": {
+      "value": "16",
+      "type": "borderRadius",
+      "description": "Component cards, modals"
+    },
+    "2xl": {
+      "value": "20",
+      "type": "borderRadius",
+      "description": "Large feature cards"
+    },
+    "full": {
+      "value": "9999",
+      "type": "borderRadius",
+      "description": "Badges, pills, avatars"
+    }
+  },
+  "borderWidth": {
+    "default": {
+      "value": "1",
+      "type": "borderWidth"
+    },
+    "thick": {
+      "value": "2",
+      "type": "borderWidth"
+    }
+  },
+  "opacity": {
+    "ghost": {
+      "value": "4%",
+      "type": "opacity",
+      "description": "Focus rings"
+    },
+    "subtle": {
+      "value": "6%",
+      "type": "opacity",
+      "description": "Badge/icon backgrounds"
+    },
+    "hover": {
+      "value": "10%",
+      "type": "opacity",
+      "description": "Button hover states"
+    },
+    "active": {
+      "value": "15%",
+      "type": "opacity",
+      "description": "Active/selected states"
+    },
+    "noise-dark": {
+      "value": "2%",
+      "type": "opacity",
+      "description": "Film grain overlay (dark theme)"
+    },
+    "noise-light": {
+      "value": "1.2%",
+      "type": "opacity",
+      "description": "Film grain overlay (light theme)"
+    }
+  },
+  "sizing": {
+    "icon-sm": {
+      "value": "16",
+      "type": "sizing"
+    },
+    "icon-default": {
+      "value": "20",
+      "type": "sizing",
+      "description": "Default icon size, 1.5px stroke"
+    },
+    "icon-lg": {
+      "value": "24",
+      "type": "sizing"
+    },
+    "badge-dot": {
+      "value": "6",
+      "type": "sizing",
+      "description": "Badge indicator dot"
+    },
+    "maxWidth-narrow": {
+      "value": "800",
+      "type": "sizing",
+      "description": "Blog, forms, focused reading"
+    },
+    "maxWidth-default": {
+      "value": "1200",
+      "type": "sizing",
+      "description": "Standard content sections"
+    },
+    "maxWidth-wide": {
+      "value": "1400",
+      "type": "sizing",
+      "description": "Dashboards, data-dense layouts"
+    },
+    "gutter": {
+      "value": "32",
+      "type": "sizing",
+      "description": "Page padding (2rem)"
+    }
+  }
+}

@@ -1,0 +1,75 @@
+{
+  "version": 1,
+  "skills": {
+    "biome-developer": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "ad342eaaa25a75c93bf52c2b55f9de3924ab6c4dd25726064db53ed29cce6cab"
+    },
+    "changeset": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "fc53d23f91cf5423dca1d54dd5cb234d35dbccebb80fbfe8baee6f181e265d74"
+    },
+    "convex-create-component": {
+      "source": "get-convex/agent-skills",
+      "sourceType": "github",
+      "computedHash": "c97d71b524ea9f784d344af20a766de5d48f14b7b824bf791fa517d1da753aca"
+    },
+    "convex-migration-helper": {
+      "source": "get-convex/agent-skills",
+      "sourceType": "github",
+      "computedHash": "bfb51e5b743ac31b313e5e1d206faee7d46bbbc9195360ce9636eead6f13fd3a"
+    },
+    "convex-performance-audit": {
+      "source": "get-convex/agent-skills",
+      "sourceType": "github",
+      "computedHash": "3e411d8250678ca8ec739a40c2874f21e4b5ab17c4dd65e72e3d9d9df6851c31"
+    },
+    "convex-quickstart": {
+      "source": "get-convex/agent-skills",
+      "sourceType": "github",
+      "computedHash": "7879afbb2b954be36ef29d294f3b6c2851cad54e9f5e5ac90461f0f97d4d1fff"
+    },
+    "convex-setup-auth": {
+      "source": "get-convex/agent-skills",
+      "sourceType": "github",
+      "computedHash": "92a5c170cf238f45f08439d9d5d7947af490b880ee8f15306183240483cbed02"
+    },
+    "diagnostics-development": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "ad5058eb27cd651db077694e112298a2393ab1dd63030f4c7e01f29ee7cb816f"
+    },
+    "eslint-migrate-options": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "54f85271ff4f1ed5f9ce2c9ff0f074a4578973a65d38a7a86dd3e34764be8dcf"
+    },
+    "formatter-development": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "34cda20e3d29bd7313797560e0207ff41eb2b52337b47d5a6db18f7104229ad4"
+    },
+    "lint-rule-development": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "f07804b477108ea2cff8360e0385664e0b1464d1b9814a9f5238fe6aa76faaaa"
+    },
+    "parser-development": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "109578ff5be08e84b3efac023b9c9fb8c6de9ddff06ac4b0931ad64a8fa9aa58"
+    },
+    "prettier-compare": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "84a100e3faa37e5a4dfaa72fb00ae101ea021ea66a6bc3567e180db44215b191"
+    },
+    "type-inference": {
+      "source": "biomejs/biome",
+      "sourceType": "github",
+      "computedHash": "9a5925380f9dcc2e75a5a4642d0baaa49e7e43d06414d2ad614d5033b6168f66"
+    }
+  }
+}

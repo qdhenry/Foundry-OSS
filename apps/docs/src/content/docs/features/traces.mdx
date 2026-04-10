@@ -1,0 +1,48 @@
+---
+title: "Traces"
+description: "AI execution tracing with timeline charts, filters, stats, and detailed drill-down."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Traces provides an observability layer for AI executions across a program. It displays a timeline chart of execution volume, aggregate statistics, a filterable list of all executions, and a detail drawer for inspecting individual traces.
+
+## Why it matters
+
+Understanding how AI agents perform over time is essential for tuning skills, controlling costs, and debugging failures. Traces gives you the data to answer "what ran, when, how long, which model, and what did it cost?"
+
+## Key concepts
+
+- **Trace filters**: `TraceFilterBar` with controls for date range (default 30 days), skill, trigger type, review status, model, and free-text search
+- **Stats row**: `TraceStatsRow` shows aggregate metrics — total executions, success rate, average duration, total cost
+- **Timeline chart**: `TraceTimelineChart` visualizes execution volume over time as a sparkline
+- **Trace list**: `TraceList` renders filterable, sortable rows of executions
+- **Detail drawer**: `TraceDetailDrawer` slides in with full trace details — input, output, timing, tokens, model, and cost
+- **Date range filtering**: Client-side filtering within the selected date window
+- **Model filter**: Filter by AI model (Opus, Sonnet 4.5 v2, Sonnet 4.5)
+
+## How to use it
+
+1. Navigate to **[Program] > Traces**.
+2. View the **Timeline Chart** for execution volume trends.
+3. Review the **Stats Row** for aggregate metrics.
+4. Use the **Filter Bar** to narrow by date range, skill, trigger, model, or search term.
+5. Click a row in the **Trace List** to open the **Detail Drawer** with full trace information.
+6. Adjust the date range to analyze different time periods.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`agentExecutions`](/reference/generated/schema/agentExecutions) — Execution records with skill, model, status, timing, tokens, and cost
+- [`traceAnalytics`](/reference/generated/schema/traceAnalytics) — Precomputed trace statistics and timeline data
+
+## Related
+
+<LinkCard title="Activity" href="/features/activity/" />
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Audit" href="/features/audit/" />

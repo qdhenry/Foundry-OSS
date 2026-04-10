@@ -1,0 +1,31 @@
+---
+title: "sandboxConfigs"
+description: "Schema reference for the sandboxConfigs table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+a. Sandbox Configs — org-level Claude + workspace configuration
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| claudeSettings | any | Yes |  |
+| hooks | object | Yes |  |
+| mcpServers | object[] | Yes |  |
+| dotfiles | object[] | Yes |  |
+| shellAliases | object[] | Yes |  |
+| devToolConfigs | object[] | Yes |  |
+| setupScripts | object[] | Yes |  |
+| updatedAt | number | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |

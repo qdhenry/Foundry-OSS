@@ -1,0 +1,9 @@
+{
+  "name": "migration-sandbox-tail",
+  "main": "src/tail-worker.ts",
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    "SANDBOX_LOG_LEVEL": "info"
+  }
+}

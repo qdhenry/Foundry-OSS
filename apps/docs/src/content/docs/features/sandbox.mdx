@@ -1,0 +1,72 @@
+---
+title: "Sandbox"
+description: "Ephemeral AI coding environments with real-time log streaming, terminal, editor, and chat."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Sandbox is Foundry's flagship execution surface. It provisions ephemeral AI coding environments — Docker containers orchestrated via Cloudflare Workers and Durable Objects — scoped to individual tasks. Each sandbox runs Claude Code with full repository access, real-time log streaming, an interactive terminal, file diff viewer, code editor, and multi-turn chat.
+
+## Why it matters
+
+Sandboxes turn AI plans into working code. Instead of copy-pasting AI output into a codebase, sandboxes give agents isolated environments where they can clone repos, install dependencies, write code, run tests, and auto-commit changes — all observable in real time through the HUD.
+
+## Key concepts
+
+- **HUD (Heads-Up Display)**: Bottom bar with six tabs — Logs, Terminal, File Changes, Editor, Audit, Chat — accessible via `SandboxHUD`
+- **HUD context**: State management via `SandboxHUDContext` (useReducer with OPEN_TAB, CLOSE_TAB, FOCUS_TAB, SET_SUB_TAB, TOGGLE_EXPANDED, OPEN_CONFIG actions)
+- **Toggle shortcut**: `Cmd+J` (Mac) / `Ctrl+J` (Windows) to expand/collapse the HUD
+- **Log stream**: `SandboxLogStream` shows real-time container output as the sandbox progresses through stages
+- **Terminal**: `SandboxTerminal` provides an interactive xterm.js terminal with WebSocket connection (HMAC token auth)
+- **File changes**: `SandboxFileChanges` displays git diffs produced by the AI agent
+- **Editor**: `SandboxEditor` for viewing and editing files within the sandbox
+- **Chat panel**: `ChatPanel` enables multi-turn conversation with the AI agent during execution
+- **Config panel**: `SandboxConfigPanel` configures sandbox parameters (AI provider, model, environment variables)
+- **Stage progress**: `StageProgress` tracks the 10-stage setup pipeline: containerProvision, systemSetup, authSetup, claudeConfig, gitClone, depsInstall, mcpInstall, workspaceCustomization, healthCheck, ready
+- **Status badge**: `SandboxStatusBadge` shows the current sandbox lifecycle state
+- **Runtime mode badge**: `RuntimeModeBadge` indicates whether the sandbox is running locally or in production
+- **Manager page**: `SandboxManagerPage` provides fleet management across all active sandboxes
+- **Settings page**: `SandboxSettingsPage` configures default sandbox behavior and environment vault
+- **Surface components**: `SandboxSurfaceComponents` provides reusable sandbox UI primitives
+
+## How to use it
+
+1. Open a task detail page and click **Launch Sandbox**.
+2. The sandbox provisions through 10 stages — watch progress in the HUD log tab.
+3. Once the sandbox reaches `ready`, the AI agent begins executing the assigned skill.
+4. Monitor real-time output in the **Logs** tab.
+5. Switch to the **Terminal** tab to interact directly with the container.
+6. View AI-generated code changes in the **File Changes** tab.
+7. Use the **Chat** tab to give the agent additional instructions mid-execution.
+8. Changes auto-commit and push via PostToolUse hooks (5-second debounce).
+9. Close the sandbox when work is complete — the container is cleaned up automatically.
+
+<Aside type="tip">
+The HUD is collapsed by default at 36px. Click or use the keyboard shortcut to expand it to 400px. You can resize by dragging the top edge, and your preference is stored in localStorage.
+</Aside>
+
+## Data model
+
+This feature uses the following tables:
+
+- [`sandboxSessions`](/reference/generated/schema/sandboxSessions) — Session lifecycle, linked task, container state
+- [`sandboxConfigs`](/reference/generated/schema/sandboxConfigs) — Per-program sandbox configuration
+- [`sandboxEnvVault`](/reference/generated/schema/sandboxEnvVault) — Encrypted environment variables for sandbox injection
+- [`sandboxAiProviderConfigs`](/reference/generated/schema/sandboxAiProviderConfigs) — AI provider and model settings
+- [`sandboxPresets`](/reference/generated/schema/sandboxPresets) — Reusable sandbox configuration presets
+- [`sandboxQueue`](/reference/generated/schema/sandboxQueue) — Queue-based fallback when the sandbox worker is unavailable
+- [`sandboxLogs`](/reference/generated/schema/sandboxLogs) — Persisted log entries from sandbox execution
+- [`sandboxChat`](/reference/generated/schema/sandboxChat) — Multi-turn chat messages within a session
+- [`sandboxSubtasks`](/reference/generated/schema/sandboxSubtasks) — Subtask tracking within a sandbox session
+- [`sandboxAudit`](/reference/generated/schema/sandboxAudit) — Audit records for sandbox actions
+- [`sandboxNotifications`](/reference/generated/schema/sandboxNotifications) — Notifications from sandbox events
+
+## Related
+
+<LinkCard title="Tasks" href="/features/tasks/" />
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Settings" href="/features/settings/" />

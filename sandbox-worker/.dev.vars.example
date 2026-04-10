@@ -1,0 +1,14 @@
+# =============================================================================
+# Sandbox Worker .dev.vars.example — Wrangler local dev secrets
+# =============================================================================
+# Copy to .dev.vars and fill in values:
+#   cp .dev.vars.example .dev.vars
+#
+# .dev.vars is the Wrangler convention for local development secrets.
+# For production, set secrets via: npx wrangler secret put <NAME>
+# =============================================================================
+
+# Bearer token for API authentication
+# Generate with: openssl rand -hex 32
+# IMPORTANT: Must match SANDBOX_API_SECRET in root .env.local (used by Convex)
+SANDBOX_API_SECRET=your_sandbox_api_secret

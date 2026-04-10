@@ -1,0 +1,38 @@
+---
+title: Foundry
+description: Open-source Agentic Delivery Platform — turn plans and conversations into shipping software.
+template: splash
+lastReviewed: "2026-04-09"
+versionTag: latest
+hero:
+  tagline: The open-source Agentic Delivery Platform for agencies and software delivery teams.
+head:
+  - tag: meta
+    attrs:
+      name: robots
+      content: index,follow
+---
+
+import Hero from "../../components/Hero.astro";
+import FeatureGrid from "../../components/FeatureGrid.astro";
+
+<Hero />
+
+<FeatureGrid />
+
+## Why Foundry
+
+Foundry is built for teams that plan in meetings and conversations, then ship software from those plans. It structures delivery knowledge — requirements, skills, workstreams, risks — so AI agents can reason about full project context, not isolated tickets.
+
+- **Delivery knowledge is the moat.** Programs, workstreams, requirements, and skills form a graph the AI agents navigate, so they generate code that respects the whole system.
+- **Engagement-type agnostic.** Platform migrations, greenfield builds, system integrations, ongoing product dev — the data model applies to all of them.
+- **Sandbox execution.** Ephemeral Claude Code environments on Cloudflare containers, with real-time logs, interactive chat, and autocommit straight to a PR.
+- **Built to be self-hosted.** Bring your own Clerk, Convex, Cloudflare, and Anthropic keys. Apache-2.0. No phone-home.
+
+## Who these docs are for
+
+**Primary audience:** self-hosters and operators standing up Foundry on their own accounts. Everything is written with the assumption that you will run this system in production.
+
+**Secondary audiences:** contributors shaping the codebase and integrators wiring Foundry into existing delivery workflows. Inline `<Aside>` callouts flag anything specific to those paths — there are no separate sections for them in v1.
+
+## New here? Start at [Getting Started](/getting-started/).

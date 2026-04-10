@@ -1,0 +1,39 @@
+---
+title: "requirements.create"
+description: "mutation — Create a new requirement with an auto-generated refId (REQ-001, REQ-002, etc.)."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/requirements.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/requirements.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    title: string,
+    description: string /* optional */,
+    batch: string /* optional */,
+    priority: priorityValidator,
+    fitGap: fitGapValidator,
+    effortEstimate: effortValidator /* optional */,
+    deliveryPhase: deliveryPhaseValidator /* optional */,
+    status: statusValidator /* optional */,
+    workstreamId: Id<"workstreams"> /* optional */,
+  }
+```
+
+Create a new requirement with an auto-generated refId (REQ-001, REQ-002, etc.).
+@param orgId - Organization ID
+@param programId - Parent program
+@param title - Requirement title
+@param priority - MoSCoW priority level
+@param fitGap - Fit/gap classification

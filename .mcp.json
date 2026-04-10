@@ -1,0 +1,27 @@
+{
+  "mcpServers": {
+    "tauri-mcp": {
+        "command": "npx",
+        "args": ["tauri-plugin-mcp-server"]
+      },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp@latest"]
+    },
+    "github": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-github"],
+      "env": {
+        "GITHUB_PERSONAL_ACCESS_TOKEN": "${GITHUB_PERSONAL_ACCESS_TOKEN}"
+      }
+    },
+    "cloudflare": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://bindings.mcp.cloudflare.com/mcp"]
+    },
+    "cloudflare_docs": {
+      "command": "npx",
+      "args": ["mcp-remote", "https://docs.mcp.cloudflare.com/mcp"]
+    }
+  }
+}

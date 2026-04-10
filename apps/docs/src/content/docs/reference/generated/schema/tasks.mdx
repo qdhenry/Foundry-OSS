@@ -1,0 +1,56 @@
+---
+title: "tasks"
+description: "Schema reference for the tasks table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Tasks — actionable work items linked to requirements/sprints
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| workstreamId | `Id<"workstreams">` | No | Parent workstream reference |
+| sprintId | `Id<"sprints">` | No |  |
+| requirementId | `Id<"requirements">` | No |  |
+| title | string | Yes |  |
+| description | string | No |  |
+| acceptanceCriteria | string[] | No |  |
+| storyPoints | number | No |  |
+| assigneeId | `Id<"users">` | No |  |
+| priority | "critical" \| "high" \| "medium" \| "low" | Yes |  |
+| status | "backlog" \| "todo" \| "in_progress" \| "review" \| "done" | Yes |  |
+| blockedBy | `Id<"tasks">[]` | No |  |
+| dueDate | number | No |  |
+| hasSubtasks | boolean | No |  |
+| subtaskCount | number | No |  |
+| subtasksCompleted | number | No |  |
+| subtasksFailed | number | No |  |
+| lastSubtaskActivity | string | No |  |
+| subtaskGenerationStatus | union | No |  |
+| subtaskGenerationError | string | No |  |
+| subtaskGenerationProgress | string | No |  |
+| worktreeBranch | string | No |  |
+| verificationEnabled | boolean | No |  |
+| hasDesignSnapshot | boolean | No |  |
+| repositoryIds | `Id<"sourceControlRepositories">[]` | No |  |
+| implementationStatus | union | No |  |
+| implementationConfidence | number | No |  |
+| lastAnalyzedAt | number | No |  |
+| lastAnalysisRunId | `Id<"codebaseAnalysisRuns">` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_workstream | workstreamId |
+| by_sprint | sprintId |
+| by_org | orgId |
+| by_assignee | assigneeId |

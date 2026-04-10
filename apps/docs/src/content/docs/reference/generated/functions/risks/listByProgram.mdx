@@ -1,0 +1,29 @@
+---
+title: "risks.listByProgram"
+description: "query — List risks for a program with optional severity and status filters."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/risks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/risks.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    severity: severityValidator /* optional */,
+    status: statusValidator /* optional */,
+  }
+```
+
+List risks for a program with optional severity and status filters.
+Returns enriched records with resolved workstream names and owner names,
+sorted by severity (descending) then title.
+@param programId - The program to query

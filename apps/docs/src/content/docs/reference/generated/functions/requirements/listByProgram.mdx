@@ -1,0 +1,30 @@
+---
+title: "requirements.listByProgram"
+description: "query — List requirements for a program with optional filters for batch, priority,"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/requirements.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/requirements.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    batch: string /* optional */,
+    priority: priorityValidator /* optional */,
+    status: statusValidator /* optional */,
+    workstreamId: Id<"workstreams"> /* optional */,
+  }
+```
+
+List requirements for a program with optional filters for batch, priority,
+status, and workstream. Sorted by refId.
+@param programId - The program to query

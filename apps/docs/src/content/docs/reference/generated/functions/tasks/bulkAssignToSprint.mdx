@@ -1,0 +1,27 @@
+---
+title: "tasks.bulkAssignToSprint"
+description: "mutation — Assign multiple tasks to a sprint in a single operation."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/tasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/tasks.ts`
+
+## Arguments
+
+```typescript
+{
+    taskIds: Id<"tasks">[],
+    sprintId: Id<"sprints">,
+  }
+```
+
+Assign multiple tasks to a sprint in a single operation.
+@param taskIds - Array of task IDs to assign
+@param sprintId - Target sprint

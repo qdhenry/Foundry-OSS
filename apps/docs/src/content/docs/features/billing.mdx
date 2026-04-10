@@ -1,0 +1,53 @@
+---
+title: "Billing"
+description: "Three-tier subscription plans, usage tracking, trial management, and overage alerts."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Billing manages subscription plans, usage metering, and trial state for each organization. Foundry offers three tiers — Crucible, Forge, and Foundry — with limits on seats, programs, and sandbox sessions per month.
+
+## Why it matters
+
+Billing controls access to platform capacity. Usage tracking ensures teams stay within their plan limits, while trial management lets new organizations evaluate the platform before committing.
+
+## Key concepts
+
+- **Plan tiers**: `crucible`, `forge`, `foundry` — each with different limits and pricing
+  - **Plan fields**: `displayName`, `tagline`, `monthlyPriceUsd`, `overageRateUsd`, limits (`maxSeats`, `maxPrograms`, `maxSessionsPerMonth`), and `features` list
+- **Subscription states**: `trialing`, `active`, `past_due`, `canceled`, `unpaid`, `incomplete`, `paused`
+- **Trial tracking**: Sessions used vs. limit, programs used vs. limit, trial start/end, conversion status
+- **Usage period**: `sandboxSessionCount`, `overageSessionCount`, `totalAiCostUsd` per billing period
+- **Subscription card**: `SubscriptionCard` shows the current plan, status, period dates, and cancel-at-period-end flag
+- **Usage dashboard**: `UsageDashboard` visualizes session usage, AI costs, and overage counts
+- **Upgrade flow**: `UpgradeFlow` guides plan upgrades through Stripe
+- **Trial banner**: `TrialBanner` shows remaining trial sessions and conversion CTA
+- **Plan limit banner**: `PlanLimitBanner` warns when approaching or exceeding plan limits
+- **Overage warning modal**: `OverageWarningModal` alerts when overage charges are accruing
+- **Performance analytics**: `PerformanceAnalytics` with `LatencyPercentileCard` and `ModelComparisonTable` for AI usage insights
+- **Billing settings tab**: `BillingSettingsTab` integrates into the Settings page
+
+## How to use it
+
+1. Navigate to **[Program] > Settings > Billing** tab.
+2. View the **Subscription Card** for current plan and status.
+3. Review the **Usage Dashboard** for session counts and AI costs.
+4. If approaching limits, the **Plan Limit Banner** or **Overage Warning Modal** will appear.
+5. Click **Upgrade** to move to a higher tier via the upgrade flow.
+6. During trial, the **Trial Banner** shows remaining capacity.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`subscriptions`](/reference/generated/schema/subscriptions) — Organization subscription records with plan, status, Stripe IDs
+- [`trials`](/reference/generated/schema/trials) — Trial state per organization with usage counters
+- [`usagePeriods`](/reference/generated/schema/usagePeriods) — Per-period usage aggregation
+
+## Related
+
+<LinkCard title="Settings" href="/features/settings/" />

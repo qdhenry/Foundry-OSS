@@ -1,0 +1,32 @@
+---
+title: "playbookInstances"
+description: "Schema reference for the playbookInstances table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Playbook Instances — instantiated playbooks with generated tasks
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| playbookId | `Id<"playbooks">` | Yes |  |
+| name | string | Yes |  |
+| status | "active" \| "completed" \| "cancelled" | Yes |  |
+| generatedTaskIds | `Id<"tasks">[]` | No |  |
+| startedAt | number | Yes |  |
+| completedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_playbook | playbookId |
+| by_org | orgId |

@@ -1,0 +1,52 @@
+---
+title: "Sprints"
+description: "Plan sprints with capacity, branch strategy, and orchestration panels."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Sprints organize tasks into time-boxed iterations within a workstream. Each sprint has a status lifecycle, start/end dates, a goal statement, and panels for capacity planning, branch strategy configuration, and agent orchestration.
+
+## Why it matters
+
+Sprints give delivery teams cadence. By batching tasks into iterations, teams can set achievable goals, measure velocity, and coordinate gate evaluations at sprint boundaries.
+
+## Key concepts
+
+- **Status**: `planning`, `active`, `completed`, `cancelled` — lifecycle states for each sprint
+- **Sprint number**: Sequential identifier within a workstream
+- **Sprint goal**: A short statement describing what the sprint should achieve
+- **Workstream scope**: Each sprint belongs to a workstream via `workstreamId`
+- **Sprint card**: `SprintCard` shows sprint name, number, status badge, date range, goal, and workstream name
+- **Sprint filters**: `SprintFilters` narrow the list by status, workstream, or date range
+- **Capacity planner**: `SprintCapacityPlanner` helps estimate how much work fits in a sprint
+- **Branch strategy panel**: `BranchStrategyPanel` configures Git branching conventions per sprint
+- **Orchestration panel**: `SprintOrchestrationPanel` lets you kick off an agent orchestration run scoped to a sprint
+
+## How to use it
+
+1. Navigate to **[Program] > Sprints**.
+2. View sprint cards grouped by status.
+3. Click a card to open the sprint detail page.
+4. On the detail page, review assigned tasks, use the capacity planner, and configure branching strategy.
+5. Start an orchestration run from the orchestration panel to dispatch AI agents for sprint work.
+6. Transition the sprint through `planning` > `active` > `completed` as work progresses.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`sprints`](/reference/generated/schema/sprints) — Sprint record with name, number, status, dates, goal, workstreamId
+- [`sprintGates`](/reference/generated/schema/sprintGates) — Gate evaluations at sprint boundaries
+- [`sprintPlanningRecommendations`](/reference/generated/schema/sprintPlanningRecommendations) — AI-generated sprint planning advice
+- [`tasks`](/reference/generated/schema/tasks) — Tasks assigned to sprints via `sprintId`
+
+## Related
+
+<LinkCard title="Gates" href="/features/gates/" />
+<LinkCard title="Tasks" href="/features/tasks/" />
+<LinkCard title="Orchestration" href="/features/orchestration/" />
