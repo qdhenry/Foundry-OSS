@@ -8,16 +8,14 @@
 Foundry converts raw project documents, specifications, and recordings into working software through an automated pipeline of AI-driven requirement extraction, task decomposition, autonomous agent execution, and human review.
 
 
-
-https://github.com/user-attachments/assets/b39ec089-792b-48d6-af30-ac63829e0f3a
-
-
-
 ---
 
 ## Overview
 
 Foundry is an open-source platform that explores what software delivery looks like when AI agents handle the majority of the execution work, with humans focused on review, judgment, and oversight. It is designed for teams that want to compress the timeline from requirements to shipped code without sacrificing quality or control.
+
+https://github.com/user-attachments/assets/b39ec089-792b-48d6-af30-ac63829e0f3a
+
 
 ## Core Capabilities
 
