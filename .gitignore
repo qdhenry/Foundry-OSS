@@ -76,7 +76,7 @@ storybook-static
 apps/desktop/dist
 
 # WebReel outputs
-videos/
+/videos/
 .env.production
 .env.development
 agent-worker/node_modules
