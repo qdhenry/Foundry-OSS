@@ -202,15 +202,7 @@ export const generatePlan = action({
 
     const scopeLabel = run.scopeType === "custom" ? "custom selection" : `${run.scopeType} scope`;
 
-    await emitPlanningEvent(
-      "planning_progress",
-      `Loaded ${tasks.length} tasks from ${scopeLabel}`,
-      {
-        scopeType: run.scopeType,
-        stage: "tasks_loaded",
-        taskCount: tasks.length,
-      },
-    );
+    console.log(`[planner] Loaded ${tasks.length} tasks from ${scopeLabel}`);
 
     if (tasks.length === 0) {
       throw new Error("No tasks found for the given scope");

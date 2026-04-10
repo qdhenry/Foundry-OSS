@@ -130,21 +130,21 @@ export function TraceRow({ execution, isExpanded, onToggle }: TraceRowProps) {
           {/* Section 4: Subtask Progress */}
           {(detail?.subtasks?.length ?? 0) > 0 && (
             <div className="mt-4 border-t border-border-subtle pt-4">
-              <SubtaskSection subtasks={detail?.subtasks} />
+              <SubtaskSection subtasks={detail?.subtasks ?? []} />
             </div>
           )}
 
           {/* Section 5: Execution Logs */}
           {(detail?.sandboxLogs?.length ?? 0) > 0 && (
             <div className="mt-4 border-t border-border-subtle pt-4">
-              <LogsSection logs={detail?.sandboxLogs} />
+              <LogsSection logs={detail?.sandboxLogs ?? []} />
             </div>
           )}
 
           {/* Section 6: Review History */}
           {(detail?.auditRecords?.length ?? 0) > 0 && (
             <div className="mt-4 border-t border-border-subtle pt-4">
-              <ReviewSection auditRecords={detail?.auditRecords} />
+              <ReviewSection auditRecords={detail?.auditRecords ?? []} />
             </div>
           )}
         </div>
