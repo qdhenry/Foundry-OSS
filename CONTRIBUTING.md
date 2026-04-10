@@ -69,6 +69,33 @@ bun run check:fix      # Auto-fix everything Biome can fix
 bun run typecheck      # TypeScript type checking across all workspaces
 ```
 
+## Commit messages
+
+We use [Conventional Commits](https://www.conventionalcommits.org/). Every commit message must follow this format:
+
+```
+type(optional-scope): description
+```
+
+Allowed types: `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`.
+
+Examples:
+
+```
+feat: add risk matrix visualization
+fix(sandbox): prevent session timeout during long builds
+docs: update API environment variable table
+refactor(ui): extract DataTable into shared component
+```
+
+This is enforced locally by a `commit-msg` hook (via [commitlint](https://commitlint.js.org/) + Lefthook) and in CI on pull requests. If your commit is rejected, check the error message — it will tell you exactly what's wrong.
+
+**Breaking changes** use a `!` after the type or a `BREAKING CHANGE:` footer:
+
+```
+feat!: replace sandbox API with v2 endpoints
+```
+
 ## Convex patterns
 
 If you're working on backend code, read `convex/_generated/ai/guidelines.md` first. Key rules:
@@ -90,14 +117,10 @@ If you're working on backend code, read `convex/_generated/ai/guidelines.md` fir
 4. **Write a clear description.** What does this change? Why? How did you test it? Screenshots for UI changes.
 
 5. **Make sure CI passes.** The PR checks run:
+   - Conventional commit message validation
    - Biome lint + format
    - TypeScript type checking (all workspaces)
-   - Convex schema validation
-
-   A ready-to-use GitHub Actions workflow lives at `.github/ci.yml.template`.
-   First-time maintainers should copy it to `.github/workflows/ci.yml` (the
-   workflow file is shipped as a template because the repository's GitHub App
-   integration doesn't have permission to add workflow files directly).
+   - Tests
 
 6. **Respond to review feedback.** We aim to review PRs within 48 hours on weekdays. If a reviewer requests changes, please respond within a reasonable timeframe or let us know if you need help.
 
