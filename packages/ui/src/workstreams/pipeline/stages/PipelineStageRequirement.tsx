@@ -2,6 +2,7 @@
 
 import { useMutation, useQuery } from "convex/react";
 import { useMemo, useState } from "react";
+import type { PipelineStage } from "../pipelineStage";
 import { type NextStep, StageNextSteps } from "./StageNextSteps";
 
 const PRIORITY_OPTIONS = [
@@ -49,7 +50,7 @@ interface PipelineStageRequirementProps {
   programId: string;
   workstreamId: string;
   tasks: Array<{ _id: string; title: string; status: string; sprintName?: string }>;
-  onNavigateToStage?: (stage: string) => void;
+  onNavigateToStage?: (stage: PipelineStage) => void;
 }
 
 export function PipelineStageRequirement({

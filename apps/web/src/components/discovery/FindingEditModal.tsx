@@ -172,7 +172,8 @@ export function FindingEditModal({ finding, isOpen, onClose, onSave }: FindingEd
   }
 
   function handleSave() {
-    onSave(finding?._id, formData);
+    if (!finding) return;
+    onSave(finding._id, formData);
     onClose();
   }
 

@@ -28,7 +28,7 @@ export function useStaggerEntrance(
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(containerRef.current?.querySelectorAll(selector), {
+        gsap.from(containerRef.current!.querySelectorAll(selector), {
           opacity: 0,
           y,
           duration,
@@ -204,12 +204,13 @@ export function useTabIndicator(
 
       const mm = gsap.matchMedia();
       mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const state = Flip.getState(indicatorRef.current!);
+        if (!indicatorRef.current || !containerRef.current) return;
+        const state = Flip.getState(indicatorRef.current);
         // Move indicator to match active tab
-        const containerRect = containerRef.current?.getBoundingClientRect();
+        const containerRect = containerRef.current.getBoundingClientRect();
         const activeRect = activeEl.getBoundingClientRect();
 
-        gsap.set(indicatorRef.current!, {
+        gsap.set(indicatorRef.current, {
           left: activeRect.left - containerRect.left,
           width: activeRect.width,
         });

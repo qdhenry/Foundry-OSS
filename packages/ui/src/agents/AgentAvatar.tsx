@@ -9,7 +9,21 @@ function hashString(input: string) {
   return Math.abs(hash);
 }
 
-export function AgentAvatar({ seed, name }: { seed: string; name: string }) {
+const SIZE_CLASSES = {
+  sm: "h-6 w-6 text-[10px]",
+  md: "h-8 w-8 text-xs",
+  lg: "h-10 w-10 text-sm",
+} as const;
+
+export function AgentAvatar({
+  seed,
+  name,
+  size = "md",
+}: {
+  seed: string;
+  name: string;
+  size?: "sm" | "md" | "lg";
+}) {
   const hue = hashString(seed) % 360;
   const initials = name
     .split(" ")
@@ -20,7 +34,7 @@ export function AgentAvatar({ seed, name }: { seed: string; name: string }) {
 
   return (
     <div
-      className="flex h-8 w-8 items-center justify-center rounded-full text-xs font-semibold text-white"
+      className={`flex items-center justify-center rounded-full font-semibold text-white ${SIZE_CLASSES[size]}`}
       style={{ backgroundColor: `hsl(${hue} 70% 45%)` }}
       title={name}
       aria-label={name}
