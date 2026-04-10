@@ -1,0 +1,75 @@
+---
+title: Troubleshooting & FAQ
+description: Common errors, debug recipes, and resolution paths for self-hosters and contributors.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 0
+---
+
+import { LinkCard, CardGrid } from '@astrojs/starlight/components';
+
+When something breaks, start here. This section covers the most common issues encountered during development, deployment, and operation of Foundry.
+
+<CardGrid>
+  <LinkCard
+    title="Common Issues"
+    description="Top 10 issues and their solutions — auth failures, missing env vars, sandbox problems, slow queries, and more."
+    href="/troubleshooting/common-issues"
+  />
+</CardGrid>
+
+## Quick diagnostics
+
+Before diving into specific issues, run these checks:
+
+### Is the backend healthy?
+
+```bash
+# Check Convex dev is running
+bunx convex dev  # should show "Ready" with no errors
+
+# Check function logs for recent errors
+# Open Convex Dashboard → Logs tab
+```
+
+### Are the workers reachable?
+
+```bash
+# Agent worker health check
+curl http://localhost:3001/health           # local
+curl https://foundry-agent-worker.<account>.workers.dev/health  # production
+
+# Sandbox worker (production only)
+curl https://migration-sandbox-worker.<account>.workers.dev/health
+```
+
+### Are environment variables set?
+
+```bash
+# Check Convex env vars
+bunx convex env list
+
+# Check Cloudflare secrets
+cd agent-worker && wrangler secret list
+cd sandbox-worker && wrangler secret list
+```
+
+### Is auth working?
+
+Open the browser console and check for:
+- `"Not authenticated"` errors — Clerk env vars missing or JWT expired
+- `"Access denied"` errors — wrong organization selected or `assertOrgAccess` failure
+- WebSocket disconnection warnings — Convex URL incorrect or backend not running
+
+## Where to find logs
+
+| Service | Log Location |
+|---------|-------------|
+| Next.js frontend | Browser console + Vercel function logs |
+| Convex backend | Convex Dashboard -> Logs tab |
+| Agent worker (local) | Terminal running `bun run dev:agent` |
+| Agent worker (prod) | `cd agent-worker && wrangler tail` |
+| Sandbox worker | `cd sandbox-worker && wrangler tail` |
+| Clerk | Clerk Dashboard -> Logs |
+| GitHub webhooks | GitHub App -> Advanced -> Recent deliveries |

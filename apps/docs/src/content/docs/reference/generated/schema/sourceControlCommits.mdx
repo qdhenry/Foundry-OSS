@@ -1,0 +1,35 @@
+---
+title: "sourceControlCommits"
+description: "Schema reference for the sourceControlCommits table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Source Control Commits — Commits linked to tasks/PRs
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| repositoryId | `Id<"sourceControlRepositories">` | Yes |  |
+| sha | string | Yes |  |
+| prId | `Id<"sourceControlPullRequests">` | No |  |
+| taskId | `Id<"tasks">` | No |  |
+| authorLogin | string | Yes |  |
+| message | string | Yes |  |
+| filesChanged | number | Yes |  |
+| additions | number | Yes |  |
+| deletions | number | Yes |  |
+| committedAt | number | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_pr | prId |
+| by_repo_date | repositoryId, committedAt |
+| by_sha | sha |

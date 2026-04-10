@@ -1,0 +1,33 @@
+---
+title: "programs.updatePhase"
+description: "mutation — Advance a program to a new lifecycle phase (discovery, build, test, deploy, complete)."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/programs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/programs.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    phase: v.union(
+      "discovery",
+      "build",
+      "test",
+      "deploy",
+      "complete",
+    ),
+  }
+```
+
+Advance a program to a new lifecycle phase (discovery, build, test, deploy, complete).
+@param programId - The program to update
+@param phase - Target phase

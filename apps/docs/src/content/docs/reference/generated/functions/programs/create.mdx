@@ -1,0 +1,75 @@
+---
+title: "programs.create"
+description: "mutation — Create a new program within an organization, including initial workstreams."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/programs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/programs.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    name: string,
+    clientName: string,
+    sourcePlatform: 
+      v.union(
+        "magento" /* optional */,
+        v.literal("salesforce_b2b",
+        "bigcommerce_b2b",
+        "sitecore",
+        "wordpress",
+        "none",
+      ),
+    ),
+    targetPlatform: 
+      v.union(
+        "magento" /* optional */,
+        v.literal("salesforce_b2b",
+        "bigcommerce_b2b",
+        "sitecore",
+        "wordpress",
+        "none",
+      ),
+    ),
+    engagementType: v.union(
+      "greenfield",
+      "migration",
+      "integration",
+      "ongoing_product_dev",
+    ),
+    techStack: 
+      
+        v.object({
+          category: string,
+          technologies: v.array(string /* optional */,
+        }[],
+      ),
+    ),
+    workstreams: 
+      v.object({
+        name: string,
+        shortCode: string,
+        sortOrder: number,
+        description: string /* optional */,
+      }[],
+    ),
+    description: string /* optional */,
+  }
+```
+
+Create a new program within an organization, including initial workstreams.
+Enforces plan/trial limits before insertion.
+@param orgId - Organization ID
+@param name - Program display name
+@param clientName - Client or project name
+@param engagementType - Type of delivery engagement
+@param workstreams - Initial workstream definitions

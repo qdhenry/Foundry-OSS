@@ -1,0 +1,58 @@
+---
+title: "videoAnalyses"
+description: "Schema reference for the videoAnalyses table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Video Analyses — pipeline tracking for uploaded call recordings
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| documentId | `Id<"documents">` | Yes |  |
+| status | videoAnalysisStatusValidator | Yes |  |
+| failedStage | string | No |  |
+| failedError | string | No |  |
+| retryCount | number | No |  |
+| videoUrl | string | Yes |  |
+| videoSizeBytes | number | Yes |  |
+| videoDurationMs | number | No |  |
+| mimeType | string | Yes |  |
+| audioFileUrl | string | No |  |
+| transcriptId | `Id<"videoTranscripts">` | No |  |
+| frameExtractionId | `Id<"videoFrameExtractions">` | No |  |
+| tlIndexId | string | No |  |
+| tlVideoId | string | No |  |
+| tlTaskId | string | No |  |
+| tlSummary | string | No |  |
+| tlChapters | any[] | No |  |
+| tlTopics | string[] | No |  |
+| tlGist | any | No |  |
+| speakerMappingComplete | boolean | Yes |  |
+| retentionPolicy | videoRetentionPolicyValidator | Yes |  |
+| retentionExpiresAt | number | No |  |
+| retentionStatus | "active" \| "expired" | No |  |
+| retentionCleanupAt | number | No |  |
+| retentionMetadata | object | No |  |
+| analysisVersion | number | Yes |  |
+| stageTimestamps | object | No |  |
+| totalTokensUsed | number | No |  |
+| durationMs | number | No |  |
+| segmentOutputs | any[] | No |  |
+| synthesisOutput | any | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_document | documentId |
+| by_program | programId |
+| by_status | programId, status |
+| by_retention | retentionExpiresAt |

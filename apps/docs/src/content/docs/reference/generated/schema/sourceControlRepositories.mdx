@@ -1,0 +1,37 @@
+---
+title: "sourceControlRepositories"
+description: "Schema reference for the sourceControlRepositories table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Source Control Repositories — Repositories linked to programs
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| installationId | string | Yes |  |
+| providerType | v.literal("github") | Yes |  |
+| repoFullName | string | Yes |  |
+| providerRepoId | string | Yes |  |
+| defaultBranch | string | Yes |  |
+| language | string | No |  |
+| role | "storefront" \| "integration" \| "data_migration" \| "infrastructure" \| "extension" \| "documentation" | Yes |  |
+| isMonorepo | boolean | Yes |  |
+| pathFilters | string[] | No |  |
+| localPath | string | No |  |
+| deployWorkflowNames | string[] | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_repo | repoFullName |
+| by_org | orgId |

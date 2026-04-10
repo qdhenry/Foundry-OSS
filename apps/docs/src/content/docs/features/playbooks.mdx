@@ -1,0 +1,47 @@
+---
+title: "Playbooks"
+description: "Reusable delivery playbooks with step editors, instance tracking, and status filtering."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Playbooks are reusable delivery processes that codify how work should be performed. Each playbook contains ordered steps, and instances track the execution of a playbook against a specific scope. Playbooks support draft, published, and archived lifecycle states.
+
+## Why it matters
+
+Repeatable processes reduce errors and onboarding time. Playbooks capture institutional knowledge about how to run a migration, execute a sprint, or perform a quality review — so every engagement follows proven patterns.
+
+## Key concepts
+
+- **Playbook card**: `PlaybookCard` shows name, description, step count, and status badge
+- **Playbook detail page**: Full view with all steps, instances, and metadata
+- **Step editor**: `StepEditor` provides a rich editor for defining ordered playbook steps
+- **Instance card**: `InstanceCard` tracks playbook execution instances with progress
+- **Status filter**: Filter playbooks by `draft`, `published`, `archived`
+- **New playbook page**: `NewPlaybookPage` guides creation of a new playbook with steps
+
+## How to use it
+
+1. Navigate to **[Program] > Playbooks**.
+2. View the playbook list filtered by status (All, Draft, Published, Archived).
+3. Click **Create Playbook** to define a new playbook.
+4. Add steps using the step editor — define the action, expected output, and dependencies.
+5. Publish the playbook when it is ready for use.
+6. Create instances to track execution of the playbook against specific work.
+7. Monitor instance progress through the instance cards.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`playbooks`](/reference/generated/schema/playbooks) — Playbook definitions with name, description, steps, and status
+- [`playbookInstances`](/reference/generated/schema/playbookInstances) — Execution instances tracking progress through playbook steps
+
+## Related
+
+<LinkCard title="Tasks" href="/features/tasks/" />
+<LinkCard title="Sprints" href="/features/sprints/" />

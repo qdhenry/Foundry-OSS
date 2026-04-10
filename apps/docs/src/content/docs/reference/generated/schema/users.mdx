@@ -1,0 +1,29 @@
+---
+title: "users"
+description: "Schema reference for the users table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Users — synced from Clerk via webhooks
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| clerkId | string | Yes |  |
+| email | string | Yes |  |
+| name | string | Yes |  |
+| avatarUrl | string | No |  |
+| orgIds | string[] | Yes |  |
+| role | union | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_clerk_id | clerkId |
+| by_email | email |

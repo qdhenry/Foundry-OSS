@@ -1,0 +1,41 @@
+{
+  "name": "foundry-verification-worker",
+  "account_id": "b14f8eb1f6984d1d17ae8ca435fc774e",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "browser": {
+    "binding": "BROWSER"
+  },
+  "containers": [
+    {
+      "class_name": "VerificationContainer",
+      "image": "./Dockerfile",
+      "instance_type": "standard-4",
+      "max_instances": 5
+    }
+  ],
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "VerificationContainer",
+        "class_name": "VerificationContainer"
+      }
+    ]
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["VerificationContainer"]
+    }
+  ],
+  "vars": {
+    "VERIFICATION_LOG_LEVEL": "info"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": { "enabled": true, "persist": true },
+    "traces": { "enabled": true, "persist": true }
+  }
+}

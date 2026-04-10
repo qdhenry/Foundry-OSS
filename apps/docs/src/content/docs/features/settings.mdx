@@ -1,0 +1,58 @@
+---
+title: "Settings"
+description: "Program configuration, sandbox settings, Atlassian connections, agent config, and billing."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Settings is the central configuration surface for a program. It provides tabbed access to program details, sandbox configuration, agent settings, Google Drive connections, Atlassian integration, and billing management.
+
+## Why it matters
+
+Every program has unique configuration needs — target platform, team roles, AI provider settings, environment variables, and integration credentials. Settings centralizes these controls so configuration does not scatter across the platform.
+
+## Key concepts
+
+- **Program details**: Name, client, phase, status, target platform configuration
+- **Phase management**: Transition the program through `discovery`, `build`, `test`, `deploy`, `complete`
+- **Team roles**: `director`, `architect`, `developer`, `ba`, `qa`, `client` with color-coded badges
+- **Sandbox configuration**: Default AI provider, model settings, and environment vault
+- **Provision from template**: `ProvisionFromTemplate` lets you bootstrap sandbox config from saved presets
+- **Agent settings tab**: `AgentSettingsTab` configures default agent behavior and Claude Code auth status
+  - Auth sources: `manual_config`, `env_var`, `claude_code_oauth`, `none`
+  - Claude Code installation detection
+- **Google Drive connection**: `GoogleDriveConnectionSettings` manages Google Drive OAuth for document import
+- **Atlassian connection**: Jira sync mode (`auto`, `auto_status_only`, `approval_required`), Confluence auto-ingest with optional filter, site URL, project/space keys
+- **Billing tab**: `BillingSettingsTab` provides access to subscription management and usage data
+- **Repository roles**: Configure default repository roles for connected repos
+
+## How to use it
+
+1. Navigate to **[Program] > Settings**.
+2. Review and update program details (name, phase, status).
+3. Switch to the **Sandbox** tab to configure AI provider and environment variables.
+4. Use the **Agents** tab to check Claude Code auth status and configure defaults.
+5. Connect **Google Drive** for document import.
+6. Configure **Atlassian** (Jira/Confluence) integration settings.
+7. Manage **Billing** from the billing tab.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`programs`](/reference/generated/schema/programs) — Program configuration fields
+- [`sandboxConfigs`](/reference/generated/schema/sandboxConfigs) — Per-program sandbox defaults
+- [`sandboxEnvVault`](/reference/generated/schema/sandboxEnvVault) — Encrypted environment variable storage
+- [`sandboxAiProviderConfigs`](/reference/generated/schema/sandboxAiProviderConfigs) — AI provider settings
+- [`sandboxPresets`](/reference/generated/schema/sandboxPresets) — Saved configuration presets
+
+## Related
+
+<LinkCard title="Sandbox" href="/features/sandbox/" />
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Billing" href="/features/billing/" />
+<LinkCard title="Integrations" href="/features/integrations/" />

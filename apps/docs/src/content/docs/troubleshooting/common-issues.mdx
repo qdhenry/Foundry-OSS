@@ -1,0 +1,356 @@
+---
+title: Common Issues
+description: Top 10 issues and their solutions — auth failures, missing env vars, sandbox problems, slow queries, and more.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 1
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+## 1. "Not authenticated"
+
+**Symptom:** Convex functions throw `"Not authenticated"` errors. UI shows blank pages or login redirects.
+
+**Cause:** Clerk environment variables are missing, incorrect, or the JWT has expired.
+
+**Fix:**
+
+<Steps>
+1. Verify Clerk env vars are set:
+
+   ```bash
+   # In .env.local (apps/web)
+   NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_live_...
+   CLERK_SECRET_KEY=sk_live_...
+   ```
+
+2. Verify the Convex JWT issuer is configured:
+
+   Open the Convex Dashboard -> Settings -> Authentication. The Clerk domain must be registered as an identity provider.
+
+3. If using production Clerk, confirm you are not mixing development and production keys. Development keys start with `pk_test_` and `sk_test_`.
+
+4. Check that `CLERK_JWT_ISSUER_DOMAIN` on Vercel matches your production Clerk instance.
+</Steps>
+
+<Aside>
+Clerk JWTs expire after a short window. If you see intermittent "Not authenticated" errors, the Clerk SDK may not be refreshing tokens. Verify `ClerkProvider` is the outermost auth wrapper in your component tree.
+</Aside>
+
+## 2. "Access denied"
+
+**Symptom:** Convex functions throw `"Access denied"`. User is logged in but cannot see data.
+
+**Cause:** The user's Clerk organization does not match the `orgId` on the data being queried. `assertOrgAccess()` rejects the request.
+
+**Fix:**
+
+<Steps>
+1. Check that the user has selected the correct organization in the Clerk organization switcher.
+
+2. Verify the user is a member of the organization. In the Clerk Dashboard -> Organizations, confirm the user appears in the member list.
+
+3. Inspect the `users` table in Convex. The user's `orgIds` array must include the organization ID being accessed. If the array is empty or missing the org, the Clerk webhook that syncs memberships may have failed.
+
+4. Check Convex function logs for the specific `assertOrgAccess` call to see which `orgId` was requested and which `orgIds` the user has.
+</Steps>
+
+## 3. Convex dev will not start
+
+**Symptom:** `bunx convex dev` fails to start or shows connection errors.
+
+**Cause:** Port conflict, missing env vars, or schema validation failure.
+
+**Fix:**
+
+<Tabs>
+  <TabItem label="Port conflict">
+    ```bash
+    # Check if something is already using the Convex port
+    lsof -i :3210
+
+    # Kill the process if needed
+    kill -9 <PID>
+
+    # Restart
+    bunx convex dev
+    ```
+  </TabItem>
+  <TabItem label="Missing env vars">
+    Ensure `CONVEX_DEPLOYMENT` is set. If running for the first time:
+
+    ```bash
+    bunx convex dev --once  # provisions a new deployment
+    ```
+
+    This creates `.env.local` with the deployment URL.
+  </TabItem>
+  <TabItem label="Schema error">
+    If `schema.ts` has validation errors, Convex dev will refuse to start. Check the error output for the specific field or table that fails validation. Common issues:
+    - Missing index definition for a query pattern
+    - `v.union()` with duplicate literals
+    - Circular references in validators
+  </TabItem>
+</Tabs>
+
+## 4. Sandbox will not provision
+
+**Symptom:** Sandbox session stays in `"provisioning"` status indefinitely. No logs appear in the Logs tab.
+
+**Cause:** The sandbox worker is not running, the API secret is wrong, or the container provisioning failed.
+
+**Fix:**
+
+<Steps>
+1. Verify the sandbox worker is running:
+
+   ```bash
+   # Local
+   bun run dev:worker  # starts on port 8788
+
+   # Production
+   curl https://migration-sandbox-worker.<account>.workers.dev/health
+   ```
+
+2. Verify `SANDBOX_WORKER_URL` and `SANDBOX_API_SECRET` in the Convex Dashboard match the values set in the sandbox worker.
+
+3. Check for queue fallback. When the sandbox worker returns 502/503/504 or times out, Convex queues the session in `sandboxQueue`. Check the queue table in the Convex Dashboard for stuck entries.
+
+4. Check Convex function logs for HTTP errors from the orchestrator (`convex/sandbox/orchestrator.ts`).
+
+5. If the container itself fails to start, check Cloudflare Durable Object logs via `wrangler tail` in the `sandbox-worker/` directory.
+</Steps>
+
+<Aside type="caution">
+The sandbox lifecycle uses a formal state machine. Invalid transitions are silently rejected. If a session appears stuck, check `sandboxSessions` in the Convex Dashboard for the current `status` and compare it against the `ALLOWED_TRANSITIONS` map in `convex/sandbox/sessions.ts`.
+</Aside>
+
+## 5. AI features return errors
+
+**Symptom:** Document analysis, task decomposition, or other AI features fail with errors. No analysis results appear.
+
+**Cause:** Missing or invalid `ANTHROPIC_API_KEY`, model quota exhaustion, or agent service unreachable.
+
+**Fix:**
+
+<Steps>
+1. Verify the API key is set in the correct location:
+
+   | Environment | Where to set |
+   |------------|-------------|
+   | Convex (direct AI calls) | Convex Dashboard -> Environment Variables |
+   | Agent worker (production) | `wrangler secret put ANTHROPIC_API_KEY` |
+   | Agent service (local) | Environment variable or Claude Code OAuth |
+
+2. Test the key directly:
+
+   ```bash
+   curl https://api.anthropic.com/v1/messages \
+     -H "x-api-key: $ANTHROPIC_API_KEY" \
+     -H "anthropic-version: 2023-06-01" \
+     -H "content-type: application/json" \
+     -d '{"model":"claude-sonnet-4-5-20250514","max_tokens":10,"messages":[{"role":"user","content":"ping"}]}'
+   ```
+
+3. Check Convex function logs for the specific AI action that failed. Look for HTTP status codes from the Anthropic API (429 = rate limit, 401 = bad key, 500 = API error).
+
+4. Verify the agent service is reachable from Convex:
+
+   ```bash
+   # Check AGENT_SERVICE_URL
+   bunx convex env list | grep AGENT_SERVICE_URL
+   ```
+</Steps>
+
+## 6. GitHub webhooks not firing
+
+**Symptom:** GitHub events (pushes, PRs, issues) do not appear in Foundry. No webhook deliveries in GitHub App settings.
+
+**Cause:** HMAC secret mismatch, wrong webhook URL, or Convex HTTP endpoint not deployed.
+
+**Fix:**
+
+<Steps>
+1. In GitHub -> Settings -> Developer settings -> GitHub Apps -> Your App -> Advanced, check **Recent deliveries**. Look for failed deliveries with response codes.
+
+2. Verify the webhook URL points to the Convex HTTP endpoint:
+
+   ```
+   https://<convex-site-url>/api/webhooks/github
+   ```
+
+   Not the Vercel URL. Webhooks go directly to Convex.
+
+3. Verify `GITHUB_WEBHOOK_SECRET` in the Convex Dashboard matches the secret configured in the GitHub App settings. The HMAC comparison is constant-time — any byte difference causes a 401.
+
+4. Check the `sourceControlEvents` table in Convex for events with `status: "pending"` that never processed, or `status: "failed"` entries.
+
+5. Check the `sourceControlRetryQueue` table for events that exceeded retry limits (5 attempts, 1 hour cap).
+</Steps>
+
+## 7. Build errors (TypeScript / Biome)
+
+**Symptom:** `bun run build` fails with TypeScript or Biome lint errors.
+
+**Cause:** Type errors in modified files, unresolved imports, or Biome rule violations.
+
+**Fix:**
+
+<Tabs>
+  <TabItem label="TypeScript">
+    ```bash
+    # Run type checking
+    cd apps/web && bunx tsc --noEmit
+
+    # Common issues:
+    # - params/searchParams are Promises in Next.js 16 (must await)
+    # - Missing "use client" directive on components using hooks
+    # - Import from @foundry/ui/* not resolving (check packages/ui exports)
+    ```
+  </TabItem>
+  <TabItem label="Biome">
+    ```bash
+    # Check lint + format (no changes)
+    bun run check
+
+    # Auto-fix what can be fixed
+    bun run check:fix
+
+    # Common blocking errors:
+    # - Unused imports (remove them)
+    # - Missing return types on exported functions
+    # - Unsafe any usage (replace with proper types)
+    ```
+
+    Some rules are warnings (non-blocking): `noExplicitAny`, `noNonNullAssertion`, `noUnusedFunctionParameters`, `noUnusedVariables`, `noUnusedImports`, `noImplicitAnyLet`.
+  </TabItem>
+</Tabs>
+
+## 8. Real-time updates not working
+
+**Symptom:** Data changes in one browser tab do not appear in another. The UI feels "frozen" or requires manual refresh.
+
+**Cause:** Convex WebSocket disconnected, incorrect `NEXT_PUBLIC_CONVEX_URL`, or the `useQuery` hook is using the `"skip"` token.
+
+**Fix:**
+
+<Steps>
+1. Check the browser console for WebSocket errors. Convex logs connection status changes.
+
+2. Verify `NEXT_PUBLIC_CONVEX_URL` is set and points to the correct deployment:
+
+   ```bash
+   # .env.local
+   NEXT_PUBLIC_CONVEX_URL=https://<your-deployment>.convex.cloud
+   ```
+
+3. If using `useQuery` with a conditional skip, ensure the condition resolves:
+
+   ```tsx
+   // This skips the query until orgId is available
+   const data = useQuery(api.tasks.list, orgId ? { orgId } : "skip");
+   ```
+
+   If `orgId` is never set (e.g., Clerk auth has not resolved), the query stays skipped permanently.
+
+4. Check that the Convex backend is running:
+
+   ```bash
+   bunx convex dev  # local — should show "Ready"
+   ```
+</Steps>
+
+## 9. Agent service 401 (production)
+
+**Symptom:** AI analysis requests fail with 401 Unauthorized in production. Local dev works fine.
+
+**Cause:** `AGENT_SERVICE_SECRET` mismatch between Convex and the agent worker.
+
+**Fix:**
+
+<Steps>
+1. The secret must match exactly between:
+   - Convex Dashboard: `AGENT_SERVICE_SECRET` env var
+   - Agent worker: `wrangler secret put AGENT_SERVICE_SECRET`
+
+2. Verify the agent worker accepts the token:
+
+   ```bash
+   curl -H "Authorization: Bearer <your-secret>" \
+     https://foundry-agent-worker.<account>.workers.dev/auth/status
+   ```
+
+   Expected response: `200 {"isConfigured": true}`
+
+3. If the secret was recently rotated, update it in both places and allow a few seconds for the Cloudflare Worker to pick up the new value.
+</Steps>
+
+<Aside>
+Local development does not use bearer auth — the Express agent-service accepts all requests. This issue only appears in production where the Cloudflare agent-worker enforces bearer token validation.
+</Aside>
+
+## 10. Slow queries
+
+**Symptom:** Pages take seconds to load. The Convex Dashboard shows long query execution times.
+
+**Cause:** A query is using `.filter()` instead of `.withIndex()`, causing a full table scan.
+
+**Fix:**
+
+<Steps>
+1. Open the Convex Dashboard -> Logs tab. Look for queries with high execution times.
+
+2. Check the query implementation. If it uses `.filter()`:
+
+   ```typescript
+   // BAD: full table scan
+   const items = await ctx.db
+     .query("requirements")
+     .filter(q => q.eq(q.field("programId"), programId))
+     .collect();
+   ```
+
+   Replace with `.withIndex()`:
+
+   ```typescript
+   // GOOD: index-driven
+   const items = await ctx.db
+     .query("requirements")
+     .withIndex("by_program", q => q.eq("programId", programId))
+     .collect();
+   ```
+
+3. If the required index does not exist, add it to `convex/schema.ts`:
+
+   ```typescript
+   requirements: defineTable({
+     // ... fields
+   }).index("by_program", ["programId"])
+   ```
+
+4. Redeploy to apply the new index:
+
+   ```bash
+   bunx convex dev   # local
+   bunx convex deploy  # production
+   ```
+</Steps>
+
+<Aside type="tip">
+Every query pattern in Foundry must have a corresponding index. If you write a new query and it feels slow, the first thing to check is whether you are using `.withIndex()`. The `.filter()` method is banned in production query paths.
+</Aside>
+
+## Still stuck?
+
+If none of the above resolves your issue:
+
+1. **Check Convex function logs** in the Dashboard for the exact error message and stack trace.
+2. **Check Cloudflare Worker logs** via `wrangler tail` for agent worker or sandbox worker errors.
+3. **Search the codebase** for the error message to find the throwing function.
+4. **Open an issue** on the [GitHub repository](https://github.com/qdhenry/Foundry/issues) with:
+   - The exact error message
+   - Which service is affected (frontend, Convex, agent worker, sandbox worker)
+   - Steps to reproduce
+   - Relevant environment (local dev vs. production)

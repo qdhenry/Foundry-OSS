@@ -1,0 +1,53 @@
+---
+title: "Integrations"
+description: "Connect external services like Atlassian Jira and Confluence to Foundry."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Integrations feature provides a catalog of external service connections. Currently supported: Atlassian (Jira and Confluence). Each integration has a card-based overview, a detail page with configuration, and a visual flow diagram showing data exchange.
+
+## Why it matters
+
+Delivery teams do not work in isolation. Integrations pull context from tools teams already use (Jira for issue tracking, Confluence for documentation) and push Foundry outputs back, reducing context-switching and duplicate data entry.
+
+## Key concepts
+
+- **Integration card**: `IntegrationCard` shows the integration name, status, and summary
+- **Integration filters**: `IntegrationFilters` narrow the catalog by type or status
+- **Integration detail page**: Full configuration and status view per integration
+- **Flow diagram**: `IntegrationFlowDiagram` visualizes the data exchange between Foundry and the external service
+- **New integration page**: `NewIntegrationPage` guides through connecting a new service
+- **Atlassian connection**: OAuth-based connection with AES-256-GCM encrypted credentials
+  - **Jira sync**: Sync mode options — `auto`, `auto_status_only`, `approval_required`
+  - **Confluence ingest**: Auto-import Confluence pages as discovery documents with optional filter
+- **Webhook processing**: Both Jira and Confluence webhooks follow the durable event buffer pattern (HMAC validation, raw event storage, async processing)
+
+## How to use it
+
+1. Navigate to **[Program] > Integrations** (or configure from Settings).
+2. Browse the integration catalog.
+3. Click **New Integration** to connect a service.
+4. For Atlassian: complete the OAuth flow, select your Jira project and Confluence space.
+5. Configure sync mode (auto, status-only, or approval-required).
+6. View the flow diagram to understand what data flows between systems.
+7. Monitor sync status from the integration detail page.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`atlassian/credentials`](/reference/generated/schema/credentials) — OAuth credentials (AES-256-GCM encrypted)
+- [`atlassian/jiraSync`](/reference/generated/schema/jiraSync) — Jira synchronization state and mapping
+- [`atlassian/confluencePages`](/reference/generated/schema/confluencePages) — Imported Confluence content
+- [`integrations`](/reference/generated/schema/integrations) — General integration records
+
+## Related
+
+<LinkCard title="Settings" href="/features/settings/" />
+<LinkCard title="Discovery" href="/features/discovery/" />
+<LinkCard title="Source Control" href="/features/source-control/" />

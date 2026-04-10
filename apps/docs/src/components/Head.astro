@@ -1,0 +1,30 @@
+---
+/**
+ * Head override — extends Starlight's default `<head>` with a
+ * Cloudflare Web Analytics beacon.
+ *
+ * The beacon is only injected when the `PUBLIC_CF_ANALYTICS_TOKEN`
+ * env var is set at build time. Preview and local builds with no
+ * token ship zero analytics JS.
+ *
+ * Cloudflare Web Analytics is cookieless, privacy-friendly, and
+ * free for unlimited traffic — see the docs:
+ * https://developers.cloudflare.com/analytics/web-analytics/
+ */
+import Default from "@astrojs/starlight/components/Head.astro";
+
+const cfAnalyticsToken = import.meta.env.PUBLIC_CF_ANALYTICS_TOKEN;
+---
+
+<Default><slot /></Default>
+
+{
+  cfAnalyticsToken && (
+    <script
+      is:inline
+      defer
+      src="https://static.cloudflareinsights.com/beacon.min.js"
+      data-cf-beacon={`{"token": "${cfAnalyticsToken}"}`}
+    />
+  )
+}

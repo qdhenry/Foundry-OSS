@@ -1,0 +1,33 @@
+---
+title: "risks"
+description: "Schema reference for the risks table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Risks — risk register entries
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| title | string | Yes |  |
+| description | string | No |  |
+| severity | "critical" \| "high" \| "medium" \| "low" | Yes |  |
+| probability | "very_likely" \| "likely" \| "possible" \| "unlikely" | Yes |  |
+| mitigation | string | No |  |
+| ownerId | `Id<"users">` | No |  |
+| workstreamIds | `Id<"workstreams">[]` | No |  |
+| status | "open" \| "mitigating" \| "resolved" \| "accepted" | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |

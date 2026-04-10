@@ -1,0 +1,49 @@
+---
+title: "documents"
+description: "Schema reference for the documents table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Documents — file attachments at the program level
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| storageId | `Id<"_storage">` | No |  |
+| externalObjectUrl | string | No |  |
+| fileName | string | Yes |  |
+| fileType | string | Yes |  |
+| fileSize | number | Yes |  |
+| category | "architecture" \| "requirements" \| "testing" \| "deployment" \| "meeting_notes" \| "other" | Yes |  |
+| description | string | No |  |
+| uploadedBy | `Id<"users">` | Yes |  |
+| analysisStatus | union | No |  |
+| analysisError | string | No |  |
+| latestAnalysisId | `Id<"documentAnalyses">` | No |  |
+| mimeType | string | No |  |
+| pageCount | number | No |  |
+| source | "upload" \| "google_drive" | No |  |
+| driveFileId | string | No |  |
+| driveFileName | string | No |  |
+| driveMimeType | string | No |  |
+| driveWebViewLink | string | No |  |
+| driveModifiedTime | string | No |  |
+| driveVersion | string | No |  |
+| driveContentHash | string | No |  |
+| importedByCredentialId | `Id<"googleDriveCredentials">` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |
+| by_org_drive_file | orgId, driveFileId |
+| by_program_drive_file | programId, driveFileId |

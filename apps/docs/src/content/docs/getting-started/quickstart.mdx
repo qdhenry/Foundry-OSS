@@ -1,0 +1,168 @@
+---
+title: Quickstart
+description: From git clone to a running Foundry instance in under 15 minutes.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 2
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+This guide takes you from a fresh clone to a running Foundry instance. Target time: **under 15 minutes**.
+
+<Aside type="tip">
+  Make sure you have completed the [Prerequisites](/getting-started/prerequisites/) before starting.
+</Aside>
+
+<Steps>
+
+1. **Clone the repository and install dependencies**
+
+    ```bash
+    git clone https://github.com/qdhenry/Foundry.git
+    cd Foundry
+    bun install
+    ```
+
+    Bun resolves all workspace dependencies across `apps/web`, `packages/ui`, `convex`, `agent-service`, `agent-worker`, and `sandbox-worker`.
+
+2. **Copy the environment template**
+
+    ```bash
+    cp .env.example .env.local
+    ```
+
+    Open `.env.local` and fill in the minimum required values:
+
+    ```bash
+    # Convex (filled automatically by `bunx convex dev` on first run)
+    NEXT_PUBLIC_CONVEX_URL=https://your-deployment.convex.cloud
+    CONVEX_DEPLOYMENT=dev:your-deployment
+
+    # Clerk
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_your_key
+    CLERK_SECRET_KEY=sk_test_your_key
+
+    # Agent service (local dev default)
+    AGENT_SERVICE_URL=http://localhost:3001
+    ```
+
+    <Aside type="note">
+      The Convex URL and deployment values are populated when you first run `bunx convex dev` in step 4. You can leave them as placeholders for now.
+    </Aside>
+
+3. **Configure Clerk**
+
+    In your [Clerk dashboard](https://dashboard.clerk.com/):
+
+    - Copy the **Publishable Key** and **Secret Key** into `.env.local`.
+    - Enable **Organizations** under Settings > Organizations.
+    - You will configure the webhook endpoint after Convex is running.
+
+4. **Start the Convex backend**
+
+    ```bash
+    bunx convex dev
+    ```
+
+    On first run, the Convex CLI prompts you to:
+    - Log in to your Convex account
+    - Create a new project (or link to an existing one)
+    - Deploy the schema and server functions
+
+    Once complete, it outputs your deployment URL. Copy this into `NEXT_PUBLIC_CONVEX_URL` in `.env.local`.
+
+    <Aside type="caution">
+      Keep this terminal running. Convex dev mode provides hot-reload for backend functions.
+    </Aside>
+
+5. **Set the Anthropic API key in Convex**
+
+    In the [Convex Dashboard](https://dashboard.convex.dev/), navigate to your project's Settings > Environment Variables and add:
+
+    | Variable | Value |
+    |----------|-------|
+    | `ANTHROPIC_API_KEY` | Your Anthropic API key (`sk-ant-...`) |
+
+    <Aside type="note">
+      The Anthropic key must be set in the Convex Dashboard, not in `.env.local`. Convex server actions call the Claude API directly.
+    </Aside>
+
+6. **Start the frontend**
+
+    Open a second terminal:
+
+    ```bash
+    bun run dev
+    ```
+
+    This starts the Next.js dev server on [http://localhost:3000](http://localhost:3000).
+
+7. **Sign in via Clerk**
+
+    Open [http://localhost:3000](http://localhost:3000) in your browser. Clerk's authentication flow handles sign-up and sign-in. Create an account and an organization -- the organization becomes your Foundry tenant.
+
+8. **Verify the setup**
+
+    After signing in, you should see the Programs page. The page will be empty since no programs exist yet. If you see the programs list without errors, your Foundry instance is running.
+
+</Steps>
+
+## Running all services (recommended)
+
+The quickstart above runs two processes (Convex + Next.js). For full functionality including AI inference and sandbox execution, run all four:
+
+<Tabs>
+  <TabItem label="Zellij (recommended)">
+    ```bash
+    bun run dev:zellij
+    ```
+    This opens a multi-pane terminal layout with all services running simultaneously.
+  </TabItem>
+  <TabItem label="Manual (4 terminals)">
+    ```bash
+    # Terminal 1 — Convex backend
+    bunx convex dev
+
+    # Terminal 2 — Next.js frontend
+    bun run dev
+
+    # Terminal 3 — Agent service (AI inference, port 3001)
+    bun run dev:agent
+
+    # Terminal 4 — Sandbox worker (port 8788)
+    bun run dev:worker
+    ```
+  </TabItem>
+</Tabs>
+
+| Service | Port | Purpose |
+|---------|------|---------|
+| Next.js | 3000 | Frontend (React, App Router) |
+| Convex | -- | Backend (WebSocket, hot-reload) |
+| Agent service | 3001 | AI inference sidecar (Express, Claude Code auth) |
+| Sandbox worker | 8788 | Cloudflare sandbox execution (Wrangler local dev) |
+
+## Troubleshooting
+
+**Convex dev fails to start**
+- Confirm Node.js 20+ is installed: `node --version`
+- Ensure you are logged in: `bunx convex auth`
+
+**Clerk sign-in redirects loop**
+- Verify `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` are set in `.env.local`
+- Ensure Organizations are enabled in the Clerk dashboard
+
+**"Not authenticated" errors after sign-in**
+- Check that the Convex deployment URL matches between `.env.local` and the running Convex dev process
+- Confirm Clerk JWT integration is configured in the Convex Dashboard under Auth
+
+**Port 3000 already in use**
+- Kill the existing process: `lsof -ti:3000 | xargs kill -9`
+
+## Next steps
+
+- [Create your first program](/getting-started/first-program/) with the AcmeCorp demo data
+- Review the [environment variables reference](/getting-started/environment-variables/) for optional services
+- Explore the [architecture overview](/architecture/) to understand how the pieces connect

@@ -1,0 +1,187 @@
+---
+title: Code style
+description: Biome configuration, naming conventions, and TypeScript patterns used in Foundry.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 2
+---
+
+import { Aside } from '@astrojs/starlight/components';
+
+Foundry uses [Biome](https://biomejs.dev/) for linting and formatting. The configuration lives in `biome.json` at the repository root and applies across 6 workspaces.
+
+## Biome setup
+
+### Formatter settings
+
+| Setting | Value |
+|---------|-------|
+| Indent style | Spaces |
+| Indent width | 2 |
+| Line width | 100 |
+| Quote style | Double quotes |
+| Semicolons | Always |
+| Trailing commas | All |
+
+### Lint rule levels
+
+**Errors** (blocking -- must fix before commit):
+- All Biome recommended rules not listed below
+
+**Warnings** (non-blocking -- fix when practical):
+- `noExplicitAny`
+- `noImplicitAnyLet`
+- `noNonNullAssertion`
+- `noNonNullAssertedOptionalChain`
+- `noUnusedFunctionParameters`
+- `noUnusedVariables`
+- `noUnusedImports`
+- `noUnsafeFinally`
+- `useIterableCallbackReturn`
+- `noAssignInExpressions`
+
+**Accessibility warnings** (non-blocking):
+- `useButtonType`, `noSvgWithoutTitle`, `noLabelWithoutControl`, `useKeyWithClickEvents`, `noStaticElementInteractions`, `useSemanticElements`, `useAriaPropsForRole`, `useAriaPropsSupportedByRole`, `useFocusableInteractive`
+
+**Test file overrides:**
+- `noExplicitAny` is disabled in `**/*.test.ts`, `**/*.test.tsx`, and `**/__tests__/**`
+
+### Running Biome
+
+```bash
+# Check lint + format (no changes)
+bun run check
+
+# Auto-fix everything Biome can fix
+bun run check:fix
+
+# Format only (check)
+bun run format
+
+# Format only (fix)
+bun run format:fix
+```
+
+## Enforcement
+
+Biome runs at two enforcement points:
+
+1. **PostToolUse hook** -- When editing files with Claude Code, `biome_check.sh` runs automatically after every file edit. It auto-fixes formatting and reports remaining lint issues. This hook has a 10-second timeout.
+
+2. **Pre-commit hook** -- [Lefthook](https://github.com/evilmartians/lefthook) runs Biome on staged files before every commit. Commits with lint errors are blocked.
+
+<Aside type="tip">
+  Run `bun run check:fix` before committing to catch and fix issues early. The pre-commit hook catches anything you miss.
+</Aside>
+
+## Naming conventions
+
+| Category | Convention | Example |
+|----------|-----------|---------|
+| Convex tables | camelCase plural | `agentExecutions`, `skillVersions` |
+| Convex functions | camelCase verb-noun | `requirements.listByProgram` |
+| React components | PascalCase | `MissionControlDashboard`, `TaskBoard` |
+| Route directories | kebab-case | `agent-activity`, `source-control` |
+| Environment variables | SCREAMING_SNAKE_CASE | `NEXT_PUBLIC_CONVEX_URL` |
+| TypeScript types/interfaces | PascalCase | `ProgramWithStats`, `TaskStatus` |
+| Utility functions | camelCase | `assertOrgAccess`, `buildContextPayload` |
+| CSS classes | Tailwind utilities | `flex items-center gap-2` |
+
+## TypeScript patterns
+
+### Strictness
+
+TypeScript 5.9.3 with strict mode enabled. Key settings:
+- `strict: true`
+- `noUncheckedIndexedAccess` where applicable
+- Path-based exports from `packages/ui` (e.g., `@foundry/ui/tasks`)
+
+### Convex-specific patterns
+
+**Always use `.withIndex()` for queries.** Never use `.filter()` -- it causes full table scans and kills reactive performance.
+
+```typescript
+// Correct
+const tasks = await ctx.db
+  .query("tasks")
+  .withIndex("by_program", (q) => q.eq("programId", programId))
+  .collect();
+
+// Wrong - full table scan
+const tasks = await ctx.db
+  .query("tasks")
+  .filter((q) => q.eq(q.field("programId"), programId))
+  .collect();
+```
+
+**Row-level security on every query/mutation:**
+
+```typescript
+import { assertOrgAccess } from "../model/access";
+
+export const listByProgram = query({
+  args: { orgId: v.string(), programId: v.id("programs") },
+  handler: async (ctx, args) => {
+    await assertOrgAccess(ctx, args.orgId);
+    return ctx.db
+      .query("tasks")
+      .withIndex("by_program", (q) => q.eq("programId", args.programId))
+      .collect();
+  },
+});
+```
+
+**Mutations vs. actions:**
+- **Mutations** are transactional but cannot call external APIs or Node.js libraries.
+- **Actions** can call anything but are not transactional.
+- Use mutations for data changes. Use actions for AI calls and external integrations.
+
+### Next.js 16 patterns
+
+`params` and `searchParams` are Promises in Next.js 15+. You must `await` them:
+
+```typescript
+// Correct
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ programId: string }>;
+}) {
+  const { programId } = await params;
+  // ...
+}
+```
+
+Use the `"skip"` token on Convex `useQuery` when auth state has not resolved:
+
+```typescript
+const data = useQuery(
+  api.tasks.listByProgram,
+  orgId ? { orgId, programId } : "skip"
+);
+```
+
+### UI architecture
+
+All feature UI lives in `packages/ui/src/`. Page files in `apps/web/` are ultra-thin wrappers:
+
+```typescript
+// apps/web/src/app/(dashboard)/[programId]/tasks/page.tsx
+"use client";
+import { ProgramTasksRoute } from "@foundry/ui/tasks";
+export default function ProgramTasksPage() {
+  return <ProgramTasksRoute />;
+}
+```
+
+Do not add business logic to page files. This breaks the shared component model used by the Tauri desktop app.
+
+## Import organization
+
+Biome auto-organizes imports. The general order is:
+1. External packages (`react`, `next`, `convex`)
+2. Internal packages (`@foundry/ui`, `@foundry/types`)
+3. Relative imports (`./components`, `../utils`)
+
+Do not manually sort imports -- Biome handles this on save and during the pre-commit hook.

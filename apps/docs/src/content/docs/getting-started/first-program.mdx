@@ -1,0 +1,115 @@
+---
+title: Your first program
+description: Walk through creating a program, seeding demo data, and running a discovery pass.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 3
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+With Foundry running locally, seed the AcmeCorp reference dataset to explore the full delivery pipeline. AcmeCorp is a realistic demo program with 118 requirements, 8 skills, and 7 workstreams spanning two migration corridors (Magento to Salesforce B2B Commerce, Magento to BigCommerce B2B).
+
+## Seed the AcmeCorp demo
+
+<Steps>
+
+1. **Get your organization ID**
+
+    After signing into Foundry and creating a Clerk organization, you need the organization ID. Find it in:
+    - The Clerk dashboard under Organizations
+    - Or the browser URL when viewing your org settings
+
+    The ID looks like `org_2abc123def456`.
+
+2. **Run the seed command**
+
+    With Convex dev running, open a new terminal and run:
+
+    ```bash
+    bunx convex run seed:seedAcmeCorp '{"orgId": "org_YOUR_ORG_ID"}'
+    ```
+
+    Replace `org_YOUR_ORG_ID` with your actual Clerk organization ID.
+
+    This creates:
+    - 1 program (AcmeCorp Migration)
+    - 7 workstreams (Catalog, Orders, Customers, Integrations, etc.)
+    - 118 requirements across all workstreams
+    - 8 skills (migration-specific capabilities)
+
+    <Aside type="note">
+      The seed operation runs as a Convex action and takes a few seconds to complete. Check the Convex dev terminal for confirmation.
+    </Aside>
+
+3. **Open the program**
+
+    Navigate to [http://localhost:3000](http://localhost:3000). The AcmeCorp program now appears on your Programs page. Click into it.
+
+</Steps>
+
+## Exploring the program
+
+Once inside the AcmeCorp program, the main navigation surfaces are:
+
+### Mission Control
+
+The program dashboard. Shows an overview of delivery status, recent activity, and health scores. This is where you start each session.
+
+### Discovery
+
+The requirements intake pipeline. Documents uploaded here are analyzed by Claude to extract structured requirements. Each finding maps to workstreams and skills.
+
+To run your first discovery pass:
+
+1. Navigate to the **Discovery** tab within the program.
+2. Upload a document (PDF, DOCX, or plain text) describing requirements -- or use the seeded data to explore existing findings.
+3. Trigger an analysis. Claude processes the document and extracts structured findings.
+4. Review the findings queue. Each finding can be accepted, rejected, or refined.
+
+<Aside type="tip">
+  Discovery uses Claude Opus 4.6 for document analysis. Make sure your Anthropic API key is set in the Convex Dashboard environment variables.
+</Aside>
+
+### Tasks
+
+The task board shows decomposed work items generated from requirements. Tasks are scoped to specific skills and can be assigned to sandboxed AI agents for execution.
+
+Key features:
+- **Task decomposition** -- requirements break into granular tasks with verification criteria
+- **Subtask generation** -- tasks further decompose into implementation subtasks
+- **Sandbox execution** -- provision an ephemeral Docker container with Claude Code for a task
+
+### Workstreams
+
+Workstreams group related requirements into delivery tracks. The AcmeCorp demo includes 7 workstreams:
+- Catalog Migration
+- Order Management
+- Customer Data
+- Integrations
+- Frontend/UX
+- Infrastructure
+- Data Migration
+
+Each workstream shows its requirements, tasks, and completion progress.
+
+### Skills
+
+Skills represent domain-specific capabilities that Foundry agents use when executing tasks. The AcmeCorp demo seeds 8 skills covering areas like data migration, API integration, and frontend development.
+
+Skills include:
+- Detailed instructions for the AI agent
+- Design context and constraints
+- Repository mappings
+
+### Risks
+
+AI-assessed risk evaluations for the program. Risk scoring considers requirement complexity, dependency chains, and implementation status.
+
+## Next steps
+
+- Review the [environment variables](/getting-started/environment-variables/) to enable additional integrations (GitHub App, Atlassian, sandbox worker)
+- Read the [architecture overview](/architecture/) to understand how requirements flow through the system
+- Connect a GitHub repository to enable source control features
+- Try running a sandbox execution on a task to see the AI coding pipeline in action

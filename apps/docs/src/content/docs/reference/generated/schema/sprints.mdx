@@ -1,0 +1,33 @@
+---
+title: "sprints"
+description: "Schema reference for the sprints table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Sprints — time-boxed iterations within a workstream
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| workstreamId | `Id<"workstreams">` | Yes | Parent workstream reference |
+| name | string | Yes |  |
+| number | number | Yes |  |
+| startDate | number | No |  |
+| endDate | number | No |  |
+| goal | string | No |  |
+| status | "planning" \| "active" \| "completed" \| "cancelled" | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_workstream | workstreamId |
+| by_org | orgId |

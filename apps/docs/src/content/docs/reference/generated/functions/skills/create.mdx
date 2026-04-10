@@ -1,0 +1,36 @@
+---
+title: "skills.create"
+description: "mutation — Create a new skill and its initial v1 version snapshot."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/skills.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/skills.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    name: string,
+    domain: domainValidator,
+    targetPlatform: targetPlatformValidator,
+    content: string,
+    status: statusValidator /* optional */,
+  }
+```
+
+Create a new skill and its initial v1 version snapshot.
+@param orgId - Organization ID
+@param programId - Parent program
+@param name - Skill display name
+@param domain - Functional domain (e.g., "frontend", "backend")
+@param targetPlatform - Target platform for the skill
+@param content - Skill content/instructions

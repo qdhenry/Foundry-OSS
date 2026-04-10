@@ -1,0 +1,38 @@
+---
+title: "health/serviceHealth.recordHealthCheck"
+description: "mutation — Record a health check result for a service."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/health/serviceHealth.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/health/serviceHealth.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    service: string,
+    status: v.union(
+      "healthy",
+      "degraded",
+      "outage",
+      "unknown",
+    ),
+    latencyMs: number /* optional */,
+    errorMessage: string /* optional */,
+    checkType: "cron" | "probe" | "inferred",
+  }
+```
+
+Record a health check result for a service.
+@param orgId - Organization ID
+@param service - Service name being checked
+@param status - Health status (healthy, degraded, outage, unknown)
+@param checkType - How the check was triggered (cron, probe, inferred)

@@ -1,0 +1,11 @@
+{
+  "name": "foundry-agent-worker",
+  "account_id": "b14f8eb1f6984d1d17ae8ca435fc774e",
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

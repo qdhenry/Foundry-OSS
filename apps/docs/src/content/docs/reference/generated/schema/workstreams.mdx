@@ -1,0 +1,35 @@
+---
+title: "workstreams"
+description: "Schema reference for the workstreams table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Workstreams — functional delivery tracks within a program
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| name | string | Yes |  |
+| shortCode | string | Yes |  |
+| ownerId | `Id<"users">` | No |  |
+| status | "on_track" \| "at_risk" \| "blocked" | Yes |  |
+| sprintCadence | number | No |  |
+| currentSprint | number | No |  |
+| sortOrder | number | Yes |  |
+| description | string | No |  |
+| healthLastUpdated | number | No |  |
+| repositoryIds | `Id<"sourceControlRepositories">[]` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |

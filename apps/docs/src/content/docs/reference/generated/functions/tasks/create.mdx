@@ -1,0 +1,40 @@
+---
+title: "tasks.create"
+description: "mutation — Create a new task within a program."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/tasks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/tasks.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    title: string,
+    description: string /* optional */,
+    acceptanceCriteria: string /* optional */[],
+    storyPoints: number /* optional */,
+    workstreamId: Id<"workstreams"> /* optional */,
+    sprintId: Id<"sprints"> /* optional */,
+    requirementId: Id<"requirements"> /* optional */,
+    assigneeId: Id<"users"> /* optional */,
+    priority: priorityValidator,
+    status: statusValidator /* optional */,
+    blockedBy: Id<"tasks"> /* optional */[],
+    dueDate: number /* optional */,
+  }
+```
+
+Create a new task within a program.
+@param orgId - Organization ID
+@param programId - Parent program
+@param title - Task title

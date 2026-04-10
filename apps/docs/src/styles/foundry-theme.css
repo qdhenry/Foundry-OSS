@@ -1,0 +1,113 @@
+/*
+ * Foundry → Starlight CSS variable mapping.
+ *
+ * Starlight exposes a set of `--sl-*` CSS custom properties that drive
+ * its visual system. This file overrides them with Foundry design
+ * tokens so the docs site visually matches apps/web.
+ *
+ * Load order (in astro.config.mjs customCss):
+ *   1. foundry-tokens.css  (defines --accent-*, --surface-*, etc.)
+ *   2. foundry-theme.css   (this file — maps them to --sl-*)
+ *
+ * Starlight docs: https://starlight.astro.build/guides/css-and-tailwind/
+ */
+
+:root {
+  /* Accent — Starlight's primary call-to-action and link color */
+  --sl-color-accent-low: var(--interactive-subtle);
+  --sl-color-accent: var(--accent-default);
+  --sl-color-accent-high: var(--accent-strong);
+
+  /* Backgrounds */
+  --sl-color-bg: var(--surface-page);
+  --sl-color-bg-nav: var(--surface-default);
+  --sl-color-bg-sidebar: var(--surface-default);
+  --sl-color-bg-inline-code: var(--surface-raised);
+
+  /* Borders / hairlines */
+  --sl-color-hairline-light: var(--border-subtle);
+  --sl-color-hairline: var(--border-default);
+  --sl-color-hairline-shade: var(--border-strong);
+
+  /* Text */
+  --sl-color-white: var(--text-heading);
+  --sl-color-gray-1: var(--text-primary);
+  --sl-color-gray-2: var(--text-primary);
+  --sl-color-gray-3: var(--text-secondary);
+  --sl-color-gray-4: var(--text-secondary);
+  --sl-color-gray-5: var(--text-muted);
+  --sl-color-gray-6: var(--border-default);
+  --sl-color-gray-7: var(--surface-raised);
+  --sl-color-text: var(--text-primary);
+  --sl-color-text-accent: var(--text-link);
+  --sl-color-text-invert: var(--text-on-brand);
+
+  /* Shadows */
+  --sl-shadow-sm: var(--shadow-sm);
+  --sl-shadow-md: var(--shadow-md);
+  --sl-shadow-lg: var(--shadow-lg);
+
+  /* Focus ring — Foundry uses a blue-tinted ring */
+  --sl-color-focus: var(--accent-default);
+}
+
+/* Starlight applies [data-theme='dark'] on <html>; --sl-* variables
+ * automatically fall through to the tokens overridden for dark mode
+ * in foundry-tokens.css, but Starlight also sets its own gray scale
+ * under dark mode. Re-map it here so the grays track the dark tokens. */
+:root[data-theme="dark"] {
+  --sl-color-white: var(--text-heading);
+  --sl-color-gray-1: var(--text-primary);
+  --sl-color-gray-2: var(--text-primary);
+  --sl-color-gray-3: var(--text-secondary);
+  --sl-color-gray-4: var(--text-secondary);
+  --sl-color-gray-5: var(--text-muted);
+  --sl-color-gray-6: var(--border-default);
+  --sl-color-gray-7: var(--surface-raised);
+  --sl-color-black: var(--surface-page);
+  --sl-color-bg-sidebar: var(--surface-default);
+  --sl-color-bg-inline-code: var(--surface-raised);
+}
+
+/* ---------- Code-block focus state & link underline color ---------- */
+a {
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--text-link-hover);
+}
+
+/* ---------- Mermaid diagrams ---------- */
+/* rehype-mermaid emits <svg> elements inside a .mermaid wrapper with
+ * the diagrams pre-rendered. Ensure they don't overflow the content
+ * column and respect light/dark surfaces. */
+.mermaid svg,
+figure.expressive-code + .mermaid svg,
+pre.mermaid svg {
+  max-width: 100%;
+  height: auto;
+  background: var(--surface-raised);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--foundry-radius-md);
+  padding: 1rem;
+}
+
+/* ---------- "Edit this page" + "Last updated" footer polish ---------- */
+.sl-markdown-content footer {
+  border-top: 1px solid var(--border-subtle);
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+}
+
+/* ---------- Starlight <Card> grid visual consistency ---------- */
+.sl-card {
+  background: var(--surface-default);
+  border: 1px solid var(--border-default);
+  border-radius: var(--foundry-radius-lg);
+}
+
+.sl-card:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-md);
+}

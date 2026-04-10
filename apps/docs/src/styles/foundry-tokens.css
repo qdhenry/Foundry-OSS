@@ -1,0 +1,166 @@
+/*
+ * Foundry design tokens for the Starlight docs site.
+ *
+ * Source of truth: packages/ui/src/theme/globals.css
+ *
+ * This file is a hand-maintained port rather than a Tailwind @theme
+ * import because Starlight is not Tailwind-first — we only need the
+ * CSS custom properties. Skip component-level tokens (Button, Badge,
+ * Input, Card, Terminal, Table, Tooltip) because Starlight ships its
+ * own component primitives; Foundry component tokens target
+ * @foundry/ui React components we do not import here.
+ *
+ * Selector conventions:
+ *   :root                    → light theme defaults
+ *   [data-theme='dark']      → Starlight dark mode (applied on <html>)
+ *
+ * foundry-theme.css maps these custom properties onto Starlight's
+ * own --sl-* variables.
+ */
+
+:root {
+  /* ---------- Mode-independent primitives ---------- */
+
+  /* Brand blue scale */
+  --brand-blue-50: #eff6ff;
+  --brand-blue-100: #dbeafe;
+  --brand-blue-200: #bfdbfe;
+  --brand-blue-300: #93c5fd;
+  --brand-blue-400: #60a5fa;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+  --brand-blue-900: #1e3a8a;
+
+  /* Border radius */
+  --foundry-radius-sm: 6px;
+  --foundry-radius-md: 10px;
+  --foundry-radius-lg: 14px;
+  --foundry-radius-xl: 16px;
+  --foundry-radius-2xl: 20px;
+  --foundry-radius-full: 9999px;
+
+  /* ---------- Light theme (default) ---------- */
+
+  /* Surfaces */
+  --surface-page: #f8fafc;
+  --surface-default: #ffffff;
+  --surface-raised: #f1f5f9;
+  --surface-elevated: #e2e8f0;
+  --surface-overlay: rgba(248, 250, 252, 0.88);
+
+  /* Borders */
+  --border-default: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --border-accent: rgba(37, 99, 235, 0.15);
+  --border-strong: #cbd5e1;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-link: #2563eb;
+  --text-link-hover: #1d4ed8;
+  --text-on-brand: #ffffff;
+  --text-wordmark: #1e293b;
+  --text-heading: #0f172a;
+
+  /* Accent */
+  --accent-default: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-subtle: #3b82f6;
+  --accent-muted: #60a5fa;
+
+  /* Interactive */
+  --interactive-ghost: rgba(37, 99, 235, 0.03);
+  --interactive-subtle: rgba(37, 99, 235, 0.05);
+  --interactive-hover: rgba(37, 99, 235, 0.08);
+  --interactive-active: rgba(37, 99, 235, 0.12);
+  --interactive-glow: rgba(37, 99, 235, 0.06);
+
+  /* Status */
+  --status-success-fg: #16a34a;
+  --status-success-bg: rgba(22, 163, 74, 0.07);
+  --status-success-border: rgba(22, 163, 74, 0.15);
+  --status-warning-fg: #d97706;
+  --status-warning-bg: rgba(217, 119, 6, 0.07);
+  --status-warning-border: rgba(217, 119, 6, 0.15);
+  --status-error-fg: #dc2626;
+  --status-error-bg: rgba(220, 38, 38, 0.07);
+  --status-error-border: rgba(220, 38, 38, 0.15);
+  --status-info-fg: #2563eb;
+  --status-info-bg: rgba(37, 99, 235, 0.06);
+  --status-info-border: rgba(37, 99, 235, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px 0 rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 8px 30px 0 rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 0 40px 0 rgba(37, 99, 235, 0.06);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-button-hover: 0 4px 20px 0 rgba(37, 99, 235, 0.2);
+  --shadow-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.12);
+}
+
+/* ---------- Dark theme (Starlight convention) ---------- */
+:root[data-theme="dark"] {
+  /* Surfaces */
+  --surface-page: #050509;
+  --surface-default: #0a0e1a;
+  --surface-raised: #0f1424;
+  --surface-elevated: #151d35;
+  --surface-overlay: rgba(5, 5, 9, 0.85);
+
+  /* Borders */
+  --border-default: #1a2038;
+  --border-subtle: #111830;
+  --border-accent: rgba(59, 130, 246, 0.15);
+  --border-strong: #1a2038;
+
+  /* Text */
+  --text-primary: #c8d4e8;
+  --text-secondary: #6878a0;
+  --text-muted: #3a4868;
+  --text-link: #60a5fa;
+  --text-link-hover: #93c5fd;
+  --text-on-brand: #ffffff;
+  --text-wordmark: #93afd0;
+  --text-heading: #d0daf0;
+
+  /* Accent */
+  --accent-default: #60a5fa;
+  --accent-strong: #3b82f6;
+  --accent-subtle: #93c5fd;
+  --accent-muted: #bfdbfe;
+
+  /* Interactive */
+  --interactive-ghost: rgba(59, 130, 246, 0.04);
+  --interactive-subtle: rgba(59, 130, 246, 0.06);
+  --interactive-hover: rgba(59, 130, 246, 0.1);
+  --interactive-active: rgba(59, 130, 246, 0.15);
+  --interactive-glow: rgba(59, 130, 246, 0.08);
+
+  /* Status */
+  --status-success-fg: #4ade80;
+  --status-success-bg: rgba(74, 222, 128, 0.08);
+  --status-success-border: rgba(74, 222, 128, 0.15);
+  --status-warning-fg: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.08);
+  --status-warning-border: rgba(251, 191, 36, 0.15);
+  --status-error-fg: #f87171;
+  --status-error-bg: rgba(248, 113, 113, 0.08);
+  --status-error-border: rgba(248, 113, 113, 0.15);
+  --status-info-fg: #60a5fa;
+  --status-info-bg: rgba(96, 165, 250, 0.08);
+  --status-info-border: rgba(96, 165, 250, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 30px 0 rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 40px 0 rgba(59, 130, 246, 0.08);
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-button-hover: 0 4px 20px 0 rgba(59, 130, 246, 0.25);
+  --shadow-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}

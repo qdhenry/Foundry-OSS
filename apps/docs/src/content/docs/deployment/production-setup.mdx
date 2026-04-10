@@ -1,0 +1,253 @@
+---
+title: Production Setup
+description: Step-by-step deployment of Foundry across Cloudflare Workers, Convex Cloud, Vercel, and webhook configuration.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 1
+---
+
+import { Aside, Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Deploy Foundry in this order: **Cloudflare Workers** -> **Convex** -> **Vercel** -> **Webhooks** -> **OAuth callbacks**. Each step depends on URLs and secrets from the previous step.
+
+## Step 1: Deploy the Agent Worker (Cloudflare)
+
+The agent worker handles AI analysis requests (requirement analysis, subtask generation, health scoring).
+
+<Steps>
+1. Install dependencies and deploy:
+
+   ```bash
+   cd agent-worker
+   bun install
+   wrangler deploy
+   ```
+
+   Note the deployed URL: `https://foundry-agent-worker.<account>.workers.dev`
+
+2. Set secrets:
+
+   ```bash
+   wrangler secret put ANTHROPIC_API_KEY
+   # Paste your Anthropic API key
+
+   wrangler secret put AGENT_SERVICE_SECRET
+   # Generate: openssl rand -hex 32
+   ```
+
+   If using Atlassian integration:
+
+   ```bash
+   wrangler secret put ATLASSIAN_CLIENT_ID
+   wrangler secret put ATLASSIAN_CLIENT_SECRET
+   wrangler secret put ATLASSIAN_OAUTH_REDIRECT_URI
+   # https://<your-domain>/api/atlassian/callback
+   ```
+
+3. Verify the deployment:
+
+   ```bash
+   # Health check (no auth required)
+   curl https://foundry-agent-worker.<account>.workers.dev/health
+
+   # Auth check (should return 401)
+   curl https://foundry-agent-worker.<account>.workers.dev/auth/status
+
+   # Auth check with valid token (should return 200)
+   curl -H "Authorization: Bearer <your-secret>" \
+     https://foundry-agent-worker.<account>.workers.dev/auth/status
+   ```
+</Steps>
+
+## Step 2: Deploy the Sandbox Worker (Cloudflare)
+
+The sandbox worker provisions ephemeral Docker containers for AI code execution.
+
+<Steps>
+1. Install dependencies and deploy:
+
+   ```bash
+   cd sandbox-worker
+   bun install
+   wrangler deploy
+   ```
+
+   Note the deployed URL: `https://migration-sandbox-worker.<account>.workers.dev`
+
+2. Set the shared API secret:
+
+   ```bash
+   wrangler secret put SANDBOX_API_SECRET
+   # Must match the value you set in Convex (Step 3)
+   ```
+</Steps>
+
+## Step 3: Configure Convex (Production)
+
+<Steps>
+1. Set environment variables in the Convex Dashboard (or via CLI):
+
+   ```bash
+   bunx convex env set AGENT_SERVICE_URL https://foundry-agent-worker.<account>.workers.dev
+   bunx convex env set AGENT_SERVICE_SECRET <same-secret-from-step-1>
+   bunx convex env set ANTHROPIC_API_KEY <your-anthropic-key>
+   bunx convex env set SANDBOX_WORKER_URL https://migration-sandbox-worker.<account>.workers.dev
+   bunx convex env set SANDBOX_API_SECRET <shared-sandbox-secret>
+   bunx convex env set CLERK_WEBHOOK_SECRET <from-clerk-dashboard>
+   bunx convex env set GITHUB_WEBHOOK_SECRET <your-github-hmac-secret>
+   ```
+
+   If using Atlassian:
+
+   ```bash
+   bunx convex env set ATLASSIAN_WEBHOOK_SECRET <your-atlassian-hmac-secret>
+   ```
+
+2. Deploy Convex functions:
+
+   ```bash
+   bunx convex deploy
+   ```
+
+   This validates schema changes, runs migrations, and deploys all server functions.
+</Steps>
+
+<Aside type="caution">
+The `AGENT_SERVICE_SECRET` must match between Convex and the agent worker. A mismatch causes 401 errors on every AI analysis request.
+</Aside>
+
+## Step 4: Deploy the Frontend (Vercel)
+
+<Steps>
+1. Connect your repository:
+
+   - Go to [vercel.com/new](https://vercel.com/new) and import your GitHub repository
+   - **Framework Preset:** Next.js (auto-detected)
+   - **Root Directory:** `apps/web`
+   - **Build Command:** `bun run build`
+   - **Install Command:** `bun install` (runs at monorepo root)
+   - **Node.js Version:** 20.x
+
+2. Set public environment variables (available at build time):
+
+   | Variable | Value |
+   |----------|-------|
+   | `NEXT_PUBLIC_CONVEX_URL` | Your Convex deployment URL |
+   | `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` | Production Clerk publishable key |
+   | `NEXT_PUBLIC_GITHUB_APP_SLUG` | Your GitHub App slug |
+   | `NEXT_PUBLIC_CONVEX_SITE_URL` | Production Convex site URL |
+
+3. Set secret environment variables (server-side only):
+
+   | Variable | Value |
+   |----------|-------|
+   | `CLERK_SECRET_KEY` | Production Clerk secret key |
+   | `CLERK_JWT_ISSUER_DOMAIN` | Production Clerk domain |
+   | `GITHUB_APP_ID` | Your GitHub App ID |
+   | `GITHUB_APP_PRIVATE_KEY` | RSA private key (full PEM) |
+   | `GITHUB_APP_CLIENT_ID` | OAuth client ID |
+   | `GITHUB_APP_CLIENT_SECRET` | OAuth client secret |
+   | `AGENT_SERVICE_URL` | Agent worker URL |
+   | `SANDBOX_WORKER_URL` | Sandbox worker URL |
+   | `SANDBOX_API_SECRET` | Shared sandbox secret |
+
+   If using Atlassian:
+
+   | Variable | Value |
+   |----------|-------|
+   | `ATLASSIAN_CLIENT_ID` | Atlassian OAuth client ID |
+   | `ATLASSIAN_CLIENT_SECRET` | Atlassian OAuth client secret |
+   | `ATLASSIAN_OAUTH_REDIRECT_URI` | `https://<your-domain>/api/atlassian/callback` |
+
+4. Deploy:
+
+   Vercel deploys automatically on push to `main`. For manual deploy:
+
+   ```bash
+   cd apps/web && npx vercel --prod
+   ```
+</Steps>
+
+**Variables NOT needed on Vercel** (these live in Convex Dashboard or Wrangler only): `CONVEX_DEPLOYMENT`, `ANTHROPIC_API_KEY`, `AGENT_SERVICE_SECRET`.
+
+### Custom domain (optional)
+
+1. Go to Vercel project -> Settings -> Domains
+2. Add your domain
+3. Configure DNS:
+   - **CNAME:** `cname.vercel-dns.com` (subdomain)
+   - **A records:** Vercel IP addresses (apex domain)
+4. SSL is auto-provisioned by Vercel
+
+## Step 5: Configure Webhooks
+
+All webhooks point to **Convex Cloud HTTP endpoints**, not Vercel.
+
+| Service | Webhook URL | Secret Variable |
+|---------|------------|-----------------|
+| Clerk | `https://<convex-site-url>/clerk-webhook` | `CLERK_WEBHOOK_SECRET` |
+| GitHub | `https://<convex-site-url>/api/webhooks/github` | `GITHUB_WEBHOOK_SECRET` |
+| Atlassian (Jira) | `https://<convex-site-url>/api/webhooks/jira` | `ATLASSIAN_WEBHOOK_SECRET` |
+| Atlassian (Confluence) | `https://<convex-site-url>/api/webhooks/confluence` | `ATLASSIAN_WEBHOOK_SECRET` |
+| Stripe | `https://<convex-site-url>/api/webhooks/stripe` | Stripe signing secret |
+
+<Aside>
+Webhooks are processed by Convex server functions, not Vercel serverless functions. Convex HTTP actions validate signatures, buffer events, and schedule async processors.
+</Aside>
+
+## Step 6: Configure OAuth Callbacks
+
+Update callback URLs to point to your production domain:
+
+### GitHub App
+
+1. GitHub -> Settings -> Developer settings -> GitHub Apps -> Your App
+2. Set **Callback URL** to: `https://<your-domain>/api/github/callback`
+3. Set **Webhook URL** to the Convex endpoint from Step 5
+
+### Atlassian App
+
+1. [developer.atlassian.com](https://developer.atlassian.com) -> Your App
+2. Set **Callback URL** to: `https://<your-domain>/api/atlassian/callback`
+
+### Clerk
+
+1. Clerk Dashboard -> Production instance
+2. Verify domain settings match your Vercel domain
+3. Set webhook endpoint to the Convex HTTP endpoint from Step 5
+
+## Verification checklist
+
+### Vercel
+
+- [ ] Build succeeds on Vercel dashboard
+- [ ] Landing page loads at production URL
+- [ ] Clerk sign-in/sign-out works
+- [ ] Organization switching works
+- [ ] Convex data loads (real-time subscriptions active)
+- [ ] GitHub OAuth callback works (`/api/github/callback`)
+- [ ] Atlassian OAuth callback works (`/api/atlassian/callback`)
+
+### Agent Worker
+
+- [ ] `/health` returns 200
+- [ ] Unauthenticated requests return 401
+- [ ] Bearer auth accepts valid token
+- [ ] `/auth/status` shows `isConfigured: true`
+
+### End-to-End
+
+- [ ] AI analysis triggers from production UI -> agent worker processes -> results appear in Convex
+- [ ] Discovery analysis completes
+- [ ] Task decomposition completes
+- [ ] Sandbox execution provisions and runs
+- [ ] Webhook events process (Clerk, GitHub, Atlassian)
+- [ ] Sandbox auto-commits push to GitHub
+
+### Local Dev Still Works
+
+- [ ] `bun run dev` starts Next.js on port 3000
+- [ ] `bun run dev:convex` starts Convex dev
+- [ ] `bun run dev:agent` starts Express on port 3001
+- [ ] `bun run dev:worker` starts sandbox worker on port 8788

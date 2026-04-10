@@ -1,0 +1,220 @@
+---
+title: Agent System
+description: Three AI services, three-tier model deployment, context assembly pipeline, prompt caching, and the sandbox execution engine.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 5
+---
+
+import { Aside, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+Foundry runs AI through three distinct services, each with a specific responsibility. The system uses a three-tier model deployment strategy and a structured context assembly pipeline to ensure agents reason about full project context.
+
+## Three AI services
+
+### Agent Service (Express 5 — local dev)
+
+**Directory:** `agent-service/`
+
+A stateless Express 5 sidecar with 7 structured output endpoints. Runs on `localhost:3001` during local development. Uses the Claude Agent SDK streaming interface.
+
+- **Auth:** Three-priority detection — manual config, environment variable, Claude Code OAuth
+- **Database access:** None by design. Results returned to callers only.
+- **Cost tracking:** Per-request middleware logs model, tokens, and estimated cost.
+
+### Agent Worker (Cloudflare Worker — production)
+
+**Directory:** `agent-worker/`
+
+The production replacement for agent-service. A Cloudflare Worker built with **Hono** and the **Anthropic SDK**. Deployed at `https://foundry-agent-worker.<account>.workers.dev`.
+
+- **Auth:** Bearer token via `AGENT_SERVICE_SECRET` header. Unauthenticated requests return 401.
+- **Routes:** Same structured analysis endpoints as agent-service (`/analyze-requirement`, `/analyze-task-subtasks`, `/health`, etc.)
+
+**Routing logic** in `convex/lib/agentServiceClient.ts` switches between services based on environment:
+
+```typescript
+// Local: no auth header
+const url = process.env.AGENT_SERVICE_URL; // http://localhost:3001
+
+// Production: bearer auth
+const url = process.env.AGENT_SERVICE_URL; // https://foundry-agent-worker.<acct>.workers.dev
+const headers = {
+  Authorization: `Bearer ${process.env.AGENT_SERVICE_SECRET}`,
+};
+```
+
+### Sandbox Worker (Cloudflare Worker + Durable Objects + Docker)
+
+**Directory:** `sandbox-worker/`
+
+Provisions ephemeral AI coding environments scoped to individual tasks. This is the flagship execution engine.
+
+Architecture stack:
+- **Cloudflare Worker** — lightweight request router
+- **SessionStore Durable Object** — one per session, manages container lifecycle and SQLite storage
+- **Docker Container** — runs Claude Code SDK with `bypassPermissions` mode
+
+The 10-stage provisioning pipeline:
+
+| Stage | What happens |
+|-------|-------------|
+| `containerProvision` | Docker container allocated on Cloudflare |
+| `systemSetup` | Base packages and environment configured |
+| `authSetup` | Git credentials and API keys injected |
+| `claudeConfig` | Claude Code SDK configuration written |
+| `gitClone` | Repository cloned into the container |
+| `depsInstall` | Project dependencies installed |
+| `mcpInstall` | MCP servers configured for project-specific tooling |
+| `workspaceCustomization` | Dotfiles, hooks, custom scripts applied |
+| `healthCheck` | Verify Claude Code SDK responds and git works |
+| `ready` | Session available for execution |
+
+Runtime modes: `idle`, `executing`, `interactive` (multi-turn chat), `hibernating`. TTL range: 5-60 minutes with Durable Object alarm-based expiration.
+
+<Aside type="tip">
+The sandbox worker uses a formal state machine with an `ALLOWED_TRANSITIONS` map. Adding a transition without updating the map results in a silent rejection. See `convex/sandbox/sessions.ts`.
+</Aside>
+
+## Three-tier model deployment
+
+Foundry routes AI requests to different Claude models based on task complexity and cost requirements.
+
+| Model | Code | Use Case | Rationale |
+|-------|------|----------|-----------|
+| Claude Opus 4.6 | `claude-opus-4-6-20250219` | Document analysis | Highest capability for complex multi-type extraction from unstructured documents |
+| Claude Sonnet 4.5 v2 | `claude-sonnet-4-5-20250929` | Agent service routes, health scoring, subtask generation | Balanced cost/capability for structured output tasks |
+| Claude Sonnet 4.5 | `claude-sonnet-4-5-20250514` | Core skill execution (`executeSkill`) | Standard execution tier for sandbox operations |
+
+### Dynamic model catalog
+
+`refreshModelCache` fetches the live Anthropic models list (`/v1/models`) and caches in Convex with 24-hour TTL. The UI model selector shows actual available models, not a hardcoded list.
+
+## Context assembly pipeline
+
+Every AI invocation assembles structured XML context from five layers before calling Claude. This pipeline is engagement-type agnostic — it works for migrations, greenfield builds, integrations, and product development.
+
+<Steps>
+1. **Program context** (~200 tokens) — program type, phase, status, source/target platforms.
+
+2. **Requirements** (~500-2K tokens) — filtered by workstream, with dependency graph and status.
+
+3. **Skill instructions** (~2-10K tokens) — full skill content with domain, version metadata, and execution rules.
+
+4. **Recent execution history** (~300-800 tokens) — last 5 agent runs with review status. Enables feedback-loop-aware prompting.
+
+5. **Task prompt** — the specific task with XML tags, acceptance criteria, and repository structure.
+</Steps>
+
+```xml
+<program_context>
+  Program: AcmeCorp Migration
+  Phase: build
+  Source: Magento
+  Target: Salesforce B2B Commerce
+</program_context>
+
+<requirements>
+  REQ-042: Product catalog sync (status: in_progress)
+  REQ-043: Price book mapping (status: draft, depends_on: REQ-042)
+</requirements>
+
+<skill_instructions>
+  Domain: integration
+  Version: 3
+  Content: [full skill text with implementation rules]
+</skill_instructions>
+
+<recent_executions>
+  Run 1: REQ-042 subtask 3 — accepted (2 days ago)
+  Run 2: REQ-042 subtask 4 — rejected, "missing error handling" (1 day ago)
+</recent_executions>
+
+<task>
+  Implement product catalog sync endpoint with error handling.
+  Acceptance criteria: [...]
+  Repository structure: [injected file tree]
+</task>
+```
+
+## Prompt caching
+
+Foundry uses Anthropic's prompt caching (`cache_control: { type: "ephemeral" }`) on static context blocks to achieve ~90% cost reduction on repeated context.
+
+```typescript
+const response = await anthropic.messages.create({
+  model: "claude-sonnet-4-5-20250929",
+  system: [
+    {
+      type: "text",
+      text: programContext, // static across calls
+      cache_control: { type: "ephemeral" },
+    },
+    {
+      type: "text",
+      text: skillInstructions, // static within a session
+      cache_control: { type: "ephemeral" },
+    },
+  ],
+  messages: [{ role: "user", content: taskPrompt }],
+});
+```
+
+The first call pays full price for the system prompt. Subsequent calls within the cache window (~5 minutes) read from cache at 10% of the original cost.
+
+## Extended thinking
+
+Select AI routes use Claude's extended thinking for complex reasoning tasks. The thinking budget controls how long the model reasons before generating output.
+
+| Route | Thinking Budget | Use Case |
+|-------|----------------|----------|
+| Task decomposition | 8,000 tokens | Breaking requirements into implementation tasks |
+| Gate evaluation | 7,000 tokens | Assessing sprint gate readiness |
+| Risk evaluation | 6,000 tokens | Analyzing risk factors and impacts |
+| Video segment analysis | 6,000 tokens | Extracting structured findings from recordings |
+
+## Key AI patterns
+
+### Lenient enum normalization
+
+LLM output varies in casing and formatting. Foundry uses Zod helpers that normalize before validation:
+
+```typescript
+// ai/schemas.ts
+const lenientEnum = (values: string[]) =>
+  z.string().transform(v => v.toLowerCase().replace(/\s+/g, "_"));
+```
+
+This prevents crashes when Claude returns `"High"` instead of `"high"` or `"In Progress"` instead of `"in_progress"`.
+
+### Streaming incremental persistence
+
+Subtask generation parses partial JSON via brace-depth tracking. Each completed subtask is inserted into Convex as it arrives in the stream. Users see subtasks appear one by one in real time rather than waiting for the full response.
+
+### Repository structure injection
+
+`getRepoStructureForProgram()` fetches the live GitHub file tree and injects it into task decomposition prompts. Agents know the actual codebase structure — file paths, directory organization — not abstract requirements alone.
+
+### Duplicate-aware extraction
+
+During document analysis, existing requirement titles are injected as an `<existing-requirements>` XML block. Claude classifies each finding as `new`, `update`, or `duplicate` rather than extracting requirements that already exist.
+
+## AI feature modules
+
+| Module | Trigger | Model Tier | Output |
+|--------|---------|-----------|--------|
+| Document analysis | Document upload | Opus 4.6 | Requirements, risks, integrations, decisions |
+| Task decomposition | Requirement view | Sonnet 4.5 v2 | Tasks with acceptance criteria, story points |
+| Subtask generation | Task execution | Sonnet 4.5 v2 | Scoped subtasks with complexity scores |
+| Sprint planning | Sprint view | Sonnet 4.5 v2 | Capacity-aware task recommendations |
+| Gate evaluation | Gate detail | Sonnet 4.5 v2 | Readiness score (0-100%), blockers |
+| Risk assessment | On-demand | Sonnet 4.5 v2 | Risk identification, escalations, impacts |
+| Health scoring | Daily cron | Sonnet 4.5 v2 | 5-factor workstream health scores |
+| Skill execution | Sandbox | Sonnet 4.5 | Code generation in isolated containers |
+| PR description | Sandbox push | Sonnet 4.5 v2 | AI-generated PR description from diff |
+| Code review | GitHub comment | Sonnet 4.5 v2 | Context-aware review posted to PR |
+
+## Token tracking
+
+Every AI call tracks token usage via `extractTokenUsage()` and calculates cost. Records are stored in `aiUsageRecords` for billing and observability. The Agent Activity dashboard groups operations by requirement, enabling tracing from intake through implementation.

@@ -1,0 +1,39 @@
+---
+title: "confluencePageRecords"
+description: "Schema reference for the confluencePageRecords table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Confluence Page Records — publish and ingestion tracking
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| pageType | "gap_analysis" \| "sprint_report" \| "risk_register" \| "visual_discovery" \| "decisions_log" \| "program_overview" \| "ingested" | Yes |  |
+| confluencePageId | string | Yes |  |
+| confluencePageTitle | string | Yes |  |
+| confluenceVersion | number | Yes |  |
+| direction | "publish" \| "ingest" | Yes |  |
+| lastPublishedAt | number | No |  |
+| lastIngestedAt | number | No |  |
+| sourceAnalysisId | string | No |  |
+| contentHash | string | No |  |
+| sprintId | string | No |  |
+| cachedRenderedHtml | string | No |  |
+| cachedRenderedVersion | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |
+| by_confluence_page_id | programId, confluencePageId |
+| by_page_type | programId, pageType |

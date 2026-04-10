@@ -1,0 +1,29 @@
+---
+title: "sandbox/sessions.listByProgram"
+description: "query — List sandbox sessions for a program with optional status and runtime filters."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/sessions.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/sandbox/sessions.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    status: sandboxSessionStatusValidator /* optional */,
+    runtime: sandboxRuntimeValidator /* optional */,
+    localDeviceId: string /* optional */,
+    runtimeMode: sandboxRuntimeModeValidator /* optional */,
+    isPinned: boolean /* optional */,
+  }
+```
+
+List sandbox sessions for a program with optional status and runtime filters.

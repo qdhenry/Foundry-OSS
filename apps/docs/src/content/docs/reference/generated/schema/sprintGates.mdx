@@ -1,0 +1,32 @@
+---
+title: "sprintGates"
+description: "Schema reference for the sprintGates table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Sprint Gates — quality gates for workstream sprints
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| workstreamId | `Id<"workstreams">` | Yes | Parent workstream reference |
+| name | string | Yes |  |
+| gateType | "foundation" \| "development" \| "integration" \| "release" | Yes |  |
+| criteria | object[] | Yes |  |
+| approvals | object[] | Yes |  |
+| status | "pending" \| "passed" \| "failed" \| "overridden" | Yes |  |
+| evaluatedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_workstream | workstreamId |

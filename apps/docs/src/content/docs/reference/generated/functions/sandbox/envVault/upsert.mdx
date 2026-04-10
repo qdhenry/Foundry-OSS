@@ -1,0 +1,30 @@
+---
+title: "sandbox/envVault.upsert"
+description: "mutation — Create or update an encrypted environment variable in the vault."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/envVault.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sandbox/envVault.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    name: string,
+    encryptedValue: string,
+    description: string /* optional */,
+  }
+```
+
+Create or update an encrypted environment variable in the vault.
+@param orgId - Organization ID
+@param name - Variable name (auto-normalized to SCREAMING_SNAKE_CASE)
+@param encryptedValue - Encrypted value

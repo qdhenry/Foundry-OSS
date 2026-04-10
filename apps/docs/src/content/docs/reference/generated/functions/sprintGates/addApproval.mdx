@@ -1,0 +1,27 @@
+---
+title: "sprintGates.addApproval"
+description: "mutation — Add the current user as an approver on a gate."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sprintGates.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sprintGates.ts`
+
+## Arguments
+
+```typescript
+{
+    gateId: Id<"sprintGates">,
+    role: string,
+  }
+```
+
+Add the current user as an approver on a gate.
+@param gateId - The sprint gate
+@param role - The role under which the user is approving

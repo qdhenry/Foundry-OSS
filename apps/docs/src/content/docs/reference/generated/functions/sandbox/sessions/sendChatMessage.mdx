@@ -1,0 +1,29 @@
+---
+title: "sandbox/sessions.sendChatMessage"
+description: "mutation — Send a chat message to a sandbox session for interactive multi-turn conversation."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sandbox/sessions.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sandbox/sessions.ts`
+
+## Arguments
+
+```typescript
+{
+    sessionId: Id<"sandboxSessions">,
+    content: string,
+    role: "user" | "system",
+  }
+```
+
+Send a chat message to a sandbox session for interactive multi-turn conversation.
+@param sessionId - Target session
+@param content - Message text
+@param role - Message role (user or system)

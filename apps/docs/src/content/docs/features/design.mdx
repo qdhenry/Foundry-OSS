@@ -1,0 +1,56 @@
+---
+title: "Design"
+description: "Design context pipeline with asset upload, AI analysis, token editing, and interaction specs."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Design feature provides a pipeline for managing design assets, extracting design tokens, and defining interaction specifications. Upload screenshots, style guides, prototypes, and animation snippets — then let AI analyze them and cascade design context into task execution.
+
+## Why it matters
+
+AI agents produce better code when they understand the design intent. The design context pipeline ensures that token values, interaction patterns, and visual references are available to agents during sandbox execution, reducing back-and-forth between design and implementation.
+
+## Key concepts
+
+- **Asset types**: `screenshot`, `tokens`, `styleGuide`, `prototype`, `interactionSpec`, `animationSnippet`
+- **Asset status**: `uploaded`, `analyzing`, `analyzed`, `error`
+- **Upload zone**: `DesignUploadZone` handles drag-and-drop upload of design assets
+- **Upload queue**: `useDesignUploadQueue` manages concurrent uploads with progress tracking
+- **Gallery and hierarchy views**: Switch between gallery (visual grid) and hierarchy (structured tree) views
+- **AI analysis panel**: `DesignAnalysisPanel` shows AI-generated analysis of design assets with extracted tokens and patterns
+- **Token editor**: `DesignTokenEditor` provides a visual editor for design token values (colors, spacing, typography)
+- **Interaction spec table**: `InteractionSpecTable` defines interaction patterns with trigger, behavior, and duration
+- **Workstream and requirement scoping**: Design assets can be filtered by workstream and linked to specific requirements
+- **Token cascading**: Design tokens flow from program-level defaults through workstream overrides to task-specific values
+
+## How to use it
+
+1. Navigate to **[Program] > Design**.
+2. Upload design assets by dragging files into the upload zone.
+3. AI analysis runs automatically — results appear in the analysis panel.
+4. Switch between **gallery** and **hierarchy** views to browse assets.
+5. Open the **Token Editor** to review and adjust extracted token values.
+6. Define interaction specs in the **Interaction Spec Table**.
+7. Scope assets to workstreams or requirements for targeted injection into sandboxes.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`designAssets`](/reference/generated/schema/designAssets) — Uploaded design files with type, status, and program scope
+- [`designAnalyses`](/reference/generated/schema/designAnalyses) — AI analysis results per asset
+- [`designTokenSets`](/reference/generated/schema/designTokenSets) — Extracted and edited token values
+- [`designInteractions`](/reference/generated/schema/designInteractions) — Interaction specification records
+- [`designFidelityChecks`](/reference/generated/schema/designFidelityChecks) — Fidelity validation results
+- [`taskDesignSnapshots`](/reference/generated/schema/taskDesignSnapshots) — Snapshots of design context injected into tasks
+
+## Related
+
+<LinkCard title="Tasks" href="/features/tasks/" />
+<LinkCard title="Settings" href="/features/settings/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />

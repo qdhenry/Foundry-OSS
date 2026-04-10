@@ -1,0 +1,30 @@
+---
+title: "trialState"
+description: "Schema reference for the trialState table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Trial state — "The Smelt Experience" per org
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| sessionsUsed | number | Yes |  |
+| sessionsLimit | number | Yes |  |
+| programsUsed | number | Yes |  |
+| programsLimit | number | Yes |  |
+| startedAt | number | Yes |  |
+| convertedAt | number | No |  |
+| convertedToPlan | union | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |

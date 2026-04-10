@@ -1,0 +1,73 @@
+# Docs CI -- build verification and stale-reference detection
+# Runs on PRs that touch documentation sources, the UI theme layer,
+# the Convex schema (referenced by generated docs), or this workflow itself.
+
+name: Docs
+
+on:
+  pull_request:
+    paths:
+      - "apps/docs/**"
+      - "packages/ui/src/theme/**"
+      - "convex/schema.ts"
+      - ".github/workflows/docs.yml"
+
+jobs:
+  # ---------------------------------------------------------------
+  # 1. Build the Starlight documentation site
+  # ---------------------------------------------------------------
+  build-docs:
+    name: Build docs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Type-check (astro check + tsc)
+        run: bun --cwd apps/docs run check
+
+      - name: Build site
+        run: bun --cwd apps/docs run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs-dist
+          path: apps/docs/dist
+          retention-days: 7
+
+  # ---------------------------------------------------------------
+  # 2. Ensure generated reference docs are up-to-date
+  # ---------------------------------------------------------------
+  stale-reference-check:
+    name: Stale reference check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Regenerate reference docs
+        run: bun --cwd apps/docs run reference:gen
+
+      - name: Check for uncommitted changes
+        run: |
+          if ! git diff --exit-code apps/docs/src/content/docs/reference/generated/; then
+            echo "::error::Reference docs are stale. Run \`bun --cwd apps/docs run reference:gen\` and commit."
+            exit 1
+          fi

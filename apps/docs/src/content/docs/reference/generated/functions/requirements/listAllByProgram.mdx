@@ -1,0 +1,30 @@
+---
+title: "requirements.listAllByProgram"
+description: "query — Paginated list of all requirements for a program with optional filters."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/requirements.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/requirements.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    workstreamId: Id<"workstreams"> /* optional */,
+    status: statusValidator /* optional */,
+    unassigned: boolean /* optional */,
+    limit: number /* optional */,
+    cursor: string /* optional */,
+  }
+```
+
+Paginated list of all requirements for a program with optional filters.
+Used by the dedicated Requirements page.

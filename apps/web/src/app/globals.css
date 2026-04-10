@@ -1,0 +1,3 @@
+@import "@foundry/ui/theme/globals.css";
+
+@source "../../../../packages/ui/src/**/*.{ts,tsx}";

@@ -1,0 +1,29 @@
+---
+title: "evidence"
+description: "Schema reference for the evidence table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Evidence — file attachments linked to requirements
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| requirementId | `Id<"requirements">` | Yes |  |
+| storageId | `Id<"_storage">` | Yes |  |
+| fileName | string | Yes |  |
+| fileType | string | Yes |  |
+| fileSize | number | Yes |  |
+| uploadedBy | `Id<"users">` | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_requirement | requirementId |

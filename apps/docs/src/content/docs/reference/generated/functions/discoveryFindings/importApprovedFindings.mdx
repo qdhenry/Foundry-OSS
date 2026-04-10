@@ -1,0 +1,28 @@
+---
+title: "discoveryFindings.importApprovedFindings"
+description: "mutation — Convert all approved discovery findings into requirements. Each approved"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/discoveryFindings.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/discoveryFindings.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    status: "draft" /* optional */, "active" | "deferred",
+  }
+```
+
+Convert all approved discovery findings into requirements. Each approved
+finding becomes a new requirement with auto-generated refId.
+@param programId - The program to import into
+@param status - Initial status for created requirements (default: draft)

@@ -1,0 +1,316 @@
+{
+  "name": "@foundry/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./backend": {
+      "types": "./src/backend.tsx",
+      "default": "./src/backend.tsx"
+    },
+    "./audit": {
+      "types": "./src/audit/index.ts",
+      "default": "./src/audit/index.ts"
+    },
+    "./audit/*": {
+      "types": "./src/audit/*.tsx",
+      "default": "./src/audit/*.tsx"
+    },
+    "./brand": {
+      "types": "./src/brand/index.ts",
+      "default": "./src/brand/index.ts"
+    },
+    "./brand/*": {
+      "types": "./src/brand/*.tsx",
+      "default": "./src/brand/*.tsx"
+    },
+    "./charts": {
+      "types": "./src/charts/index.ts",
+      "default": "./src/charts/index.ts"
+    },
+    "./charts/*": {
+      "types": "./src/charts/*.tsx",
+      "default": "./src/charts/*.tsx"
+    },
+    "./codebase-analysis": {
+      "types": "./src/codebase-analysis/index.ts",
+      "default": "./src/codebase-analysis/index.ts"
+    },
+    "./codebase-analysis/*": {
+      "types": "./src/codebase-analysis/*.tsx",
+      "default": "./src/codebase-analysis/*.tsx"
+    },
+    "./billing": {
+      "types": "./src/billing/index.ts",
+      "default": "./src/billing/index.ts"
+    },
+    "./billing/*": {
+      "types": "./src/billing/*.tsx",
+      "default": "./src/billing/*.tsx"
+    },
+    "./design": {
+      "types": "./src/design/index.ts",
+      "default": "./src/design/index.ts"
+    },
+    "./design/*": {
+      "types": "./src/design/*.tsx",
+      "default": "./src/design/*.tsx"
+    },
+    "./dashboard-shell": {
+      "types": "./src/dashboard-shell/index.ts",
+      "default": "./src/dashboard-shell/index.ts"
+    },
+    "./dashboard-shell/*": {
+      "types": "./src/dashboard-shell/*.tsx",
+      "default": "./src/dashboard-shell/*.tsx"
+    },
+    "./programs": {
+      "types": "./src/programs/index.ts",
+      "default": "./src/programs/index.ts"
+    },
+    "./programs/*": {
+      "types": "./src/programs/*.tsx",
+      "default": "./src/programs/*.tsx"
+    },
+    "./patterns": {
+      "types": "./src/patterns/index.ts",
+      "default": "./src/patterns/index.ts"
+    },
+    "./patterns/*": {
+      "types": "./src/patterns/*.tsx",
+      "default": "./src/patterns/*.tsx"
+    },
+    "./pipeline-lab": {
+      "types": "./src/pipeline-lab/index.ts",
+      "default": "./src/pipeline-lab/index.ts"
+    },
+    "./pipeline-lab/*": {
+      "types": "./src/pipeline-lab/*.tsx",
+      "default": "./src/pipeline-lab/*.tsx"
+    },
+    "./overview": {
+      "types": "./src/overview/index.ts",
+      "default": "./src/overview/index.ts"
+    },
+    "./overview/*": {
+      "types": "./src/overview/*.tsx",
+      "default": "./src/overview/*.tsx"
+    },
+    "./orchestration": {
+      "types": "./src/orchestration/index.ts",
+      "default": "./src/orchestration/index.ts"
+    },
+    "./orchestration/*": {
+      "types": "./src/orchestration/*.tsx",
+      "default": "./src/orchestration/*.tsx"
+    },
+    "./mission-control": {
+      "types": "./src/mission-control/index.ts",
+      "default": "./src/mission-control/index.ts"
+    },
+    "./mission-control/*": {
+      "types": "./src/mission-control/*.tsx",
+      "default": "./src/mission-control/*.tsx"
+    },
+    "./discovery": {
+      "types": "./src/discovery/index.ts",
+      "default": "./src/discovery/index.ts"
+    },
+    "./discovery/*": {
+      "types": "./src/discovery/*.tsx",
+      "default": "./src/discovery/*.tsx"
+    },
+    "./videos": {
+      "types": "./src/videos/index.ts",
+      "default": "./src/videos/index.ts"
+    },
+    "./videos/*": {
+      "types": "./src/videos/*.tsx",
+      "default": "./src/videos/*.tsx"
+    },
+    "./sprints": {
+      "types": "./src/sprints/index.ts",
+      "default": "./src/sprints/index.ts"
+    },
+    "./sprints/*": {
+      "types": "./src/sprints/*.tsx",
+      "default": "./src/sprints/*.tsx"
+    },
+    "./skills": {
+      "types": "./src/skills/index.ts",
+      "default": "./src/skills/index.ts"
+    },
+    "./skills/*": {
+      "types": "./src/skills/*.tsx",
+      "default": "./src/skills/*.tsx"
+    },
+    "./repositories": {
+      "types": "./src/repositories/index.ts",
+      "default": "./src/repositories/index.ts"
+    },
+    "./repositories/*": {
+      "types": "./src/repositories/*.tsx",
+      "default": "./src/repositories/*.tsx"
+    },
+    "./requirements": {
+      "types": "./src/requirements/index.ts",
+      "default": "./src/requirements/index.ts"
+    },
+    "./requirements/*": {
+      "types": "./src/requirements/*.tsx",
+      "default": "./src/requirements/*.tsx"
+    },
+    "./risks": {
+      "types": "./src/risks/index.ts",
+      "default": "./src/risks/index.ts"
+    },
+    "./risks/*": {
+      "types": "./src/risks/*.tsx",
+      "default": "./src/risks/*.tsx"
+    },
+    "./gates": {
+      "types": "./src/gates/index.ts",
+      "default": "./src/gates/index.ts"
+    },
+    "./gates/*": {
+      "types": "./src/gates/*.tsx",
+      "default": "./src/gates/*.tsx"
+    },
+    "./google-drive": {
+      "types": "./src/google-drive/index.ts",
+      "default": "./src/google-drive/index.ts"
+    },
+    "./integrations": {
+      "types": "./src/integrations/index.ts",
+      "default": "./src/integrations/index.ts"
+    },
+    "./integrations/*": {
+      "types": "./src/integrations/*.tsx",
+      "default": "./src/integrations/*.tsx"
+    },
+    "./playbooks": {
+      "types": "./src/playbooks/index.ts",
+      "default": "./src/playbooks/index.ts"
+    },
+    "./playbooks/*": {
+      "types": "./src/playbooks/*.tsx",
+      "default": "./src/playbooks/*.tsx"
+    },
+    "./activity": {
+      "types": "./src/activity/index.ts",
+      "default": "./src/activity/index.ts"
+    },
+    "./activity/*": {
+      "types": "./src/activity/*.tsx",
+      "default": "./src/activity/*.tsx"
+    },
+    "./settings": {
+      "types": "./src/settings/index.ts",
+      "default": "./src/settings/index.ts"
+    },
+    "./settings/*": {
+      "types": "./src/settings/*.tsx",
+      "default": "./src/settings/*.tsx"
+    },
+    "./sandbox": {
+      "types": "./src/sandbox/index.ts",
+      "default": "./src/sandbox/index.ts"
+    },
+    "./sandbox/*": {
+      "types": "./src/sandbox/*.tsx",
+      "default": "./src/sandbox/*.tsx"
+    },
+    "./tasks": {
+      "types": "./src/tasks/index.ts",
+      "default": "./src/tasks/index.ts"
+    },
+    "./tasks/*": {
+      "types": "./src/tasks/*.tsx",
+      "default": "./src/tasks/*.tsx"
+    },
+    "./workstreams": {
+      "types": "./src/workstreams/index.ts",
+      "default": "./src/workstreams/index.ts"
+    },
+    "./workstreams/*": {
+      "types": "./src/workstreams/*.tsx",
+      "default": "./src/workstreams/*.tsx"
+    },
+    "./utilities": {
+      "types": "./src/utilities/index.ts",
+      "default": "./src/utilities/index.ts"
+    },
+    "./utilities/*": {
+      "types": "./src/utilities/*.tsx",
+      "default": "./src/utilities/*.tsx"
+    },
+    "./pricing": {
+      "types": "./src/pricing/index.ts",
+      "default": "./src/pricing/index.ts"
+    },
+    "./pricing/*": {
+      "types": "./src/pricing/*.tsx",
+      "default": "./src/pricing/*.tsx"
+    },
+    "./source-control": {
+      "types": "./src/source-control/index.ts",
+      "default": "./src/source-control/index.ts"
+    },
+    "./source-control/*": {
+      "types": "./src/source-control/*.tsx",
+      "default": "./src/source-control/*.tsx"
+    },
+    "./resilience": {
+      "types": "./src/resilience/index.ts",
+      "default": "./src/resilience/index.ts"
+    },
+    "./resilience/*": {
+      "types": "./src/resilience/*.ts",
+      "default": "./src/resilience/*.ts"
+    },
+    "./resilience-ui": {
+      "types": "./src/resilience-ui/index.ts",
+      "default": "./src/resilience-ui/index.ts"
+    },
+    "./resilience-ui/*": {
+      "types": "./src/resilience-ui/*.tsx",
+      "default": "./src/resilience-ui/*.tsx"
+    },
+    "./status": {
+      "types": "./src/status/index.ts",
+      "default": "./src/status/index.ts"
+    },
+    "./status/*": {
+      "types": "./src/status/*.tsx",
+      "default": "./src/status/*.tsx"
+    },
+    "./theme": {
+      "types": "./src/theme/index.ts",
+      "default": "./src/theme/index.ts"
+    },
+    "./theme/globals.css": "./src/theme/globals.css",
+    "./theme/*": {
+      "types": "./src/theme/*.tsx",
+      "default": "./src/theme/*.tsx"
+    },
+    "./traces": {
+      "types": "./src/traces/index.ts",
+      "default": "./src/traces/index.ts"
+    },
+    "./traces/*": {
+      "types": "./src/traces/*.tsx",
+      "default": "./src/traces/*.tsx"
+    }
+  },
+  "dependencies": {
+    "react-markdown": "^10.1.0",
+    "recharts": "^2.15.3",
+    "sonner": "^2.0.7"
+  }
+}

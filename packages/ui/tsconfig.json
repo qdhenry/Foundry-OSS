@@ -1,0 +1,14 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@foundry/ui": ["./src/index.ts"],
+      "@foundry/ui/*": ["./src/*"],
+      "@foundry/types": ["../types/src/index.ts"],
+      "@foundry/types/*": ["../types/src/*"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
+}

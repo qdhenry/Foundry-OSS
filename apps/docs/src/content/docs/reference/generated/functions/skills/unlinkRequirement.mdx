@@ -1,0 +1,27 @@
+---
+title: "skills.unlinkRequirement"
+description: "mutation — Remove a requirement link from a skill."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/skills.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/skills.ts`
+
+## Arguments
+
+```typescript
+{
+    skillId: Id<"skills">,
+    requirementId: Id<"requirements">,
+  }
+```
+
+Remove a requirement link from a skill.
+@param skillId - The skill to unlink from
+@param requirementId - The requirement to unlink

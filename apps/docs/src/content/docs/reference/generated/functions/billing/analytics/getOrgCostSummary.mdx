@@ -1,0 +1,30 @@
+---
+title: "billing/analytics.getOrgCostSummary"
+description: "query — Aggregate AI cost breakdown for an organization within a date range."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/billing/analytics.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/billing/analytics.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    startDate: number,
+    endDate: number,
+  }
+```
+
+Aggregate AI cost breakdown for an organization within a date range.
+Returns total tokens, cost, and per-model breakdowns.
+@param orgId - Organization ID
+@param startDate - Range start (epoch ms)
+@param endDate - Range end (epoch ms)

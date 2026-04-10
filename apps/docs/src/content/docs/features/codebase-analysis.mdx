@@ -1,0 +1,54 @@
+---
+title: "Codebase Analysis"
+description: "AI-powered code analysis against requirements with implementation status and review queue."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Codebase Analysis runs AI-powered scans of connected repositories against a program's requirements. It determines which requirements are implemented, partially implemented, or missing — then presents results in a review queue where humans can approve or reject AI assessments.
+
+## Why it matters
+
+Manually auditing a codebase against requirements is tedious and error-prone. Automated analysis catches implementation gaps, verifies coverage, and generates evidence that feeds into gate evaluations and client reporting.
+
+## Key concepts
+
+- **Analysis runs**: `AnalysisRunTimeline` shows the history of analysis runs with status and timing
+- **Implementation status**: `fully_implemented`, `partially_implemented`, `not_found`, `needs_verification` — per-requirement classification
+- **Implementation badge**: `ImplementationBadge` renders a color-coded status indicator
+- **Status filters**: Filter results by implementation status to focus on gaps
+- **Review queue**: `ReviewQueue` presents pending AI assessments for human review
+- **Approve/reject**: Reviewers can approve or reject each AI assessment
+- **Analysis config panel**: `AnalysisConfigPanel` configures what to analyze (repositories, directories, requirements scope)
+- **Directory picker**: `DirectoryPicker` selects specific directories within a repository to analyze
+- **Analysis run detail**: `AnalysisRunDetail` shows full results from a single run
+- **Workstream analysis tab**: `WorkstreamAnalysisTab` groups results by workstream
+- **Task analysis panel**: `TaskAnalysisPanel` shows per-task analysis details
+- **Subtask proposal list**: `SubtaskProposalList` suggests subtasks for requirements with incomplete implementation
+
+## How to use it
+
+1. Navigate to **[Program] > Analysis**.
+2. Configure the analysis scope — select repositories and directories.
+3. Run an analysis — the AI scans code against all program requirements.
+4. Review the results grouped by implementation status.
+5. Filter by status to focus on `not_found` or `partially_implemented` requirements.
+6. Open the **Review Queue** to approve or reject AI assessments.
+7. View proposed subtasks for requirements that need additional implementation.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`codebaseRequirementAnalysis`](/reference/generated/schema/codebaseRequirementAnalysis) — Analysis run records with scope and summary
+- [`codebaseAnalysis`](/reference/generated/schema/codebaseAnalysis) — Per-requirement analysis results with implementation status and evidence
+
+## Related
+
+<LinkCard title="Requirements" href="/features/requirements/" />
+<LinkCard title="Source Control" href="/features/source-control/" />
+<LinkCard title="Repositories" href="/features/repositories/" />

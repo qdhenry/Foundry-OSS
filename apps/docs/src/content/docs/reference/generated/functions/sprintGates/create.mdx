@@ -1,0 +1,40 @@
+---
+title: "sprintGates.create"
+description: "mutation — Create a new sprint gate with criteria and initial pending status."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sprintGates.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sprintGates.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    workstreamId: Id<"workstreams">,
+    name: string,
+    gateType: gateTypeValidator,
+    criteria: 
+      v.object({
+        title: string,
+        description: string /* optional */,
+      }[],
+    ),
+  }
+```
+
+Create a new sprint gate with criteria and initial pending status.
+@param orgId - Organization ID
+@param programId - Parent program
+@param workstreamId - Parent workstream
+@param name - Gate display name
+@param gateType - Gate category (e.g., foundation, release)
+@param criteria - Array of pass/fail criteria

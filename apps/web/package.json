@@ -1,0 +1,16 @@
+{
+  "name": "@foundry/web",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@foundry/types": "workspace:*",
+    "@foundry/ui": "workspace:*",
+    "sonner": "^2.0.7"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build --webpack",
+    "start": "next start",
+    "typecheck": "tsc --noEmit -p tsconfig.json"
+  }
+}

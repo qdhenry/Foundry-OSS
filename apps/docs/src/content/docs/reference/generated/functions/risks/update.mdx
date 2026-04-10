@@ -1,0 +1,32 @@
+---
+title: "risks.update"
+description: "mutation — Update risk properties such as title, severity, probability, or mitigation plan."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/risks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/risks.ts`
+
+## Arguments
+
+```typescript
+{
+    riskId: Id<"risks">,
+    title: string /* optional */,
+    description: string /* optional */,
+    severity: severityValidator /* optional */,
+    probability: probabilityValidator /* optional */,
+    mitigation: string /* optional */,
+    ownerId: Id<"users"> /* optional */,
+    workstreamIds: Id<"workstreams"> /* optional */[],
+  }
+```
+
+Update risk properties such as title, severity, probability, or mitigation plan.
+@param riskId - The risk to update

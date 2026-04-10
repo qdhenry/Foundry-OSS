@@ -1,0 +1,32 @@
+---
+title: "sandboxPresets"
+description: "Schema reference for the sandboxPresets table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+d. Sandbox Presets — org-level or personal launch defaults
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| userId | `Id<"users">` | No |  |
+| name | string | Yes |  |
+| editorType | "monaco" \| "codemirror" \| "none" | Yes |  |
+| ttlMinutes | number | Yes |  |
+| envVarOverrides | object[] | Yes |  |
+| mcpServerOverrides | string[] | Yes |  |
+| isDefault | boolean | Yes |  |
+| createdAt | number | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_user | orgId, userId |

@@ -1,0 +1,207 @@
+---
+title: CLI Commands
+description: Convex CLI commands for local development, production deployment, and data management.
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Foundry uses the [Convex CLI](https://docs.convex.dev/cli) (`bunx convex`) for all backend operations. This page documents the commands most relevant to self-hosters.
+
+<Aside type="tip">
+All commands below assume you are in the repository root where `convex/` lives. Run `bunx convex --help` at any time to see the full command list.
+</Aside>
+
+---
+
+## `convex dev`
+
+Start the Convex development server with hot-reload. Watches `convex/` for changes and pushes schema and function updates to your dev deployment in real time.
+
+```bash
+bunx convex dev
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--once` | Push once and exit (no watch mode) |
+| `--tail-logs` | Stream function logs to the terminal |
+| `--typecheck disable` | Skip TypeScript type-checking on push |
+| `--debug-bundle-path <dir>` | Write the compiled bundle to disk for inspection |
+
+<Aside type="note">
+In the Foundry monorepo, `bun run dev:convex` is the standard alias. It runs `bunx convex dev` with the correct working directory.
+</Aside>
+
+---
+
+## `convex deploy`
+
+Deploy your Convex backend to production. Pushes schema, functions, and indexes to the production deployment configured in your project.
+
+```bash
+bunx convex deploy
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--cmd <command>` | Run a shell command after successful deploy (e.g., build frontend) |
+| `--typecheck disable` | Skip TypeScript type-checking |
+| `--dry-run` | Validate without deploying |
+
+<Aside type="caution">
+`convex deploy` targets your **production** deployment. Schema changes that remove tables or indexes may cause data loss. Always review `convex/schema.ts` diffs before deploying.
+</Aside>
+
+---
+
+## `convex run`
+
+Execute a Convex function directly from the command line. Useful for one-off mutations, seeding data, or debugging.
+
+```bash
+# Run a query
+bunx convex run programs:list '{"orgId": "org_abc123"}'
+
+# Run a mutation
+bunx convex run programs:create '{"orgId": "org_abc123", "name": "My Program", "clientName": "Acme", "engagementType": "greenfield", "workstreams": []}'
+
+# Run an internal function
+bunx convex run --component _internal programs:backfillSlugs '{}'
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--prod` | Run against the production deployment |
+| `--watch` | Re-run when the function changes |
+
+Arguments are passed as a single JSON string. The function path uses the `module:functionName` format.
+
+---
+
+## `convex import` / `convex export`
+
+Move data in and out of your Convex deployment.
+
+### Export
+
+```bash
+# Export all tables to a directory
+bunx convex export --path ./backup/
+
+# Export from production
+bunx convex export --prod --path ./backup/
+```
+
+### Import
+
+```bash
+# Import from a previous export
+bunx convex import --path ./backup/
+
+# Import into a specific table
+bunx convex import --table programs --path ./backup/programs.jsonl
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--path <dir>` | Directory for export output or import source |
+| `--table <name>` | Target a specific table |
+| `--prod` | Operate on the production deployment |
+| `--replace` | Replace existing data instead of appending (import only) |
+| `--format <jsonl\|csv>` | Data format (default: `jsonl`) |
+
+<Aside type="caution">
+`--replace` deletes all existing rows in the target table before importing. Use with care in production.
+</Aside>
+
+---
+
+## `convex env`
+
+Manage environment variables on your Convex deployment. These are the server-side variables accessed via `process.env` in Convex actions (not functions using the Convex runtime).
+
+```bash
+# List all environment variables
+bunx convex env list
+
+# Set a variable
+bunx convex env set ANTHROPIC_API_KEY sk-ant-...
+
+# Remove a variable
+bunx convex env remove ANTHROPIC_API_KEY
+
+# List on production
+bunx convex env list --prod
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--prod` | Operate on the production deployment |
+
+See the [Environment Variables](/reference/env-vars/) page for the full list of variables Foundry requires.
+
+---
+
+## `convex logs`
+
+Stream or view function execution logs from your deployment. Essential for debugging server-side errors.
+
+```bash
+# Stream logs in real time
+bunx convex logs
+
+# Stream from production
+bunx convex logs --prod
+
+# Filter by log level
+bunx convex logs --success false
+```
+
+| Flag | Purpose |
+|------|---------|
+| `--prod` | Stream from the production deployment |
+| `--success <bool>` | Filter to only successful or failed executions |
+| `--no-tail` | Print recent logs and exit (no streaming) |
+
+---
+
+## Development workflow
+
+A typical Foundry development session runs four processes. From the repository root:
+
+```bash
+# Terminal 1 — Convex backend (hot-reload)
+bun run dev:convex
+
+# Terminal 2 — Next.js frontend
+bun run dev
+
+# Terminal 3 — Agent service (local Express sidecar)
+bun run dev:agent
+
+# Terminal 4 — Sandbox worker (local Wrangler)
+bun run dev:worker
+```
+
+Or use the Zellij layout to start all four at once:
+
+```bash
+bun run dev:zellij
+```
+
+---
+
+## Production deployment
+
+```bash
+# 1. Deploy Convex backend
+bunx convex deploy
+
+# 2. Deploy agent worker to Cloudflare
+cd agent-worker && wrangler deploy
+
+# 3. Frontend auto-deploys on push to main via Vercel
+git push origin main
+```

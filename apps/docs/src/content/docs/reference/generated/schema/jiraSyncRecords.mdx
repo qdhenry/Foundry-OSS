@@ -1,0 +1,40 @@
+---
+title: "jiraSyncRecords"
+description: "Schema reference for the jiraSyncRecords table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Jira Sync Records — platform entity to Jira mapping
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| platformEntityType | "workstream" \| "requirement" \| "task" \| "sprint" | Yes |  |
+| platformEntityId | string | Yes |  |
+| jiraIssueId | string | No |  |
+| jiraIssueKey | string | No |  |
+| jiraSprintId | number | No |  |
+| jiraIssueType | string | No |  |
+| syncDirection | "push" \| "pull" \| "bidirectional" | Yes |  |
+| lastPushAt | number | No |  |
+| lastPullAt | number | No |  |
+| jiraLastModified | string | No |  |
+| platformLastModified | number | No |  |
+| conflictStatus | union | No |  |
+| conflictDetails | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |
+| by_jira_issue_key | programId, jiraIssueKey |
+| by_platform_entity | programId, platformEntityType, platformEntityId |

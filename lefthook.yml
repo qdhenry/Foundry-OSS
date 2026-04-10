@@ -1,0 +1,8 @@
+pre-commit:
+  jobs:
+    - name: biome-check
+      glob: "*.{ts,tsx,js,jsx,css,json}"
+      run: bunx biome check --no-errors-on-unmatched --files-ignore-unknown=true --diagnostic-level=error {staged_files}
+    - name: coverage-check
+      glob: "*.{ts,tsx}"
+      run: bash scripts/check-coverage-gate.sh {staged_files}

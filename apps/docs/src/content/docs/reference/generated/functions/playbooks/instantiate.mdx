@@ -1,0 +1,27 @@
+---
+title: "playbooks.instantiate"
+description: "mutation — Create a running instance of a published playbook with step tracking."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/playbooks.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/playbooks.ts`
+
+## Arguments
+
+```typescript
+{
+    playbookId: Id<"playbooks">,
+    instanceName: string,
+  }
+```
+
+Create a running instance of a published playbook with step tracking.
+@param playbookId - Source playbook to instantiate
+@param instanceName - Display name for this run

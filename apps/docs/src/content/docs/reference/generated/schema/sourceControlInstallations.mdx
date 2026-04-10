@@ -1,0 +1,32 @@
+---
+title: "sourceControlInstallations"
+description: "Schema reference for the sourceControlInstallations table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Source Control Installations — Provider installations per Clerk organization
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| providerType | v.literal("github") | Yes |  |
+| installationId | string | Yes |  |
+| accountLogin | string | Yes |  |
+| accountType | "organization" \| "user" | Yes |  |
+| status | "active" \| "suspended" \| "disconnected" | Yes |  |
+| permissions | any | Yes |  |
+| installedAt | number | Yes |  |
+| disconnectedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_installation | installationId |

@@ -1,0 +1,39 @@
+---
+title: "teamMembers.add"
+description: "mutation — Add a user as a team member on a program. Prevents duplicate membership."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/teamMembers.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/teamMembers.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    userId: Id<"users">,
+    role: v.union(
+      "director",
+      "architect",
+      "developer",
+      "ba",
+      "qa",
+      "client",
+    ),
+    workstreamIds: Id<"workstreams"> /* optional */[],
+  }
+```
+
+Add a user as a team member on a program. Prevents duplicate membership.
+@param orgId - Organization ID
+@param programId - Target program
+@param userId - User to add
+@param role - Team role (director, architect, developer, ba, qa, client)

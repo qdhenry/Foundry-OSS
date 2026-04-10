@@ -1,0 +1,35 @@
+---
+title: "agentTemplates"
+description: "Schema reference for the agentTemplates table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Database table for agentTemplates records.
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| name | string | Yes |  |
+| description | string | Yes |  |
+| role | agentRoleValidator | Yes |  |
+| model | agentModelValidator | Yes |  |
+| tools | string[] | Yes |  |
+| systemPrompt | string | Yes |  |
+| constraints | string[] | Yes |  |
+| specializations | string[] | Yes |  |
+| personalityProfile | personalityProfileValidator | Yes |  |
+| avatarSeed | string | Yes |  |
+| createdBy | `Id<"users">` | Yes |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_org_role | orgId, role |

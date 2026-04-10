@@ -1,0 +1,45 @@
+---
+title: "Audit"
+description: "Audit trail with timeline view, event filters, and compliance logging."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Audit feature provides a chronological record of every significant action taken within a program. Events are displayed in a filterable timeline, covering user actions, AI executions, status changes, and system events.
+
+## Why it matters
+
+Client-facing delivery engagements require accountability. The audit trail creates an immutable record of who did what and when, supporting compliance reviews, client reporting, and post-mortem analysis.
+
+## Key concepts
+
+- **Audit entry**: `AuditEntry` renders a single event with actor, action, target, and timestamp
+- **Audit timeline**: `AuditTimeline` presents entries in chronological order with visual connectors
+- **Audit filters**: `AuditFilters` narrow the timeline by actor, action type, date range, and target entity
+- **Dual audit system**: Foundry maintains both a general audit log and a compliance-focused log for regulated engagements
+- **Event types**: User actions, AI executions, status transitions, configuration changes, sandbox events
+
+## How to use it
+
+1. Navigate to **[Program] > Audit**.
+2. View the timeline of events in reverse chronological order.
+3. Use filters to narrow by actor, action type, or date range.
+4. Click any entry to see full event details including payload data.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`auditLog`](/reference/generated/schema/auditLog) — General audit events with actor, action, target, and metadata
+- [`executionAudit`](/reference/generated/schema/executionAudit) — Dedicated audit trail for AI execution events
+- [`sandboxAudit`](/reference/generated/schema/sandboxAudit) — Audit records specific to sandbox actions
+
+## Related
+
+<LinkCard title="Gates" href="/features/gates/" />
+<LinkCard title="Traces" href="/features/traces/" />
+<LinkCard title="Activity" href="/features/activity/" />

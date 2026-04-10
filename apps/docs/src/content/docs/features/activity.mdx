@@ -1,0 +1,51 @@
+---
+title: "Activity"
+description: "Activity feed with execution dashboard, trace inspection, and coverage detail."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Activity page is the execution hub for a program. It provides a dashboard view of all AI agent executions, an execution trace viewer for debugging, coverage detail showing which requirements have been touched by agents, and a manual skill execution modal.
+
+## Why it matters
+
+Visibility into AI agent activity is critical for trust. Activity lets you see what agents did, how long they took, what they produced, and which parts of the program have (or have not) received AI attention.
+
+## Key concepts
+
+- **View states**: `dashboard`, `trace`, `coverage` — three views accessible from the activity page
+- **Activity dashboard**: `ActivityDashboard` shows a summary of recent executions with status indicators and search
+- **Activity trace**: `ActivityTrace` renders a detailed trace of a single execution with input/output
+- **Trace detail sections**: `TraceDetailSections` breaks down execution steps within a trace
+- **Trace group**: Groups related trace entries for hierarchical display
+- **Coverage detail**: `CoverageDetail` shows which requirements have been covered by agent executions, grouped by workstream
+- **Execute skill modal**: `ExecuteSkillModal` lets you manually trigger a skill execution from the activity page
+- **Metric card**: `MetricCard` displays execution-level metrics (duration, tokens, cost)
+- **Execution output**: `ExecutionOutput` renders the raw or formatted output from an agent execution
+- **Search**: Debounced search across execution summaries
+
+## How to use it
+
+1. Navigate to **[Program] > Activity**.
+2. View the **Dashboard** for a summary of recent executions.
+3. Search for specific executions using the search bar.
+4. Click an execution to open the **Trace** view with full input/output detail.
+5. Switch to the **Coverage** view to see which requirements have been touched by agents.
+6. Click **Execute Skill** to manually run a skill against selected requirements.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`agentExecutions`](/reference/generated/schema/agentExecutions) — Execution records with skill, status, input/output, timing, and cost
+- [`requirements`](/reference/generated/schema/requirements) — Requirements referenced in coverage tracking
+
+## Related
+
+<LinkCard title="Skills" href="/features/skills/" />
+<LinkCard title="Traces" href="/features/traces/" />
+<LinkCard title="Agents" href="/features/agents/" />

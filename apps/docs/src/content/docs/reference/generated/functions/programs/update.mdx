@@ -1,0 +1,30 @@
+---
+title: "programs.update"
+description: "mutation — Update program metadata such as name, client, description, or dates."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/programs.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/programs.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    name: string /* optional */,
+    clientName: string /* optional */,
+    description: string /* optional */,
+    startDate: number /* optional */,
+    targetEndDate: number /* optional */,
+  }
+```
+
+Update program metadata such as name, client, description, or dates.
+@param programId - The program to update

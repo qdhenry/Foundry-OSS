@@ -1,0 +1,37 @@
+---
+title: "documents.listByProgram"
+description: "query — List documents for a program with optional category and source filters."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/documents.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/documents.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    category: 
+      v.union(
+        "architecture" /* optional */,
+        v.literal("requirements",
+        "testing",
+        "deployment",
+        "meeting_notes",
+        "other",
+      ),
+    ),
+    source: "upload" /* optional */, "google_drive",
+  }
+```
+
+List documents for a program with optional category and source filters.
+Returns enriched records with download URLs and uploader names.
+@param programId - The program to query

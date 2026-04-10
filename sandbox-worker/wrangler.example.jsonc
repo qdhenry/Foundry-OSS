@@ -1,0 +1,100 @@
+{
+  // =========================================================================
+  // Sandbox Worker — Wrangler Configuration Example
+  // =========================================================================
+  // Copy to wrangler.jsonc and fill in your account_id:
+  //   cp wrangler.example.jsonc wrangler.jsonc
+  //
+  // Secrets (SANDBOX_API_SECRET) are NOT stored here.
+  //   Local dev:  set in .dev.vars
+  //   Production: npx wrangler secret put SANDBOX_API_SECRET
+  // =========================================================================
+
+  "name": "migration-sandbox-worker",
+
+  // Your Cloudflare account ID (from dashboard.cloudflare.com)
+  "account_id": "your_cloudflare_account_id",
+
+  "main": "src/index.ts",
+  "compatibility_date": "2025-05-06",
+  "compatibility_flags": ["nodejs_compat"],
+
+  // ---------------------------------------------------------------------------
+  // Containers — Ephemeral sandboxes for Claude Code execution
+  // ---------------------------------------------------------------------------
+  // Requires Cloudflare Containers access (currently in beta).
+  // The Dockerfile installs Claude Code CLI and creates a non-root sandbox user.
+  "containers": [
+    {
+      "class_name": "Sandbox",
+      "image": "./Dockerfile",
+      // standard-2 provides adequate CPU/memory for Claude Code tasks
+      "instance_type": "standard-2",
+      // Max concurrent containers — adjust based on your account limits
+      "max_instances": 10
+    }
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Durable Objects — Stateful session management
+  // ---------------------------------------------------------------------------
+  "durable_objects": {
+    "bindings": [
+      {
+        // Container orchestration DO (from @cloudflare/sandbox SDK)
+        "name": "Sandbox",
+        "class_name": "Sandbox"
+      },
+      {
+        // Session lifecycle DO (SQLite-backed, defined in src/session-store.ts)
+        "name": "SessionStore",
+        "class_name": "SessionStore"
+      }
+    ]
+  },
+
+  // ---------------------------------------------------------------------------
+  // Migrations — SQLite class registration
+  // ---------------------------------------------------------------------------
+  // Each new DO class that uses SQLite needs a migration entry.
+  // Increment the tag (v1, v2, ...) for each new class.
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["Sandbox"]
+    },
+    {
+      "tag": "v2",
+      "new_sqlite_classes": ["SessionStore"]
+    }
+  ],
+
+  // ---------------------------------------------------------------------------
+  // Environment Variables (non-secret)
+  // ---------------------------------------------------------------------------
+  "vars": {
+    // Log verbosity: "debug" | "info" | "warn" | "error"
+    "SANDBOX_LOG_LEVEL": "info",
+    // Log format: "json" | "text"
+    "SANDBOX_LOG_FORMAT": "json"
+  },
+
+  // ---------------------------------------------------------------------------
+  // Observability
+  // ---------------------------------------------------------------------------
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1,
+    "logs": {
+      "enabled": true,
+      "head_sampling_rate": 1,
+      "persist": true,
+      "invocation_logs": true
+    },
+    "traces": {
+      "enabled": false,
+      "persist": true,
+      "head_sampling_rate": 1
+    }
+  }
+}

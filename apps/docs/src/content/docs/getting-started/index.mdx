@@ -1,0 +1,41 @@
+---
+title: Getting Started
+description: Prerequisites, quickstart, and your first Foundry program.
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Card, CardGrid, LinkCard } from '@astrojs/starlight/components';
+
+Foundry is a multi-tenant agentic delivery platform. It structures delivery knowledge -- requirements, skills, workstreams, risks -- and powers AI agents that decompose tasks, generate code in sandboxed environments, and push changes to repositories.
+
+This section walks you through standing up a local instance, configuring the required services, and running your first program.
+
+## Before you begin
+
+Foundry runs as a 4-process distributed system: a Next.js frontend, a Convex backend, an agent service for AI inference, and a Cloudflare sandbox worker. You will need free-tier accounts on Clerk, Convex, and Anthropic at minimum.
+
+## Sections
+
+<CardGrid>
+  <LinkCard
+    title="Prerequisites"
+    description="Accounts, CLI tools, and API keys you need before installing."
+    href="/getting-started/prerequisites/"
+  />
+  <LinkCard
+    title="Quickstart"
+    description="Stand up Foundry locally in under 15 minutes."
+    href="/getting-started/quickstart/"
+  />
+  <LinkCard
+    title="Your first program"
+    description="Create a program, seed the AcmeCorp demo, and run your first discovery."
+    href="/getting-started/first-program/"
+  />
+  <LinkCard
+    title="Environment variables"
+    description="Every env var Foundry reads, with defaults and required flags."
+    href="/getting-started/environment-variables/"
+  />
+</CardGrid>

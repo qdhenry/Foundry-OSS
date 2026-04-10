@@ -1,0 +1,59 @@
+---
+title: "Discovery"
+description: "Upload documents, extract findings with AI, and review requirements candidates."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Discovery is the intake surface for project knowledge. Upload documents (PDFs, spreadsheets, specs), import from Google Drive, or add videos — then let AI extract structured findings that become requirement candidates. The review queue lets you accept, reject, or merge findings before they enter the requirements backlog.
+
+## Why it matters
+
+Manual requirements gathering is slow and error-prone. Discovery automates the extraction of structured data from unstructured sources, catching requirements that humans might miss and flagging duplicates before they pollute the backlog.
+
+## Key concepts
+
+- **Document zone**: Drag-and-drop upload area for files via `DiscoveryDocumentZone`
+- **Tabs**: `documents`, `findings`, `imported`, `videos` — the four discovery views via `DiscoveryTabBar`
+- **AI analysis**: Documents are analyzed by Claude (Opus tier) to extract findings
+- **Findings review**: `DiscoveryFindingsReview` presents extracted findings for human review with accept/reject/merge actions
+- **Finding types**: `requirement`, and other categorized finding types from AI extraction
+- **Duplicate detection**: `DuplicateImportDialog` warns when imported findings match existing requirements
+- **Mergeable findings**: `MergeableFindingCard` lets you merge similar findings into a single requirement
+- **Stats**: `DiscoveryStats` shows document count, findings extracted, and review progress
+- **Workflow banner**: `DiscoveryWorkflowBanner` guides users through the discovery flow
+- **Next step card**: `DiscoveryNextStepCard` recommends what to do after document upload
+- **Re-analyze**: `ReAnalyzeDialog` lets you re-run AI analysis on previously processed documents
+- **Google Drive import**: Import files directly from Google Drive via `GoogleDriveImportButton`
+- **Import status**: Track the state of imports through `ImportStatusPicker`
+- **Recently imported**: `RecentlyImportedTable` shows the latest imports with status
+
+## How to use it
+
+1. Navigate to **[Program] > Discovery**.
+2. Upload documents by dragging files into the **Document Zone**, or click **Import from Google Drive**.
+3. AI analysis runs automatically; watch the stats update as findings are extracted.
+4. Switch to the **Findings** tab to review extracted items.
+5. Accept findings to promote them to requirements, reject irrelevant ones, or merge duplicates.
+6. Switch to the **Videos** tab to upload and analyze video recordings.
+7. Review the **Recently Imported** table for status on batch imports.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`documents`](/reference/generated/schema/documents) — Uploaded file metadata and storage references
+- [`documentAnalyses`](/reference/generated/schema/documentAnalyses) — AI analysis records per document
+- [`discoveryFindings`](/reference/generated/schema/discoveryFindings) — Extracted findings with type, content, and review status
+- [`requirements`](/reference/generated/schema/requirements) — Promoted findings become requirements
+
+## Related
+
+<LinkCard title="Requirements" href="/features/requirements/" />
+<LinkCard title="Google Drive" href="/features/google-drive/" />
+<LinkCard title="Videos" href="/features/videos/" />
+<LinkCard title="Documents" href="/features/documents/" />

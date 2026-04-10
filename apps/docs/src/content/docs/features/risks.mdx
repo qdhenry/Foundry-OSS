@@ -1,0 +1,49 @@
+---
+title: "Risks"
+description: "Identify, assess, and track delivery risks with severity-probability matrix visualization."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Risks feature provides a structured way to identify, classify, and monitor delivery risks within a program. Risks are plotted on a severity-probability matrix and can be filtered, assessed by AI, and linked to mitigation actions.
+
+## Why it matters
+
+Unmanaged risks derail engagements. A centralized risk register with visual heat-map scoring gives delivery leads early warning of issues and a paper trail for client communication.
+
+## Key concepts
+
+- **Severity**: `critical`, `high`, `medium`, `low` — the impact if the risk materializes
+- **Probability**: `very_likely`, `likely`, `possible`, `unlikely` — the chance of occurrence
+- **Risk matrix**: A 4x4 grid visualization (`RiskMatrix`) plotting risks by severity and probability with color-coded cells (green/yellow/red)
+- **Risk card**: `RiskCard` summarizes a risk with severity, probability, and status
+- **Risk filters**: `RiskFilters` narrow the view by severity, probability, and status
+- **Risk assessment panel**: `RiskAssessmentPanel` shows AI-generated analysis and suggested mitigations
+- **Detail route**: Full risk detail page for deep inspection and editing
+- **New risk route**: Dedicated page for creating a new risk entry
+
+## How to use it
+
+1. Navigate to **[Program] > Risks**.
+2. View the risk matrix to see the overall risk landscape.
+3. Use filters to focus on specific severity or probability levels.
+4. Click a risk card to open its detail page.
+5. Click **New Risk** to add a risk manually.
+6. Review AI-generated risk assessments in the assessment panel on each risk detail page.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`risks`](/reference/generated/schema/risks) — Risk record with title, description, severity, probability, status, and mitigation plan
+- [`riskAssessments`](/reference/generated/schema/riskAssessments) — AI-generated risk analysis and suggested mitigations
+
+## Related
+
+<LinkCard title="Gates" href="/features/gates/" />
+<LinkCard title="Mission Control" href="/features/mission-control/" />
+<LinkCard title="Sprints" href="/features/sprints/" />

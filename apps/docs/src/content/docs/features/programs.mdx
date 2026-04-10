@@ -1,0 +1,47 @@
+---
+title: "Programs"
+description: "Create and configure delivery programs with phases, platforms, and team roles."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Programs are the top-level organizational unit in Foundry. Each program represents a delivery engagement — a platform migration, greenfield build, system integration, or ongoing product effort. Programs scope all downstream data: workstreams, requirements, skills, tasks, risks, and sprints.
+
+## Why it matters
+
+Programs give delivery teams a single container to track an entire engagement from discovery through deployment. Every artifact traces back to a program, and multi-tenant isolation is enforced at this level via Clerk organizations.
+
+## Key concepts
+
+- **Phases**: `discovery`, `build`, `test`, `deploy`, `complete` — programs move through these lifecycle stages
+- **Target platform**: The destination system (Salesforce B2B, BigCommerce B2B, Sitecore, WordPress, etc.)
+- **Status**: `active`, `paused`, `complete`, `archived`
+- **Slug**: URL-friendly identifier used in all program-scoped routes (`/<slug>/tasks`, `/<slug>/discovery`)
+- **Setup wizard**: New programs go through a guided setup flow; incomplete programs show a "Resume" link
+
+## How to use it
+
+1. Navigate to the **Programs** page (root dashboard after login).
+2. Click **Create Program** to launch the setup wizard.
+3. Provide a program name, client name, target platform, and initial phase.
+4. Complete the setup steps — the program appears on the dashboard once setup is finished.
+5. Click any program card to enter that program's scoped views.
+6. Change phase or status from **[Program] > Settings**.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`programs`](/reference/generated/schema/programs) — Core program record with name, slug, phase, status, platform, and orgId
+- [`users`](/reference/generated/schema/users) — Users synced from Clerk with org membership
+- [`teamMembers`](/reference/generated/schema/teamMembers) — Program-scoped team membership with roles (director, architect, developer, ba, qa, client)
+
+## Related
+
+<LinkCard title="Overview" href="/features/overview/" />
+<LinkCard title="Workstreams" href="/features/workstreams/" />
+<LinkCard title="Settings" href="/features/settings/" />

@@ -1,0 +1,177 @@
+---
+title: Submitting PRs
+description: Branch naming, PR process, CI checks, and review expectations for Foundry contributions.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 4
+---
+
+import { Aside, Steps } from '@astrojs/starlight/components';
+
+This page covers the end-to-end process for submitting a pull request to Foundry.
+
+## Before you start
+
+**Check for an existing issue.** If there is not one for your change, open one first. This saves time if the approach needs discussion -- especially for schema changes, new dependencies, or architectural decisions.
+
+## Branch naming
+
+Branch from `main`. Use descriptive, prefixed branch names:
+
+| Prefix | Use case | Example |
+|--------|----------|---------|
+| `fix/` | Bug fixes | `fix/sandbox-timeout-handling` |
+| `feat/` | New features | `feat/ollama-provider-adapter` |
+| `docs/` | Documentation changes | `docs/self-hosting-guide` |
+| `test/` | Test additions or improvements | `test/convex-mutation-coverage` |
+| `refactor/` | Code restructuring (no behavior change) | `refactor/split-orchestrator` |
+| `chore/` | Tooling, CI, dependency updates | `chore/upgrade-convex-sdk` |
+
+```bash
+git checkout main
+git pull upstream main
+git checkout -b fix/sandbox-timeout-handling
+```
+
+## Making changes
+
+<Steps>
+
+1. **Keep PRs focused.** One concern per PR. A 200-line PR that does one thing gets reviewed in a day. A 1,500-line PR that does three things sits for a week.
+
+2. **Follow the code style.** Run `bun run check:fix` before committing. See [Code style](/contributing/code-style/) for the full guide.
+
+3. **Add tests where practical.** Not every PR needs tests, but changes to Convex functions, state machine logic, and data normalization should include coverage.
+
+4. **Write clear commit messages.** Use conventional commit style:
+
+    ```
+    fix: handle sandbox timeout during container provisioning
+
+    The 10-stage setup could hang at containerProvision when the
+    Cloudflare Worker returned 504. Added a 30s timeout with retry.
+    ```
+
+5. **Type check before pushing.**
+
+    ```bash
+    bun run typecheck
+    ```
+
+</Steps>
+
+## Creating the PR
+
+Push your branch and open a PR against `main`:
+
+```bash
+git push -u origin fix/sandbox-timeout-handling
+```
+
+Then create the PR on GitHub. Include:
+
+### PR title
+
+Keep it under 70 characters. Use the same prefix convention as branches:
+
+```
+fix: handle sandbox timeout during container provisioning
+```
+
+### PR description
+
+Answer these questions:
+
+1. **What does this change?** Describe the change in 1-3 sentences.
+2. **Why?** Link the issue or explain the motivation.
+3. **How did you test it?** Manual testing steps, new tests added, or screenshots for UI changes.
+
+Example:
+
+```markdown
+## What
+
+Adds a 30-second timeout to the containerProvision stage of sandbox setup.
+Falls back to retry with exponential backoff (3 attempts).
+
+## Why
+
+Fixes #42. The Cloudflare Worker occasionally returns 504 during high load,
+causing the sandbox to hang indefinitely in the `containerProvision` state.
+
+## Testing
+
+- Added unit test for timeout behavior in `sandbox/orchestrator.test.ts`
+- Manually tested by simulating 504 responses with Wrangler dev
+- Verified the retry cycle completes and the sandbox reaches `ready` state
+```
+
+<Aside type="tip">
+  Include screenshots or recordings for UI changes. Before/after comparisons make review faster.
+</Aside>
+
+## CI checks
+
+The following checks run on every PR:
+
+| Check | What it does | Must pass? |
+|-------|-------------|------------|
+| **Biome lint + format** | Enforces code style across all workspaces | Yes |
+| **TypeScript type checking** | Checks all workspaces (`apps/web`, `packages/ui`, `convex`, etc.) | Yes |
+| **Convex schema validation** | Validates the schema definition and index configuration | Yes |
+
+<Aside type="note">
+  A GitHub Actions workflow template lives at `.github/ci.yml.template`. First-time maintainers should copy it to `.github/workflows/ci.yml` to enable CI.
+</Aside>
+
+### Fixing CI failures
+
+**Biome failures:**
+
+```bash
+bun run check:fix
+git add -A
+git commit -m "style: fix biome lint issues"
+```
+
+**TypeScript failures:**
+
+```bash
+bun run typecheck
+# Fix reported errors, then commit
+```
+
+**Schema validation failures:**
+
+```bash
+bunx convex dev
+# Convex CLI reports schema errors on startup
+```
+
+## Review process
+
+- PRs are reviewed within **48 hours** on weekdays.
+- The maintainer may request changes. Respond within a reasonable timeframe or comment if you need help.
+- Once approved, the maintainer merges the PR.
+
+### What reviewers look for
+
+1. **Row-level security.** Every query and mutation touching tenant data must call `assertOrgAccess()`.
+2. **Index-driven queries.** No `.filter()` calls on Convex queries.
+3. **UI in the right place.** Feature logic in `packages/ui/`, not `apps/web/`.
+4. **No unrelated changes.** PRs that mix bug fixes with refactors are harder to review and revert.
+5. **Reasonable test coverage.** Critical paths (auth, data mutations, state transitions) should have tests.
+
+## After merge
+
+- Your branch is deleted automatically after merge.
+- The change deploys to preview on Vercel for frontend changes.
+- Convex changes deploy when pushed to production via `bunx convex deploy`.
+
+## Getting help
+
+- **GitHub Issues** -- bugs, feature requests, design discussions
+- **GitHub Discussions** -- questions, ideas, community conversation
+
+If you are stuck on a PR, comment on it and tag the maintainer. Help is available.

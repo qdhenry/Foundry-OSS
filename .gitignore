@@ -1,0 +1,92 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# convex
+.convex/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+bun-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+#logs
+logs/
+.claude/hooks/utils/__pycache__/
+.claude/hooks/utils/
+.claude/data/sessions/
+
+# Agent service config (stored API keys)
+agent-service/.config/
+
+# Git worktrees
+.worktrees/
+agent-service/node_modules
+sandbox-worker/node_modules
+sandbox-worker/.wrangler/
+sandbox-worker/.dev.vars
+apps/*/node_modules
+apps/*/.next
+apps/desktop/src-tauri/target
+apps/desktop/src-tauri/.cargo
+agent-service/src/node_modules
+
+# Git worktrees
+.worktrees/
+agent-service/dist
+
+*storybook.log
+storybook-static
+apps/desktop/dist
+
+# WebReel outputs
+videos/
+.env.production
+.env.development
+agent-worker/node_modules
+agent-worker/src/node_modules
+sandbox-worker/src/node_modules
+
+# E2E / Playwright
+e2e/.auth/
+e2e/test-results/
+e2e/playwright-report/
+packages/ui/node_modules
+apps/csuite/agent/node_modules
+apps/csuite

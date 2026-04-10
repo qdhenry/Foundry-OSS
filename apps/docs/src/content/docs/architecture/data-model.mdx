@@ -1,0 +1,131 @@
+---
+title: Data Model
+description: 81 tables across 10 domains — entity hierarchy, row-level security, indexing strategy, and domain breakdown.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 2
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Foundry's data model lives in a single file: `convex/schema.ts` (~2,800 lines). It defines 81 tables organized across 10 functional domains. Every tenant-scoped table includes an `orgId` field tied to a Clerk organization.
+
+## Entity hierarchy
+
+The core hierarchy drives everything in the platform:
+
+```
+Organization (Clerk)
+  └── Program
+       ├── Workstreams
+       │    └── Requirements ←→ Skills
+       │         └── Tasks
+       │              └── Subtasks
+       ├── Risks
+       ├── Sprint Gates
+       └── Agent Executions
+```
+
+**Programs** represent client engagements or delivery initiatives. They support configurable source/target platform pairs and delivery phases (discovery, build, test, deploy, complete).
+
+**Workstreams** group related requirements within a program. Requirements can have self-referential dependency graphs and bidirectional links to skills.
+
+**Skills** are versioned, domain-tagged instruction sets that teach AI agents how to perform specific delivery tasks. `skillVersions` is immutable; `skills.currentVersion` is a pointer to the active version.
+
+## Table domains
+
+| Domain | Table Count | Key Tables |
+|--------|------------|------------|
+| Core Delivery | 11 | `programs`, `workstreams`, `requirements`, `skills`, `skillVersions`, `risks`, `tasks`, `subtasks`, `sprints`, `sprintGates`, `sprintGateEvaluations` |
+| AI & Agent | 10 | `agentExecutions`, `executionAuditRecords`, `playbooks`, `playbookInstances`, `taskDecompositions`, `refinementSuggestions`, `riskAssessments`, `sprintPlanningRecommendations`, `dailyDigestCache`, `aiHealthScores` |
+| Document Analysis | 4 | `documents`, `documentAnalyses`, `discoveryFindings`, `visualDiscoveryArtifacts` |
+| Video Analysis | 6 | `videoAnalyses`, `videoFindings`, `videoFrameExtractions`, `videoTranscripts`, `videoActivityLogs`, `twelveLabsIndexes` |
+| Source Control | 14 | `repositories`, `installations`, `commits`, `pullRequests`, `events`, `deployments`, `issueMappings`, `reviews`, `syncState`, `retryQueue`, `activityEvents`, `tokenCache` |
+| Atlassian | 5 | `atlassianConnections`, `atlassianWebhookEvents`, `jiraSyncQueue`, `jiraSyncRecords`, `confluencePageRecords` |
+| Sandbox Execution | 6 | `sandboxSessions`, `sandboxConfigs`, `sandboxQueue`, `sandboxPresets`, `sandboxLogs`, `envVault` |
+| Billing | 9 | `subscriptions`, `pricingPlans`, `usageRecords`, `usagePeriods`, `billingEvents`, `aiUsageRecords`, `aiModelCache`, `aiProviderConfigs`, `trialState` |
+| Collaboration | 5 | `users`, `teamMembers`, `chatMessages`, `comments`, `notifications` |
+| Other | 11 | `auditLog`, `activityEvents`, `analysisActivityLogs`, `presence`, `integrations`, `codebaseAnalyses`, `codebaseAnalysisLogs`, `codebaseChatMessages`, `codeSnippets`, `codebaseGraphNodes`, `codebaseGraphEdges` |
+
+## Row-level security
+
+Every public query and mutation must call `assertOrgAccess()` before accessing data. This is the tenancy boundary.
+
+```typescript
+// convex/model/access.ts
+export async function assertOrgAccess(ctx, orgId: string) {
+  const identity = await ctx.auth.getUserIdentity();
+  if (!identity) throw new ConvexError("Not authenticated");
+  const user = await ctx.db.query("users")
+    .withIndex("by_clerk_id", q => q.eq("clerkId", identity.subject))
+    .unique();
+  if (!user || !user.orgIds.includes(orgId))
+    throw new ConvexError("Access denied");
+  return user;
+}
+```
+
+<Aside type="caution">
+Skip `assertOrgAccess()` and you create a cross-tenant data leak. The only exception is health check endpoints, which run before Clerk auth initializes.
+</Aside>
+
+### How it works
+
+1. Clerk issues a JWT containing the user's `subject` (Clerk user ID).
+2. Convex validates the JWT and makes the identity available via `ctx.auth.getUserIdentity()`.
+3. `assertOrgAccess()` looks up the user by `clerkId` and checks that the requested `orgId` is in their `orgIds[]` array.
+4. If the check fails, a `ConvexError` is thrown and the operation is rejected.
+
+## Indexing strategy
+
+Every query pattern has a corresponding index in `schema.ts`. The `.filter()` method causes full table scans and is not used in production paths.
+
+```typescript
+// Correct: index-driven query
+const requirements = await ctx.db
+  .query("requirements")
+  .withIndex("by_program", q => q.eq("programId", programId))
+  .collect();
+
+// Wrong: full table scan
+const requirements = await ctx.db
+  .query("requirements")
+  .filter(q => q.eq(q.field("programId"), programId))
+  .collect();
+```
+
+### Index patterns
+
+- **Single-field:** `by_org` on `["orgId"]` — present on every tenant-scoped table
+- **Compound:** `["programId", "batch"]`, `["repositoryId", "state", "sourceBranch"]` — support complex query patterns
+- **Composite ordering:** `["programId", "page", "userId"]` — composite indexes must match query field order
+
+<Aside type="tip">
+When adding a new query, define the index first in `schema.ts`, then write the query using `.withIndex()`. If you find yourself reaching for `.filter()`, you need a new index.
+</Aside>
+
+## Audit trail
+
+Foundry maintains a dual audit system:
+
+1. **General audit log** (`auditLog`) — records user actions across the platform (create, update, delete operations).
+2. **Execution audit records** (`executionAuditRecords`) — captures point-in-time snapshots of task title, skill name, user identity, environment configuration, and outcome at execution time. These records embed names rather than reference IDs, making them immune to future record mutations (link rot prevention).
+
+Every mutation that changes data must call `logAuditEvent()` to maintain the audit trail.
+
+## Naming conventions
+
+| Category | Convention | Example |
+|----------|-----------|---------|
+| Tables | camelCase plural | `agentExecutions`, `discoveryFindings` |
+| Functions | camelCase verb-noun | `requirements.listByProgram` |
+| Indexes | snake_case with `by_` prefix | `by_program`, `by_org_and_status` |
+
+## Key relationships
+
+- **Requirements ←→ Skills:** Bidirectional. Requirements reference which skills are needed; skills track which requirements use them.
+- **Skills → Skill Versions:** `skillVersions` is an immutable append-only table. `skills.currentVersion` points to the active version.
+- **Tasks → Subtasks:** One-to-many. Subtasks are scoped to a single task and generated by AI.
+- **Discovery Findings:** Polymorphic `analysisId` field supports both document and video sources in a single table and review UI.
+- **Pull Requests → Tasks:** Multiple linking methods: branch name, body reference, commit message, AI inference, manual.

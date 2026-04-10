@@ -1,0 +1,27 @@
+---
+title: "discoveryFindings.bulkReviewFindings"
+description: "mutation — Batch review multiple findings at once."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/discoveryFindings.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/discoveryFindings.ts`
+
+## Arguments
+
+```typescript
+{
+    findingIds: Id<"discoveryFindings">[],
+    status: "approved" | "rejected",
+  }
+```
+
+Batch review multiple findings at once.
+@param findingIds - Array of finding IDs to review
+@param status - Review decision applied to all

@@ -1,0 +1,110 @@
+---
+title: Prerequisites
+description: Accounts, CLI tools, and API keys you need before installing Foundry.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 1
+---
+
+import { Aside, Tabs, TabItem } from '@astrojs/starlight/components';
+
+Before installing Foundry, set up the following tools and accounts. Everything listed as **required** has a free tier sufficient for local development.
+
+## Required tools
+
+| Tool | Minimum version | Purpose | Install |
+|------|----------------|---------|---------|
+| **Bun** | 1.1+ | Package manager, script runner, monorepo workspaces | [bun.sh](https://bun.sh/) |
+| **Node.js** | 20+ | Runtime compatibility (some tooling depends on Node APIs) | [nodejs.org](https://nodejs.org/) |
+| **Git** | 2.30+ | Version control | [git-scm.com](https://git-scm.com/) |
+
+### Optional tools
+
+| Tool | Purpose | When you need it |
+|------|---------|-----------------|
+| **Zellij** | Multi-pane terminal layout for running all 4 dev processes | Recommended for daily development |
+| **Wrangler CLI** | Cloudflare Workers local dev and deployment | Sandbox worker and agent worker development |
+| **Docker** | Container runtime for sandbox execution | Running ephemeral AI coding environments locally |
+
+<Tabs>
+  <TabItem label="macOS">
+    ```bash
+    # Install Bun
+    curl -fsSL https://bun.sh/install | bash
+
+    # Install Node.js 20+ (via Homebrew)
+    brew install node@20
+
+    # Install Zellij (optional)
+    brew install zellij
+    ```
+  </TabItem>
+  <TabItem label="Linux">
+    ```bash
+    # Install Bun
+    curl -fsSL https://bun.sh/install | bash
+
+    # Install Node.js 20+ (via NodeSource)
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt-get install -y nodejs
+
+    # Install Zellij (optional)
+    cargo install --locked zellij
+    ```
+  </TabItem>
+</Tabs>
+
+## Required accounts
+
+| Account | Tier | Purpose | Sign up |
+|---------|------|---------|---------|
+| **Clerk** | Free (development) | Authentication and multi-tenant organization management | [clerk.com](https://clerk.com/) |
+| **Convex** | Free | Reactive backend -- database, server functions, real-time subscriptions | [convex.dev](https://www.convex.dev/) |
+| **Anthropic** | Pay-as-you-go | Claude API for AI analysis, task decomposition, and code generation | [console.anthropic.com](https://console.anthropic.com/) |
+
+### Optional accounts
+
+| Account | Tier | Purpose | When you need it |
+|---------|------|---------|-----------------|
+| **Cloudflare** | Free (Workers) | Sandbox worker hosting and agent worker deployment | Running sandbox execution or deploying to production |
+| **GitHub** (App) | Free | Source control integration -- repos, PRs, webhooks | Connecting repositories to programs |
+| **Atlassian** | Free (developer) | Jira and Confluence integration | Syncing issues and publishing to Confluence |
+| **Stripe** | Test mode | Billing and subscription management | Enabling billing features |
+
+## Clerk setup
+
+1. Create a Clerk application at [dashboard.clerk.com](https://dashboard.clerk.com/).
+2. Enable **Organizations** in the Clerk dashboard (Settings > Organizations).
+3. Note your **Publishable Key** (`pk_test_...`) and **Secret Key** (`sk_test_...`).
+4. Under Webhooks, create an endpoint pointing to your Convex HTTP actions URL. You will configure the exact URL during the [quickstart](/getting-started/quickstart/).
+
+<Aside type="tip">
+  Use a development instance for local work. Clerk development instances have relaxed rate limits and do not require email verification.
+</Aside>
+
+## Convex setup
+
+Convex initializes automatically the first time you run `bunx convex dev`. No manual project creation is needed -- the CLI walks you through it. You will need your Convex account credentials.
+
+## Anthropic API key
+
+1. Go to [console.anthropic.com](https://console.anthropic.com/).
+2. Create an API key under API Keys.
+3. Add credits to your account. Foundry uses three Claude models (Opus 4.6, Sonnet 4.5 v2, Sonnet 4.5). The minimum practical credit is $5 for evaluation.
+
+<Aside type="caution">
+  The Anthropic API key is set in the **Convex Dashboard** environment variables, not in your local `.env.local` file. Convex actions call the Claude API server-side.
+</Aside>
+
+## Verify your setup
+
+Run these commands to confirm your tools are ready:
+
+```bash
+bun --version    # Should print 1.1.x or higher
+node --version   # Should print v20.x or higher
+git --version    # Should print 2.30.x or higher
+```
+
+Once all required tools and accounts are ready, proceed to the [Quickstart](/getting-started/quickstart/).

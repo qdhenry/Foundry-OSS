@@ -1,0 +1,45 @@
+---
+title: "documents.save"
+description: "mutation — Save a document record after upload. Validates file type and size,"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/documents.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/documents.ts`
+
+## Arguments
+
+```typescript
+{
+    orgId: string,
+    programId: Id<"programs">,
+    storageId: Id<"_storage">,
+    fileName: string,
+    fileType: string,
+    fileSize: number,
+    category: v.union(
+      "architecture",
+      "requirements",
+      "testing",
+      "deployment",
+      "meeting_notes",
+      "other",
+    ),
+    description: string /* optional */,
+  }
+```
+
+Save a document record after upload. Validates file type and size,
+auto-classifies category, and triggers AI analysis.
+@param orgId - Organization ID
+@param programId - Parent program
+@param storageId - Convex storage ID from the upload
+@param fileName - Original file name
+@param fileType - MIME type or file extension
+@param fileSize - File size in bytes

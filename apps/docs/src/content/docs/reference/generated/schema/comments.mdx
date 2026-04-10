@@ -1,0 +1,30 @@
+---
+title: "comments"
+description: "Schema reference for the comments table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Comments — threaded discussions on any entity
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| entityType | "requirement" \| "risk" \| "task" \| "skill" \| "gate" \| "integration" | Yes |  |
+| entityId | string | Yes |  |
+| authorId | `Id<"users">` | Yes |  |
+| content | string | Yes |  |
+| parentId | `Id<"comments">` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_entity | entityType, entityId |
+| by_org | orgId |

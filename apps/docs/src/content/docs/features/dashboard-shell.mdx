@@ -1,0 +1,50 @@
+---
+title: "Dashboard Shell"
+description: "App layout with sidebar navigation, breadcrumbs, command palette, notifications, and search."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Dashboard Shell is the application layout that wraps every authenticated page. It provides the sidebar navigation, top header bar, breadcrumbs, command palette, notification bell, search, user menu, and theme toggle. The shell also hosts the Sandbox HUD at the bottom of the viewport.
+
+## Why it matters
+
+A consistent navigation shell ensures users can move between features without losing context. The command palette enables keyboard-driven navigation for power users, and the notification bell surfaces real-time events without requiring page refreshes.
+
+## Key concepts
+
+- **Layout**: `DashboardShellLayout` composes Sidebar + Header + content area + SandboxHUD
+- **Sidebar**: `Sidebar` renders program-scoped navigation links (Overview, Discovery, Tasks, Sprints, etc.)
+- **Header**: `Header` displays breadcrumbs, search trigger, notification bell, user menu, and theme toggle
+- **Breadcrumbs**: `Breadcrumbs` shows the navigation path (Program > Feature > Detail)
+- **Command palette**: `CommandPalette` provides a keyboard-triggered (Cmd+K / Ctrl+K) global search and navigation
+- **Search provider**: `SearchProvider` manages command palette state and search results
+- **Notification bell**: `NotificationBell` shows unread notification count with a dropdown
+- **Confirm dialog**: `ConfirmDialog` reusable confirmation modal used across the platform
+- **Theme toggle**: Switch between light and dark themes (stored in preference, `.dark` class on `<html>`)
+- **User menu**: Profile, organization switcher, and sign-out
+
+## How to use it
+
+1. The dashboard shell loads automatically for all authenticated routes.
+2. Use the **Sidebar** to navigate between program features.
+3. Click the **breadcrumbs** to jump up the navigation hierarchy.
+4. Press `Cmd+K` (Mac) / `Ctrl+K` (Windows) to open the **Command Palette** for fast navigation.
+5. Check the **Notification Bell** for recent events and alerts.
+6. Toggle the theme via the **Theme Toggle** in the header.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`notifications`](/reference/generated/schema/notifications) — User-scoped notification records
+- [`users`](/reference/generated/schema/users) — User profile for the user menu
+
+## Related
+
+<LinkCard title="Overview" href="/features/overview/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />

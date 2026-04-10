@@ -1,0 +1,56 @@
+---
+title: "Tasks"
+description: "Kanban board with drag-and-drop status tracking, sprint assignment, and subtask decomposition."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Tasks are the actionable work items in Foundry. They live on a Kanban board with five status columns and support sprint assignment, subtask decomposition, design context cards, implementation panels, and per-task audit trails.
+
+## Why it matters
+
+Tasks connect high-level requirements to concrete deliverables. The board provides instant visibility into progress, while subtask decomposition lets AI agents break complex work into smaller pieces that can be executed in sandboxes.
+
+## Key concepts
+
+- **Status columns**: `Backlog`, `To Do`, `In Progress`, `Review`, `Done` — drag cards between columns to update status
+- **Priority**: `critical`, `high`, `medium`, `low` — displayed on each task card
+- **Sprint assignment**: Tasks can be assigned to a sprint via `sprintId`; the sprint name appears on the card
+- **Workstream scope**: Tasks inherit their workstream short code for filtering
+- **Subtask panel**: Expand a task to see AI-decomposed subtasks with their own status tracking via `SubtaskPanel`
+- **Subtask detail tabs**: Drill into individual subtasks with `SubtaskDetailTabs`
+- **Task filters**: Filter by status, priority, workstream, sprint, and assignee via `TaskFilters`
+- **Design context**: `TaskDesignContextCard` shows relevant design assets linked to a task
+- **Implementation panel**: `TaskImplementationPanel` (under `source-control/`) connects tasks to code changes
+- **Task audit trail**: `TaskAuditTrail` (under `audit/`) tracks every state change
+- **Task verification**: Verification workflows confirm task completion quality
+
+## How to use it
+
+1. Navigate to **[Program] > Tasks**.
+2. View the Kanban board with cards organized by status.
+3. Drag a card to a different column to change its status.
+4. Click a card to open the task detail page.
+5. Use **Filters** to narrow the board by workstream, sprint, or priority.
+6. On the detail page, expand the **Subtask Panel** to see decomposed subtasks.
+7. Launch a sandbox from a task to execute AI skill work against it.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`tasks`](/reference/generated/schema/tasks) — Title, description, priority, status, sprintId, workstreamId, assignee
+- [`subtasks`](/reference/generated/schema/subtasks) — AI-decomposed sub-items linked to a parent task
+- [`taskDecompositions`](/reference/generated/schema/taskDecompositions) — Records of AI decomposition runs
+- [`taskDesignSnapshots`](/reference/generated/schema/taskDesignSnapshots) — Design context snapshots injected into task execution
+- [`taskVerifications`](/reference/generated/schema/taskVerifications) — Verification records confirming task quality
+
+## Related
+
+<LinkCard title="Sprints" href="/features/sprints/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />
+<LinkCard title="Agents" href="/features/agents/" />

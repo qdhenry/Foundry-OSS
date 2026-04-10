@@ -1,0 +1,40 @@
+---
+title: "discoveryFindings"
+description: "Schema reference for the discoveryFindings table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Discovery Findings — AI-extracted items awaiting human review
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| analysisId | union | Yes |  |
+| documentId | `Id<"documents">` | Yes |  |
+| type | videoFindingTypeValidator | Yes |  |
+| status | findingReviewStatusValidator | Yes |  |
+| data | any | Yes |  |
+| suggestedWorkstream | string | No |  |
+| confidence | findingConfidenceValidator | Yes |  |
+| sourceExcerpt | string | No |  |
+| sourceAttribution | optionalVideoFindingAttributionValidator | No |  |
+| importedAs | any | No |  |
+| editedData | any | No |  |
+| reviewedBy | `Id<"users">` | No |  |
+| reviewedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_analysis | analysisId |
+| by_program_type | programId, type |
+| by_program_status | programId, status |
+| by_document | documentId |

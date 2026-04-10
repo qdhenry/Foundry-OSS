@@ -1,0 +1,27 @@
+---
+title: "requirements.updateStatus"
+description: "mutation — Change the status of a requirement (draft, approved, in_progress, complete, deferred)."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/requirements.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/requirements.ts`
+
+## Arguments
+
+```typescript
+{
+    requirementId: Id<"requirements">,
+    status: statusValidator,
+  }
+```
+
+Change the status of a requirement (draft, approved, in_progress, complete, deferred).
+@param requirementId - The requirement to update
+@param status - New status value

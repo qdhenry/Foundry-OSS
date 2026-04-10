@@ -1,0 +1,47 @@
+---
+title: "Documents"
+description: "Upload and manage project documents for AI-powered analysis and finding extraction."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Documents are files uploaded to a program for AI analysis. They serve as the raw input for the Discovery pipeline — PDFs, spreadsheets, Word documents, and other formats are stored, analyzed by Claude, and used to extract structured findings.
+
+## Why it matters
+
+Project knowledge lives in documents. By centralizing uploads and running AI extraction, Foundry converts static files into structured, actionable requirements without manual transcription.
+
+## Key concepts
+
+- **Upload**: Drag-and-drop or click-to-upload via the Discovery document zone
+- **Storage**: Files are stored in Convex file storage with metadata in the `documents` table
+- **Analysis**: Each document can be analyzed by AI to extract findings (requirements, risks, decisions)
+- **Re-analysis**: Previously analyzed documents can be re-processed with `ReAnalyzeDialog`
+- **Status tracking**: Documents move through `uploaded`, `analyzing`, `analyzed`, `error` states
+- **Program scope**: Documents belong to a program and respect org-level access control
+
+## How to use it
+
+1. Navigate to **[Program] > Discovery > Documents**.
+2. Drag files into the upload zone or click to browse.
+3. Wait for upload completion — the document appears in the list.
+4. AI analysis runs automatically; findings appear in the Findings tab.
+5. Re-analyze documents if new extraction capabilities are available.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`documents`](/reference/generated/schema/documents) — File metadata, storage reference, program scope, and analysis status
+- [`documentAnalyses`](/reference/generated/schema/documentAnalyses) — AI analysis records per document with extracted content
+- [`discoveryFindings`](/reference/generated/schema/discoveryFindings) — Findings extracted from document analysis
+
+## Related
+
+<LinkCard title="Discovery" href="/features/discovery/" />
+<LinkCard title="Google Drive" href="/features/google-drive/" />
+<LinkCard title="Videos" href="/features/videos/" />

@@ -1,0 +1,42 @@
+---
+title: "designAssets"
+description: "Schema reference for the designAssets table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+── Design Context Pipeline ─────────────────────────────────────
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| workstreamId | `Id<"workstreams">` | No | Parent workstream reference |
+| requirementId | `Id<"requirements">` | No |  |
+| name | string | Yes |  |
+| type | "screenshot" \| "tokens" \| "styleGuide" \| "prototype" \| "interactionSpec" \| "animationSnippet" | Yes |  |
+| fileId | `Id<"_storage">` | No |  |
+| externalUrl | string | No |  |
+| content | string | No |  |
+| mimeType | string | No |  |
+| sizeBytes | number | No |  |
+| tags | string[] | No |  |
+| version | number | Yes |  |
+| parentVersionId | `Id<"designAssets">` | No |  |
+| status | "uploaded" \| "analyzing" \| "analyzed" \| "error" | Yes |  |
+| analysisError | string | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_org | orgId |
+| by_program | orgId, programId |
+| by_workstream | orgId, programId, workstreamId |
+| by_requirement | orgId, programId, requirementId |
+| by_type | orgId, programId, type |

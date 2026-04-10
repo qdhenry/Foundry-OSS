@@ -1,0 +1,1097 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   FOUNDRY DESIGN TOKENS
+   Source: design-system/foundry-tokens/{global,light,dark}.json
+   Generated: 2026-02-22
+   ============================================================ */
+
+/* ---------- Global tokens (mode-independent) ---------- */
+:root {
+  /* Brand blue scale */
+  --brand-blue-50: #eff6ff;
+  --brand-blue-100: #dbeafe;
+  --brand-blue-200: #bfdbfe;
+  --brand-blue-300: #93c5fd;
+  --brand-blue-400: #60a5fa;
+  --brand-blue-500: #3b82f6;
+  --brand-blue-600: #2563eb;
+  --brand-blue-700: #1d4ed8;
+  --brand-blue-800: #1e40af;
+  --brand-blue-900: #1e3a8a;
+
+  /* Spacing (px / 16 = rem) */
+  --spacing-1: 0.25rem;
+  --spacing-2: 0.5rem;
+  --spacing-3: 0.75rem;
+  --spacing-4: 1rem;
+  --spacing-5: 1.25rem;
+  --spacing-6: 1.5rem;
+  --spacing-8: 2rem;
+  --spacing-10: 2.5rem;
+  --spacing-12: 3rem;
+  --spacing-16: 4rem;
+  --spacing-20: 5rem;
+  --spacing-24: 6rem;
+
+  /* Border radius (px) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 16px;
+  --radius-2xl: 20px;
+  --radius-full: 9999px;
+
+  /* Opacity */
+  --opacity-ghost: 4%;
+  --opacity-subtle: 6%;
+  --opacity-hover: 10%;
+  --opacity-active: 15%;
+
+  /* Sizing */
+  --sizing-icon-sm: 16px;
+  --sizing-icon-default: 20px;
+  --sizing-icon-lg: 24px;
+
+  /* ---- Light theme (default) ---- */
+
+  /* Surfaces */
+  --surface-page: #f8fafc;
+  --surface-default: #ffffff;
+  --surface-raised: #f1f5f9;
+  --surface-elevated: #e2e8f0;
+  --surface-overlay: rgba(248, 250, 252, 0.88);
+
+  /* Borders */
+  --border-default: #e2e8f0;
+  --border-subtle: #f1f5f9;
+  --border-accent: rgba(37, 99, 235, 0.15);
+  --border-strong: #cbd5e1;
+
+  /* Text */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  --text-link: #2563eb;
+  --text-link-hover: #1d4ed8;
+  --text-on-brand: #ffffff;
+  --text-wordmark: #1e293b;
+  --text-heading: #0f172a;
+
+  /* Accent */
+  --accent-default: #2563eb;
+  --accent-strong: #1d4ed8;
+  --accent-subtle: #3b82f6;
+  --accent-muted: #60a5fa;
+  --accent-label: #2563eb;
+
+  /* Interactive */
+  --interactive-ghost: rgba(37, 99, 235, 0.03);
+  --interactive-subtle: rgba(37, 99, 235, 0.05);
+  --interactive-hover: rgba(37, 99, 235, 0.08);
+  --interactive-active: rgba(37, 99, 235, 0.12);
+  --interactive-glow: rgba(37, 99, 235, 0.06);
+
+  /* Status */
+  --status-success-fg: #16a34a;
+  --status-success-bg: rgba(22, 163, 74, 0.07);
+  --status-success-border: rgba(22, 163, 74, 0.15);
+  --status-warning-fg: #d97706;
+  --status-warning-bg: rgba(217, 119, 6, 0.07);
+  --status-warning-border: rgba(217, 119, 6, 0.15);
+  --status-error-fg: #dc2626;
+  --status-error-bg: rgba(220, 38, 38, 0.07);
+  --status-error-border: rgba(220, 38, 38, 0.15);
+  --status-info-fg: #2563eb;
+  --status-info-bg: rgba(37, 99, 235, 0.06);
+  --status-info-border: rgba(37, 99, 235, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 4px 12px 0 rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 8px 30px 0 rgba(15, 23, 42, 0.08);
+  --shadow-glow: 0 0 40px 0 rgba(37, 99, 235, 0.06);
+  --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
+  --shadow-button-hover: 0 4px 20px 0 rgba(37, 99, 235, 0.2);
+  --shadow-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.03);
+
+  /* Component: Button */
+  --component-button-primary-bg: #2563eb;
+  --component-button-primary-gradient-start: #3b82f6;
+  --component-button-primary-gradient-end: #2563eb;
+  --component-button-primary-text: #ffffff;
+  --component-button-secondary-bg: transparent;
+  --component-button-secondary-text: #0f172a;
+  --component-button-secondary-border: #e2e8f0;
+  --component-button-secondary-hover-bg: rgba(15, 23, 42, 0.02);
+  --component-button-secondary-hover-border: #cbd5e1;
+  --component-button-ghost-bg: transparent;
+  --component-button-ghost-text: #2563eb;
+  --component-button-ghost-hover-bg: rgba(37, 99, 235, 0.05);
+
+  /* Component: Badge */
+  --component-badge-bg: rgba(37, 99, 235, 0.05);
+  --component-badge-border: rgba(37, 99, 235, 0.15);
+  --component-badge-text: #1d4ed8;
+  --component-badge-dot: #2563eb;
+
+  /* Component: Input */
+  --component-input-bg: #ffffff;
+  --component-input-border: #e2e8f0;
+  --component-input-text: #0f172a;
+  --component-input-placeholder: #94a3b8;
+  --component-input-focus-border: #2563eb;
+
+  /* Component: Card */
+  --component-card-bg: #ffffff;
+  --component-card-border: #e2e8f0;
+  --component-card-hover-bg: #f1f5f9;
+  --component-card-hover-border: rgba(37, 99, 235, 0.12);
+
+  /* Component: Modal */
+  --component-modal-bg: #ffffff;
+  --component-modal-border: #e2e8f0;
+
+  /* Component: Nav */
+  --component-nav-bg: rgba(248, 250, 252, 0.88);
+  --component-nav-border: #e2e8f0;
+
+  /* Component: Terminal (always dark) */
+  --component-terminal-bg: #0a0e1a;
+  --component-terminal-border: #1a2038;
+  --component-terminal-timestamp: #3a4868;
+  --component-terminal-agent: #60a5fa;
+  --component-terminal-value: #93c5fd;
+  --component-terminal-success: #4ade80;
+  --component-terminal-text: #6878a0;
+
+  /* Component: Table */
+  --component-table-header-text: #94a3b8;
+  --component-table-cell-text: #475569;
+  --component-table-cell-emphasis: #0f172a;
+  --component-table-row-hover: rgba(37, 99, 235, 0.03);
+  --component-table-divider: #e2e8f0;
+
+  /* Component: Tooltip */
+  --component-tooltip-bg: #ffffff;
+  --component-tooltip-border: #e2e8f0;
+  --component-tooltip-text: #0f172a;
+}
+
+/* ---------- Dark theme ---------- */
+.dark {
+  /* Surfaces */
+  --surface-page: #050509;
+  --surface-default: #0a0e1a;
+  --surface-raised: #0f1424;
+  --surface-elevated: #151d35;
+  --surface-overlay: rgba(5, 5, 9, 0.85);
+
+  /* Borders */
+  --border-default: #1a2038;
+  --border-subtle: #111830;
+  --border-accent: rgba(59, 130, 246, 0.15);
+  --border-strong: #1a2038;
+
+  /* Text */
+  --text-primary: #c8d4e8;
+  --text-secondary: #6878a0;
+  --text-muted: #3a4868;
+  --text-link: #60a5fa;
+  --text-link-hover: #93c5fd;
+  --text-on-brand: #ffffff;
+  --text-wordmark: #93afd0;
+  --text-heading: #d0daf0;
+
+  /* Accent */
+  --accent-default: #60a5fa;
+  --accent-strong: #3b82f6;
+  --accent-subtle: #93c5fd;
+  --accent-muted: #bfdbfe;
+  --accent-label: #60a5fa;
+
+  /* Interactive */
+  --interactive-ghost: rgba(59, 130, 246, 0.04);
+  --interactive-subtle: rgba(59, 130, 246, 0.06);
+  --interactive-hover: rgba(59, 130, 246, 0.1);
+  --interactive-active: rgba(59, 130, 246, 0.15);
+  --interactive-glow: rgba(59, 130, 246, 0.08);
+
+  /* Status */
+  --status-success-fg: #4ade80;
+  --status-success-bg: rgba(74, 222, 128, 0.08);
+  --status-success-border: rgba(74, 222, 128, 0.15);
+  --status-warning-fg: #fbbf24;
+  --status-warning-bg: rgba(251, 191, 36, 0.08);
+  --status-warning-border: rgba(251, 191, 36, 0.15);
+  --status-error-fg: #f87171;
+  --status-error-bg: rgba(248, 113, 113, 0.08);
+  --status-error-border: rgba(248, 113, 113, 0.15);
+  --status-info-fg: #60a5fa;
+  --status-info-bg: rgba(96, 165, 250, 0.08);
+  --status-info-border: rgba(96, 165, 250, 0.15);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+  --shadow-lg: 0 8px 30px 0 rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 40px 0 rgba(59, 130, 246, 0.08);
+  --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-button-hover: 0 4px 20px 0 rgba(59, 130, 246, 0.25);
+  --shadow-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.04);
+
+  /* Component: Button */
+  --component-button-primary-bg: #3b82f6;
+  --component-button-primary-gradient-start: #60a5fa;
+  --component-button-primary-gradient-end: #3b82f6;
+  --component-button-primary-text: #ffffff;
+  --component-button-secondary-bg: transparent;
+  --component-button-secondary-text: #c8d4e8;
+  --component-button-secondary-border: #1a2038;
+  --component-button-secondary-hover-bg: rgba(255, 255, 255, 0.02);
+  --component-button-secondary-hover-border: #3a4868;
+  --component-button-ghost-bg: transparent;
+  --component-button-ghost-text: #60a5fa;
+  --component-button-ghost-hover-bg: rgba(59, 130, 246, 0.06);
+
+  /* Component: Badge */
+  --component-badge-bg: rgba(59, 130, 246, 0.06);
+  --component-badge-border: rgba(59, 130, 246, 0.15);
+  --component-badge-text: #93c5fd;
+  --component-badge-dot: #60a5fa;
+
+  /* Component: Input */
+  --component-input-bg: #050509;
+  --component-input-border: #1a2038;
+  --component-input-text: #c8d4e8;
+  --component-input-placeholder: #3a4868;
+  --component-input-focus-border: #60a5fa;
+
+  /* Component: Card */
+  --component-card-bg: #0a0e1a;
+  --component-card-border: #1a2038;
+  --component-card-hover-bg: #0f1424;
+  --component-card-hover-border: rgba(59, 130, 246, 0.15);
+
+  /* Component: Modal */
+  --component-modal-bg: #0f1424;
+  --component-modal-border: #1a2038;
+
+  /* Component: Nav */
+  --component-nav-bg: rgba(5, 5, 9, 0.85);
+  --component-nav-border: #1a2038;
+
+  /* Component: Terminal (always dark) */
+  --component-terminal-bg: #0a0e1a;
+  --component-terminal-border: #1a2038;
+  --component-terminal-timestamp: #3a4868;
+  --component-terminal-agent: #60a5fa;
+  --component-terminal-value: #93c5fd;
+  --component-terminal-success: #4ade80;
+  --component-terminal-text: #6878a0;
+
+  /* Component: Table */
+  --component-table-header-text: #3a4868;
+  --component-table-cell-text: #6878a0;
+  --component-table-cell-emphasis: #c8d4e8;
+  --component-table-row-hover: rgba(59, 130, 246, 0.04);
+  --component-table-divider: #1a2038;
+
+  /* Component: Tooltip */
+  --component-tooltip-bg: #151d35;
+  --component-tooltip-border: #1a2038;
+  --component-tooltip-text: #c8d4e8;
+}
+
+/* ---------- System preference fallback ---------- */
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    /* Surfaces */
+    --surface-page: #050509;
+    --surface-default: #0a0e1a;
+    --surface-raised: #0f1424;
+    --surface-elevated: #151d35;
+    --surface-overlay: rgba(5, 5, 9, 0.85);
+
+    /* Borders */
+    --border-default: #1a2038;
+    --border-subtle: #111830;
+    --border-accent: rgba(59, 130, 246, 0.15);
+    --border-strong: #1a2038;
+
+    /* Text */
+    --text-primary: #c8d4e8;
+    --text-secondary: #6878a0;
+    --text-muted: #3a4868;
+    --text-link: #60a5fa;
+    --text-link-hover: #93c5fd;
+    --text-on-brand: #ffffff;
+    --text-wordmark: #93afd0;
+    --text-heading: #d0daf0;
+
+    /* Accent */
+    --accent-default: #60a5fa;
+    --accent-strong: #3b82f6;
+    --accent-subtle: #93c5fd;
+    --accent-muted: #bfdbfe;
+    --accent-label: #60a5fa;
+
+    /* Interactive */
+    --interactive-ghost: rgba(59, 130, 246, 0.04);
+    --interactive-subtle: rgba(59, 130, 246, 0.06);
+    --interactive-hover: rgba(59, 130, 246, 0.1);
+    --interactive-active: rgba(59, 130, 246, 0.15);
+    --interactive-glow: rgba(59, 130, 246, 0.08);
+
+    /* Status */
+    --status-success-fg: #4ade80;
+    --status-success-bg: rgba(74, 222, 128, 0.08);
+    --status-success-border: rgba(74, 222, 128, 0.15);
+    --status-warning-fg: #fbbf24;
+    --status-warning-bg: rgba(251, 191, 36, 0.08);
+    --status-warning-border: rgba(251, 191, 36, 0.15);
+    --status-error-fg: #f87171;
+    --status-error-bg: rgba(248, 113, 113, 0.08);
+    --status-error-border: rgba(248, 113, 113, 0.15);
+    --status-info-fg: #60a5fa;
+    --status-info-bg: rgba(96, 165, 250, 0.08);
+    --status-info-border: rgba(96, 165, 250, 0.15);
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-md: 0 4px 12px 0 rgba(0, 0, 0, 0.25);
+    --shadow-lg: 0 8px 30px 0 rgba(0, 0, 0, 0.3);
+    --shadow-glow: 0 0 40px 0 rgba(59, 130, 246, 0.08);
+    --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-button-hover: 0 4px 20px 0 rgba(59, 130, 246, 0.25);
+    --shadow-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.04);
+
+    /* Component: Button */
+    --component-button-primary-bg: #3b82f6;
+    --component-button-primary-gradient-start: #60a5fa;
+    --component-button-primary-gradient-end: #3b82f6;
+    --component-button-primary-text: #ffffff;
+    --component-button-secondary-bg: transparent;
+    --component-button-secondary-text: #c8d4e8;
+    --component-button-secondary-border: #1a2038;
+    --component-button-secondary-hover-bg: rgba(255, 255, 255, 0.02);
+    --component-button-secondary-hover-border: #3a4868;
+    --component-button-ghost-bg: transparent;
+    --component-button-ghost-text: #60a5fa;
+    --component-button-ghost-hover-bg: rgba(59, 130, 246, 0.06);
+
+    /* Component: Badge */
+    --component-badge-bg: rgba(59, 130, 246, 0.06);
+    --component-badge-border: rgba(59, 130, 246, 0.15);
+    --component-badge-text: #93c5fd;
+    --component-badge-dot: #60a5fa;
+
+    /* Component: Input */
+    --component-input-bg: #050509;
+    --component-input-border: #1a2038;
+    --component-input-text: #c8d4e8;
+    --component-input-placeholder: #3a4868;
+    --component-input-focus-border: #60a5fa;
+
+    /* Component: Card */
+    --component-card-bg: #0a0e1a;
+    --component-card-border: #1a2038;
+    --component-card-hover-bg: #0f1424;
+    --component-card-hover-border: rgba(59, 130, 246, 0.15);
+
+    /* Component: Modal */
+    --component-modal-bg: #0f1424;
+    --component-modal-border: #1a2038;
+
+    /* Component: Nav */
+    --component-nav-bg: rgba(5, 5, 9, 0.85);
+    --component-nav-border: #1a2038;
+
+    /* Component: Terminal (always dark) */
+    --component-terminal-bg: #0a0e1a;
+    --component-terminal-border: #1a2038;
+
+    /* Component: Table */
+    --component-table-header-text: #3a4868;
+    --component-table-cell-text: #6878a0;
+    --component-table-cell-emphasis: #c8d4e8;
+    --component-table-row-hover: rgba(59, 130, 246, 0.04);
+    --component-table-divider: #1a2038;
+
+    /* Component: Tooltip */
+    --component-tooltip-bg: #151d35;
+    --component-tooltip-border: #1a2038;
+    --component-tooltip-text: #c8d4e8;
+  }
+}
+
+/* ============================================================
+   TAILWIND @theme — maps CSS variables to utility classes
+   ============================================================ */
+@theme inline {
+  /* Surfaces */
+  --color-surface-page: var(--surface-page);
+  --color-surface-default: var(--surface-default);
+  --color-surface-raised: var(--surface-raised);
+  --color-surface-elevated: var(--surface-elevated);
+  --color-surface-overlay: var(--surface-overlay);
+
+  /* Text */
+  --color-text-primary: var(--text-primary);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-text-link: var(--text-link);
+  --color-text-link-hover: var(--text-link-hover);
+  --color-text-on-brand: var(--text-on-brand);
+  --color-text-wordmark: var(--text-wordmark);
+  --color-text-heading: var(--text-heading);
+
+  /* Borders */
+  --color-border-default: var(--border-default);
+  --color-border-subtle: var(--border-subtle);
+  --color-border-accent: var(--border-accent);
+  --color-border-strong: var(--border-strong);
+
+  /* Accent */
+  --color-accent-default: var(--accent-default);
+  --color-accent-strong: var(--accent-strong);
+  --color-accent-subtle: var(--accent-subtle);
+  --color-accent-muted: var(--accent-muted);
+  --color-accent-label: var(--accent-label);
+
+  /* Interactive */
+  --color-interactive-ghost: var(--interactive-ghost);
+  --color-interactive-subtle: var(--interactive-subtle);
+  --color-interactive-hover: var(--interactive-hover);
+  --color-interactive-active: var(--interactive-active);
+  --color-interactive-glow: var(--interactive-glow);
+
+  /* Status */
+  --color-status-success-fg: var(--status-success-fg);
+  --color-status-success-bg: var(--status-success-bg);
+  --color-status-success-border: var(--status-success-border);
+  --color-status-warning-fg: var(--status-warning-fg);
+  --color-status-warning-bg: var(--status-warning-bg);
+  --color-status-warning-border: var(--status-warning-border);
+  --color-status-error-fg: var(--status-error-fg);
+  --color-status-error-bg: var(--status-error-bg);
+  --color-status-error-border: var(--status-error-border);
+  --color-status-info-fg: var(--status-info-fg);
+  --color-status-info-bg: var(--status-info-bg);
+  --color-status-info-border: var(--status-info-border);
+
+  /* Brand scale */
+  --color-brand-50: var(--brand-blue-50);
+  --color-brand-100: var(--brand-blue-100);
+  --color-brand-200: var(--brand-blue-200);
+  --color-brand-300: var(--brand-blue-300);
+  --color-brand-400: var(--brand-blue-400);
+  --color-brand-500: var(--brand-blue-500);
+  --color-brand-600: var(--brand-blue-600);
+  --color-brand-700: var(--brand-blue-700);
+  --color-brand-800: var(--brand-blue-800);
+  --color-brand-900: var(--brand-blue-900);
+
+  /* Component: Button */
+  --color-comp-btn-primary-bg: var(--component-button-primary-bg);
+  --color-comp-btn-primary-text: var(--component-button-primary-text);
+  --color-comp-btn-secondary-bg: var(--component-button-secondary-bg);
+  --color-comp-btn-secondary-text: var(--component-button-secondary-text);
+  --color-comp-btn-secondary-border: var(--component-button-secondary-border);
+  --color-comp-btn-ghost-bg: var(--component-button-ghost-bg);
+  --color-comp-btn-ghost-text: var(--component-button-ghost-text);
+
+  /* Component: Badge */
+  --color-comp-badge-bg: var(--component-badge-bg);
+  --color-comp-badge-border: var(--component-badge-border);
+  --color-comp-badge-text: var(--component-badge-text);
+
+  /* Component: Input */
+  --color-comp-input-bg: var(--component-input-bg);
+  --color-comp-input-border: var(--component-input-border);
+  --color-comp-input-text: var(--component-input-text);
+  --color-comp-input-placeholder: var(--component-input-placeholder);
+  --color-comp-input-focus-border: var(--component-input-focus-border);
+
+  /* Component: Card */
+  --color-comp-card-bg: var(--component-card-bg);
+  --color-comp-card-border: var(--component-card-border);
+  --color-comp-card-hover-bg: var(--component-card-hover-bg);
+  --color-comp-card-hover-border: var(--component-card-hover-border);
+
+  /* Component: Modal */
+  --color-comp-modal-bg: var(--component-modal-bg);
+  --color-comp-modal-border: var(--component-modal-border);
+
+  /* Component: Nav */
+  --color-comp-nav-bg: var(--component-nav-bg);
+  --color-comp-nav-border: var(--component-nav-border);
+
+  /* Component: Terminal */
+  --color-comp-terminal-bg: var(--component-terminal-bg);
+  --color-comp-terminal-border: var(--component-terminal-border);
+  --color-comp-terminal-timestamp: var(--component-terminal-timestamp);
+  --color-comp-terminal-agent: var(--component-terminal-agent);
+  --color-comp-terminal-value: var(--component-terminal-value);
+  --color-comp-terminal-success: var(--component-terminal-success);
+  --color-comp-terminal-text: var(--component-terminal-text);
+
+  /* Component: Table */
+  --color-comp-table-header-text: var(--component-table-header-text);
+  --color-comp-table-cell-text: var(--component-table-cell-text);
+  --color-comp-table-cell-emphasis: var(--component-table-cell-emphasis);
+  --color-comp-table-row-hover: var(--component-table-row-hover);
+  --color-comp-table-divider: var(--component-table-divider);
+
+  /* Component: Tooltip */
+  --color-comp-tooltip-bg: var(--component-tooltip-bg);
+  --color-comp-tooltip-border: var(--component-tooltip-border);
+  --color-comp-tooltip-text: var(--component-tooltip-text);
+
+  /* Shadows */
+  --shadow-sm: var(--shadow-sm);
+  --shadow-md: var(--shadow-md);
+  --shadow-lg: var(--shadow-lg);
+  --shadow-glow: var(--shadow-glow);
+  --shadow-card: var(--shadow-card);
+  --shadow-button-hover: var(--shadow-button-hover);
+  --shadow-focus-ring: var(--shadow-focus-ring);
+
+  /* Border radius */
+  --radius-sm: var(--radius-sm);
+  --radius-md: var(--radius-md);
+  --radius-lg: var(--radius-lg);
+  --radius-xl: var(--radius-xl);
+  --radius-2xl: var(--radius-2xl);
+  --radius-full: var(--radius-full);
+
+  /* Animations */
+  --animate-slide-in-right: slideInRight 0.2s ease-out;
+
+  /* Fonts */
+  --font-display: "Instrument Serif", serif;
+  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", monospace;
+}
+
+body {
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* ============================================================
+   TYPOGRAPHY UTILITY CLASSES
+   Source: design-system/foundry-tokens/global.json → typography.*
+   ============================================================ */
+.type-display-xl {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 4rem;
+  line-height: 105%;
+  letter-spacing: 0;
+}
+.type-display-l {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.8rem;
+  line-height: 115%;
+  letter-spacing: 0;
+}
+.type-display-m {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 1.55rem;
+  line-height: 120%;
+  letter-spacing: 0;
+}
+.type-body-l {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 1.1rem;
+  line-height: 170%;
+  letter-spacing: 0;
+}
+.type-body-m {
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 0.88rem;
+  line-height: 165%;
+  letter-spacing: 0;
+}
+.type-body-s {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.82rem;
+  line-height: 150%;
+  letter-spacing: 0;
+}
+.type-caption {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 140%;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.type-wordmark {
+  font-family: var(--font-sans);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 100%;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.type-button {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+}
+.type-input {
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+.type-label {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 140%;
+  letter-spacing: 0;
+}
+.type-code {
+  font-family: var(--font-mono);
+  font-weight: 400;
+  font-size: 0.72rem;
+  line-height: 170%;
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   BUTTON & BADGE UTILITY CLASSES
+   Source: design-system/foundry-tokens/{light,dark}.json → component.*
+   ============================================================ */
+
+/* Button variants */
+.btn-primary {
+  background: linear-gradient(
+    135deg,
+    var(--component-button-primary-gradient-start),
+    var(--component-button-primary-gradient-end)
+  );
+  color: var(--component-button-primary-text);
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  border: none;
+  cursor: pointer;
+  transition:
+    box-shadow 0.2s,
+    transform 0.1s;
+}
+.btn-primary:hover {
+  box-shadow: var(--shadow-button-hover);
+}
+
+.btn-secondary {
+  background: var(--component-button-secondary-bg);
+  color: var(--component-button-secondary-text);
+  border: 1px solid var(--component-button-secondary-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.btn-secondary:hover {
+  background: var(--component-button-secondary-hover-bg);
+  border-color: var(--component-button-secondary-hover-border);
+}
+
+.btn-ghost {
+  background: var(--component-button-ghost-bg);
+  color: var(--component-button-ghost-text);
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.btn-ghost:hover {
+  background: var(--component-button-ghost-hover-bg);
+}
+
+/* Button sizes */
+.btn-sm {
+  padding: 8px 16px;
+  font-size: 0.75rem;
+}
+.btn-lg {
+  padding: 14px 32px;
+  font-size: 0.95rem;
+}
+
+.btn-danger {
+  background: var(--surface-default);
+  color: var(--status-error-fg);
+  border: 1px solid var(--status-error-border);
+  border-radius: var(--radius-sm);
+  padding: 12px 28px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.85rem;
+  line-height: 140%;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+.btn-danger:hover {
+  background: var(--status-error-bg);
+}
+.btn-danger:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+/* Badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--component-badge-bg);
+  color: var(--component-badge-text);
+  border: 1px solid var(--component-badge-border);
+  border-radius: 9999px;
+  padding: 4px 12px;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 140%;
+  letter-spacing: 0.04em;
+}
+.badge-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--component-badge-dot);
+}
+
+/* Status badge variants */
+.badge-success {
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+  border-color: var(--status-success-border);
+}
+.badge-warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+  border-color: var(--status-warning-border);
+}
+.badge-error {
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+  border-color: var(--status-error-border);
+}
+.badge-info {
+  background: var(--status-info-bg);
+  color: var(--status-info-fg);
+  border-color: var(--status-info-border);
+}
+
+/* ============================================================
+   INPUT & FORM LABEL UTILITY CLASSES
+   Source: design-system/foundry-tokens/{light,dark}.json → component.input.*
+   ============================================================ */
+
+/* Input */
+.input {
+  background: var(--component-input-bg);
+  color: var(--component-input-text);
+  border: 1px solid var(--component-input-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  line-height: 140%;
+  width: 100%;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+  outline: none;
+}
+.input::placeholder {
+  color: var(--component-input-placeholder);
+}
+.input:focus {
+  border-color: var(--component-input-focus-border);
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* Textarea */
+.textarea {
+  background: var(--component-input-bg);
+  color: var(--component-input-text);
+  border: 1px solid var(--component-input-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  line-height: 165%;
+  width: 100%;
+  resize: vertical;
+  outline: none;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.textarea::placeholder {
+  color: var(--component-input-placeholder);
+}
+.textarea:focus {
+  border-color: var(--component-input-focus-border);
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* Select */
+.select {
+  background: var(--component-input-bg);
+  color: var(--component-input-text);
+  border: 1px solid var(--component-input-border);
+  border-radius: var(--radius-sm);
+  padding: 10px 14px;
+  font-family: var(--font-sans);
+  font-weight: 400;
+  font-size: 0.85rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+}
+.select:focus {
+  border-color: var(--component-input-focus-border);
+  box-shadow: var(--shadow-focus-ring);
+}
+
+/* Form label */
+.form-label {
+  display: block;
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 140%;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+/* Form helper text */
+.form-helper {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 4px;
+}
+.form-error {
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  color: var(--status-error-fg);
+  margin-top: 4px;
+}
+
+/* ============================================================
+   CARD UTILITY CLASSES
+   Source: design-system/foundry-tokens/{light,dark}.json → component.card.*
+   ============================================================ */
+
+/* Card */
+.card {
+  background: var(--component-card-bg);
+  border: 1px solid var(--component-card-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  transition:
+    background 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.card-interactive:hover {
+  background: var(--component-card-hover-bg);
+  border-color: var(--component-card-hover-border);
+  box-shadow: var(--shadow-md);
+}
+
+/* Card sections */
+.card-header {
+  padding: 20px 24px 0;
+}
+.card-body {
+  padding: 16px 24px;
+}
+.card-footer {
+  padding: 0 24px 20px;
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* ============================================================
+   MODAL & TOOLTIP UTILITY CLASSES
+   Source: design-system/foundry-tokens/{light,dark}.json → component.modal.*, component.tooltip.*
+   ============================================================ */
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--surface-overlay);
+  z-index: 50;
+}
+.modal {
+  background: var(--component-modal-bg);
+  border: 1px solid var(--component-modal-border);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  max-width: 560px;
+  width: 100%;
+  margin: auto;
+}
+.modal-header {
+  padding: 24px 24px 0;
+}
+.modal-body {
+  padding: 16px 24px;
+}
+.modal-footer {
+  padding: 0 24px 24px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+/* Tooltip */
+.tooltip {
+  background: var(--component-tooltip-bg);
+  color: var(--component-tooltip-text);
+  border: 1px solid var(--component-tooltip-border);
+  border-radius: var(--radius-sm);
+  padding: 6px 10px;
+  font-family: var(--font-sans);
+  font-size: 0.72rem;
+  line-height: 140%;
+  box-shadow: var(--shadow-md);
+  z-index: 60;
+}
+
+/* ============================================================
+   TABLE & STATUS INDICATOR UTILITY CLASSES
+   Source: design-system/foundry-tokens/{light,dark}.json → component.table.*, status.*
+   ============================================================ */
+
+/* Table */
+.table-header {
+  color: var(--component-table-header-text);
+  font-family: var(--font-sans);
+  font-weight: 500;
+  font-size: 0.72rem;
+  line-height: 140%;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-align: left;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--component-table-divider);
+}
+.table-cell {
+  color: var(--component-table-cell-text);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--component-table-divider);
+}
+.table-cell-emphasis {
+  color: var(--component-table-cell-emphasis);
+  font-weight: 500;
+}
+.table-row-hover:hover {
+  background: var(--component-table-row-hover);
+}
+
+/* Status indicators */
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot-success {
+  background: var(--status-success-fg);
+}
+.status-dot-warning {
+  background: var(--status-warning-fg);
+}
+.status-dot-error {
+  background: var(--status-error-fg);
+}
+.status-dot-info {
+  background: var(--status-info-fg);
+}
+
+/* Status banner / alert */
+.status-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius-md);
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+}
+.status-banner-success {
+  background: var(--status-success-bg);
+  color: var(--status-success-fg);
+  border: 1px solid var(--status-success-border);
+}
+.status-banner-warning {
+  background: var(--status-warning-bg);
+  color: var(--status-warning-fg);
+  border: 1px solid var(--status-warning-border);
+}
+.status-banner-error {
+  background: var(--status-error-bg);
+  color: var(--status-error-fg);
+  border: 1px solid var(--status-error-border);
+}
+.status-banner-info {
+  background: var(--status-info-bg);
+  color: var(--status-info-fg);
+  border: 1px solid var(--status-info-border);
+}

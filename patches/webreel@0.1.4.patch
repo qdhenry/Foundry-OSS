@@ -1,0 +1,18 @@
+diff --git a/dist/lib/runner.js b/dist/lib/runner.js
+index faed8a5e5091a6510409c7e31ad87a6941ca247f..b66466830ea089a9a538714eeccda3eaf20c0765 100644
+--- a/dist/lib/runner.js
++++ b/dist/lib/runner.js
+@@ -98,7 +98,12 @@ export async function runVideo(config, options) {
+     if (config.clickDwell !== undefined)
+         ctx.setClickDwell(config.clickDwell);
+     const initialCursor = ctx.getCursorPosition();
+-    const chrome = await launchChrome({ headless: shouldRecord });
++    const externalPort = config.browserPort ?? (process.env.WEBREEL_BROWSER_PORT ? parseInt(process.env.WEBREEL_BROWSER_PORT, 10) : null);
++    const chrome = externalPort
++        ? { port: externalPort, kill: () => { } }
++        : await launchChrome({ headless: shouldRecord });
++    if (externalPort)
++        console.log(`Connecting to existing Chrome on port ${externalPort}`);
+     let clientRef = null;
+     let recorder = null;
+     try {

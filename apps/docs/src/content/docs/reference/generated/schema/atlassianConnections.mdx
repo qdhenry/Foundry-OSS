@@ -1,0 +1,47 @@
+---
+title: "atlassianConnections"
+description: "Schema reference for the atlassianConnections table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Atlassian Connections — OAuth credentials + Jira/Confluence bindings
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| atlassianSiteId | string | No |  |
+| atlassianSiteUrl | string | No |  |
+| accessTokenEncrypted | string | No |  |
+| refreshTokenEncrypted | string | No |  |
+| tokenExpiresAt | number | No |  |
+| scopes | string[] | No |  |
+| jiraProjectId | string | No |  |
+| jiraProjectKey | string | No |  |
+| confluenceSpaceKey | string | No |  |
+| confluenceParentPageId | string | No |  |
+| status | "connected" \| "disconnected" \| "setup_required" | Yes |  |
+| lastSyncAt | number | No |  |
+| webhookIds | object | No |  |
+| connectedBy | `Id<"users">` | No |  |
+| oauthState | string | No |  |
+| createdAt | number | Yes |  |
+| updatedAt | number | Yes |  |
+| connectedAt | number | No |  |
+| disconnectedAt | number | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_org | orgId |
+| by_site_id | atlassianSiteId |
+| by_status | status, updatedAt |
+| by_oauth_state | oauthState |

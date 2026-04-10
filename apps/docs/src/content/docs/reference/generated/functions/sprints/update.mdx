@@ -1,0 +1,29 @@
+---
+title: "sprints.update"
+description: "mutation — Update sprint metadata (name, dates, goal)."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/sprints.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `mutation`
+**Module:** `convex/sprints.ts`
+
+## Arguments
+
+```typescript
+{
+    sprintId: Id<"sprints">,
+    name: string /* optional */,
+    startDate: number /* optional */,
+    endDate: number /* optional */,
+    goal: string /* optional */,
+  }
+```
+
+Update sprint metadata (name, dates, goal).
+@param sprintId - The sprint to update

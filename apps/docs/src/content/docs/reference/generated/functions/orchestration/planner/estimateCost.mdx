@@ -1,0 +1,30 @@
+---
+title: "orchestration/planner.estimateCost"
+description: "action — Estimate the token and dollar cost for an orchestration plan before execution."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/orchestration/planner.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `action`
+**Module:** `convex/orchestration/planner.ts`
+
+## Arguments
+
+```typescript
+{
+    assignments: 
+      v.object({
+        model: string,
+        estimatedTokens: number,
+        agentId: string /* optional */,
+      }[],
+    ),
+  }
+```
+
+Estimate the token and dollar cost for an orchestration plan before execution.

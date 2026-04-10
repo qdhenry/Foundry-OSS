@@ -1,0 +1,268 @@
+---
+title: Convex Layer
+description: Queries, mutations, actions, and HTTP actions — the reactive backend patterns that power Foundry.
+lastReviewed: "2026-04-10"
+versionTag: latest
+sidebar:
+  order: 3
+---
+
+import { Aside, Tabs, TabItem, Steps } from '@astrojs/starlight/components';
+
+Convex serves as Foundry's reactive backend-as-a-service. All persistent state, server logic, AI orchestration, and webhook handling lives in the `convex/` directory. There is no traditional REST API layer for data — React components call Convex functions directly via WebSocket.
+
+## Function types
+
+Convex has four function types. Each has different capabilities and constraints.
+
+| Type | Can read DB | Can write DB | Can call external APIs | Transactional | Called from |
+|------|:-----------:|:------------:|:---------------------:|:-------------:|------------|
+| **Query** | Yes | No | No | Yes | Frontend (`useQuery`) |
+| **Mutation** | Yes | Yes | No | Yes | Frontend (`useMutation`) |
+| **Action** | Via `runQuery` | Via `runMutation` | Yes | No | Frontend, scheduler, other actions |
+| **HTTP Action** | Via `runQuery`/`runMutation` | Via `runMutation` | Yes | No | External webhooks |
+
+### Queries
+
+Queries are read-only, deterministic functions that power reactive subscriptions. When you call `useQuery` in a React component, Convex opens a WebSocket subscription and re-runs the query whenever the underlying data changes.
+
+```typescript
+// convex/requirements.ts
+import { query } from "./_generated/server";
+import { v } from "convex/values";
+
+export const listByProgram = query({
+  args: {
+    orgId: v.string(),
+    programId: v.id("programs"),
+  },
+  handler: async (ctx, { orgId, programId }) => {
+    await assertOrgAccess(ctx, orgId);
+    return ctx.db
+      .query("requirements")
+      .withIndex("by_program", q => q.eq("programId", programId))
+      .collect();
+  },
+});
+```
+
+<Aside type="caution">
+Queries must be deterministic. No `Date.now()`, no `Math.random()`, no side effects. Convex re-executes queries on every relevant data change and caches the results.
+</Aside>
+
+### Mutations
+
+Mutations read and write the database transactionally. They have serializable isolation — if two mutations conflict on the same data, Convex retries one automatically.
+
+```typescript
+// convex/requirements.ts
+import { mutation } from "./_generated/server";
+import { v } from "convex/values";
+
+export const create = mutation({
+  args: {
+    orgId: v.string(),
+    programId: v.id("programs"),
+    title: v.string(),
+    description: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const user = await assertOrgAccess(ctx, args.orgId);
+    const id = await ctx.db.insert("requirements", {
+      ...args,
+      status: "draft",
+      createdBy: user._id,
+    });
+    await logAuditEvent(ctx, {
+      orgId: args.orgId,
+      action: "create",
+      entity: "requirement",
+      entityId: id,
+      userId: user._id,
+    });
+    return id;
+  },
+});
+```
+
+**Critical rule:** Mutations cannot call external APIs or use Node.js-specific APIs. Side effects belong in actions.
+
+### Actions
+
+Actions can call external APIs (Claude, GitHub, Cloudflare) but cannot access `ctx.db` directly. They read and write via `ctx.runQuery()` and `ctx.runMutation()`.
+
+```typescript
+// convex/ai.ts
+import { action } from "./_generated/server";
+import { internal } from "./_generated/api";
+
+export const analyzeDocument = action({
+  args: { documentId: v.id("documents") },
+  handler: async (ctx, { documentId }) => {
+    // Read via runQuery
+    const doc = await ctx.runQuery(
+      internal.documents.getInternal, { documentId }
+    );
+
+    // Call external API
+    const response = await anthropic.messages.create({
+      model: "claude-opus-4-6-20250219",
+      messages: [{ role: "user", content: doc.content }],
+    });
+
+    // Write via runMutation
+    await ctx.runMutation(internal.documents.saveAnalysis, {
+      documentId,
+      analysis: response.content,
+    });
+  },
+});
+```
+
+### HTTP actions
+
+HTTP actions handle inbound webhooks from external services. They receive raw `Request` objects and return `Response` objects.
+
+```typescript
+// convex/http.ts
+import { httpRouter } from "convex/server";
+import { httpAction } from "./_generated/server";
+
+const http = httpRouter();
+
+http.route({
+  path: "/api/webhooks/github",
+  method: "POST",
+  handler: httpAction(async (ctx, request) => {
+    // 1. Validate HMAC signature
+    const signature = request.headers.get("x-hub-signature-256");
+    const body = await request.text();
+    if (!verifyGitHubSignature(body, signature)) {
+      return new Response("Invalid signature", { status: 401 });
+    }
+
+    // 2. Store raw event
+    const eventId = await ctx.runMutation(
+      internal.sourceControl.storeEvent,
+      { payload: body, status: "pending" }
+    );
+
+    // 3. Schedule async processing
+    await ctx.scheduler.runAfter(0,
+      internal.sourceControl.processEvent,
+      { eventId }
+    );
+
+    // 4. Return 200 immediately
+    return new Response("OK", { status: 200 });
+  }),
+});
+```
+
+## The action sandwich pattern
+
+Actions that need to read data, call an external API, and write results follow the "sandwich" pattern:
+
+<Steps>
+1. **Auth check** — verify the caller has access
+2. **Read** — `ctx.runQuery()` to fetch the data needed for the external call
+3. **External call** — hit the API (Claude, GitHub, etc.)
+4. **Write** — `ctx.runMutation()` to persist results
+</Steps>
+
+```typescript
+export const executeSkill = action({
+  handler: async (ctx, args) => {
+    // 1. Auth
+    const user = await ctx.runQuery(internal.auth.getUser, {});
+
+    // 2. Read (query assembles full context)
+    const context = await ctx.runQuery(
+      internal.model.context.assembleForTask,
+      { taskId: args.taskId }
+    );
+
+    // 3. External call
+    const result = await anthropic.messages.create({
+      model: "claude-sonnet-4-5-20250514",
+      system: context.systemPrompt,
+      messages: context.messages,
+    });
+
+    // 4. Write
+    await ctx.runMutation(internal.agentExecutions.saveResult, {
+      taskId: args.taskId,
+      result: result.content,
+      tokenUsage: extractTokenUsage(result),
+    });
+  },
+});
+```
+
+<Aside type="tip">
+The sandwich pattern ensures mutations remain pure (no side effects) and actions remain stateless (no direct DB access). This separation is enforced by the Convex runtime.
+</Aside>
+
+## Real-time subscriptions
+
+Every `useQuery` call creates a reactive subscription. When the queried data changes, all subscribed clients re-render automatically.
+
+```tsx
+import { useQuery } from "convex/react";
+import { api } from "../convex/_generated/api";
+
+function TaskBoard({ programId, orgId }) {
+  // This re-renders whenever any task in this program changes
+  const tasks = useQuery(api.tasks.listByProgram, { programId, orgId });
+
+  if (tasks === undefined) return <Spinner />;
+  return <Board tasks={tasks} />;
+}
+```
+
+Use the `"skip"` token when auth state has not resolved yet:
+
+```tsx
+const tasks = useQuery(
+  api.tasks.listByProgram,
+  orgId ? { programId, orgId } : "skip"
+);
+```
+
+## Adding a new query or mutation
+
+<Steps>
+1. **Define the index** in `convex/schema.ts` if your query pattern does not have one yet.
+
+2. **Write the function** in the appropriate domain file under `convex/`. Use `query`, `mutation`, `action`, or `internalQuery`, `internalMutation`, `internalAction` for server-only functions.
+
+3. **Add `assertOrgAccess()`** as the first line of every public function that accesses tenant data.
+
+4. **Add `logAuditEvent()`** in mutations that change data.
+
+5. **Use `.withIndex()`** for all database reads. If the index does not exist, add it to `schema.ts` first.
+
+6. **Push to Convex** — run `bunx convex dev` (local) or `bunx convex deploy` (production). Convex validates schema changes and generates updated TypeScript types.
+</Steps>
+
+## Visibility boundary
+
+Convex distinguishes between **public** and **internal** functions:
+
+- **Public** (`query`, `mutation`, `action`) — callable from the frontend via `useQuery`/`useMutation`/`useAction`.
+- **Internal** (`internalQuery`, `internalMutation`, `internalAction`) — callable only from other server functions, scheduled jobs, and HTTP actions.
+
+Use `internal` for any function that should not be exposed to the frontend. The AI orchestration pipeline, webhook processors, and administrative operations are all internal.
+
+```typescript
+import { internalAction } from "./_generated/server";
+import { internal } from "./_generated/api";
+
+// Only callable from other server functions
+export const processWebhook = internalAction({
+  args: { eventId: v.id("sourceControlEvents") },
+  handler: async (ctx, { eventId }) => {
+    // ...
+  },
+});
+```

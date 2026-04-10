@@ -1,0 +1,53 @@
+---
+title: "Overview"
+description: "Program dashboard with KPIs, workstream grid, onboarding steps, and Mission Control widgets."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Overview page is the program-level dashboard — the first thing you see when entering a program. It combines KPI cards, workstream health grid, onboarding steps, and Mission Control widgets (daily digest, health scores, dependency suggestions, agent team card, pipeline progress) into a single view.
+
+## Why it matters
+
+Delivery leads need a single page that answers "how is this program doing?" without clicking through multiple screens. Overview aggregates the most important signals into a scannable layout.
+
+## Key concepts
+
+- **KPI cards**: `KpiCards` shows top-line metrics — requirement count, task completion, risk count, and other program-level numbers
+- **Workstream grid**: `WorkstreamGrid` displays each workstream as a card with health indicators
+- **Workstream health panel**: `WorkstreamHealthPanel` provides detailed health breakdown per workstream
+- **Phase badge**: Color-coded phase indicator (`discovery`, `build`, `test`, `deploy`, `complete`)
+- **Status badge**: Color-coded status indicator (`active`, `paused`, `complete`, `archived`)
+- **Onboarding steps**: Guided checklist for new programs (e.g., add requirements, create workstreams, connect repositories, add skills)
+- **Mission Control widgets**: Daily digest, health score, dependency suggestions, agent team card, and pipeline progress are embedded directly on the overview page
+
+## How to use it
+
+1. Navigate to **[Program]** — the overview page loads by default.
+2. Review **KPI Cards** for high-level program metrics.
+3. Scan the **Workstream Grid** for health status across all streams.
+4. For new programs, follow the **Onboarding Steps** checklist to complete setup.
+5. Read the **Daily Digest** for a summary of recent changes.
+6. Check the **Health Score** for AI-assessed program health.
+7. Review **Dependency Suggestions** for cross-requirement links.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`programs`](/reference/generated/schema/programs) — Program metadata (phase, status)
+- [`workstreams`](/reference/generated/schema/workstreams) — Workstream records for the grid
+- [`requirements`](/reference/generated/schema/requirements) — Requirement counts for KPIs
+- [`tasks`](/reference/generated/schema/tasks) — Task counts and completion rates
+- [`risks`](/reference/generated/schema/risks) — Risk counts for KPIs
+- [`skills`](/reference/generated/schema/skills) — Skill counts for onboarding detection
+
+## Related
+
+<LinkCard title="Mission Control" href="/features/mission-control/" />
+<LinkCard title="Workstreams" href="/features/workstreams/" />
+<LinkCard title="Programs" href="/features/programs/" />

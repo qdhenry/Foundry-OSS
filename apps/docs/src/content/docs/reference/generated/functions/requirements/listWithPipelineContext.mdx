@@ -1,0 +1,29 @@
+---
+title: "requirements.listWithPipelineContext"
+description: "query — Returns requirements for a workstream with pre-computed pipeline stage,"
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/requirements.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/requirements.ts`
+
+## Arguments
+
+```typescript
+{
+    programId: Id<"programs">,
+    workstreamId: Id<"workstreams">,
+    stage: pipelineStageValidator /* optional */,
+    priority: priorityValidator /* optional */,
+    search: string /* optional */,
+  }
+```
+
+Returns requirements for a workstream with pre-computed pipeline stage,
+joined context (finding, decomposition, tasks), sorted by stage then priority.

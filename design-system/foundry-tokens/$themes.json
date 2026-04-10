@@ -1,0 +1,22 @@
+[
+  {
+    "id": "foundry-dark",
+    "name": "Foundry / Midnight (Dark)",
+    "selectedTokenSets": {
+      "global": "source",
+      "dark": "enabled",
+      "light": "disabled"
+    },
+    "group": "Mode"
+  },
+  {
+    "id": "foundry-light",
+    "name": "Foundry / Light",
+    "selectedTokenSets": {
+      "global": "source",
+      "dark": "disabled",
+      "light": "enabled"
+    },
+    "group": "Mode"
+  }
+]

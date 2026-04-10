@@ -1,0 +1,49 @@
+---
+title: "Repositories"
+description: "Manage connected GitHub repositories with activity tracking and configuration."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+The Repositories page manages the GitHub repositories connected to a program. You can connect existing repos via the repo picker, create new repositories, view recent activity per repo, and configure repository-level settings like role assignment.
+
+## Why it matters
+
+Every program produces code in one or more repositories. The repositories page provides a single view of all connected repos with their activity, making it easy to configure which repos agents should target during sandbox execution and orchestration.
+
+## Key concepts
+
+- **Repo picker dropdown**: `RepoPickerDropdown` provides a searchable dropdown to connect repositories to the program
+- **GitHub install CTA**: `GitHubInstallCTA` prompts installation of the Foundry GitHub App if not yet configured
+- **Repo activity card**: `RepoActivityCard` shows recent commits, PRs, and deployments per repository
+- **Repo config panel**: `RepoConfigPanel` slides in for per-repo configuration (role, branch defaults)
+- **Repo create modal**: `RepoCreateModal` creates a new GitHub repository from Foundry
+- **Connected repos**: Repositories linked to the program with role classification
+
+## How to use it
+
+1. Navigate to **[Program] > Repositories**.
+2. If the GitHub App is not installed, follow the **Install CTA** prompt.
+3. Use the **Repo Picker** to search and connect repositories.
+4. Click **Create** to make a new GitHub repository directly from Foundry.
+5. View **Activity Cards** for recent code events per repo.
+6. Click a repo to open the **Config Panel** for role and settings adjustment.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`sourceControl/repositories`](/reference/generated/schema/repositories) — Connected repository records with role and program scope
+- [`sourceControl/commits`](/reference/generated/schema/commits) — Recent commit data per repo
+- [`sourceControl/pullRequests`](/reference/generated/schema/pullRequests) — PR data per repo
+- [`sourceControl/deployments`](/reference/generated/schema/deployments) — Deployment records per repo
+
+## Related
+
+<LinkCard title="Source Control" href="/features/source-control/" />
+<LinkCard title="Codebase Analysis" href="/features/codebase-analysis/" />
+<LinkCard title="Sandbox" href="/features/sandbox/" />

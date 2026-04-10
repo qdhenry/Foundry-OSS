@@ -1,0 +1,28 @@
+---
+title: "teamMembers"
+description: "Schema reference for the teamMembers table."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/schema.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+Team Members — program-level role assignments
+
+## Fields
+
+| Field | Type | Required | Description |
+|-------|------|----------|-------------|
+| orgId | string | Yes | Organization ID for multi-tenant isolation |
+| programId | `Id<"programs">` | Yes | Parent program reference |
+| userId | `Id<"users">` | Yes |  |
+| role | "director" \| "architect" \| "developer" \| "ba" \| "qa" \| "client" | Yes |  |
+| workstreamIds | `Id<"workstreams">[]` | No |  |
+
+## Indexes
+
+| Name | Fields |
+|------|--------|
+| by_program | programId |
+| by_user | userId |

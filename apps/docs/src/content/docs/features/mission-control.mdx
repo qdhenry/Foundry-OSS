@@ -1,0 +1,47 @@
+---
+title: "Mission Control"
+description: "AI health scoring, daily digests, dependency suggestions, and pipeline progress."
+lastReviewed: "2026-04-10"
+versionTag: latest
+---
+
+import { Aside, LinkCard } from '@astrojs/starlight/components';
+
+## What it is
+
+Mission Control is the AI-powered intelligence layer for a program. It provides health scores, daily digest summaries, cross-requirement dependency suggestions, agent team visibility, and pipeline progress widgets — all surfaced on the program overview page.
+
+## Why it matters
+
+Delivery leads need a single view of program health. Mission Control aggregates signals from requirements, tasks, risks, and agent activity into actionable insights, so you can spot issues before they become blockers.
+
+## Key concepts
+
+- **Health score card**: `HealthScoreCard` shows an AI-computed health score (0-100) with trend indicators and breakdown by dimension
+- **Daily digest**: `DailyDigest` surfaces an AI-generated summary of the most important changes and actions needed
+- **Dependency suggestions**: `DependencySuggestions` identifies cross-requirement dependencies that may not be explicitly tracked
+- **Agent team card**: `AgentTeamCard` shows the current agent team composition and recent activity
+- **Pipeline progress widget**: `PipelineProgressWidget` visualizes how requirements are flowing through the delivery pipeline
+
+## How to use it
+
+1. Navigate to **[Program] > Overview** — Mission Control widgets appear on this page.
+2. Review the **Health Score Card** for the overall program score and trending direction.
+3. Read the **Daily Digest** for a summary of what changed since your last visit.
+4. Check **Dependency Suggestions** and link any detected cross-requirement dependencies.
+5. Monitor the **Agent Team Card** for agent activity and dispatch status.
+6. View the **Pipeline Progress Widget** for requirement flow-through rates.
+
+## Data model
+
+This feature uses the following tables:
+
+- [`aiHealthScores`](/reference/generated/schema/aiHealthScores) — AI-computed health scores with dimensional breakdown
+- [`dailyDigestCache`](/reference/generated/schema/dailyDigestCache) — Cached daily digest content per program
+- [`dependencyDetection`](/reference/generated/schema/dependencyDetection) — AI-detected cross-requirement dependencies
+
+## Related
+
+<LinkCard title="Overview" href="/features/overview/" />
+<LinkCard title="Agents" href="/features/agents/" />
+<LinkCard title="Pipeline Lab" href="/features/pipeline-lab/" />

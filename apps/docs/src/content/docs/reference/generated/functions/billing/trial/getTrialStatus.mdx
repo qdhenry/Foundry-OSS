@@ -1,0 +1,23 @@
+---
+title: "billing/trial.getTrialStatus"
+description: "query — Returns a user-friendly trial status object for the org."
+lastReviewed: "2026-04-10"
+versionTag: latest
+generatedFrom: "convex/billing/trial.ts@42c357d1"
+---
+
+{/* DO NOT EDIT — regenerate with: bun --cwd apps/docs run reference:gen */}
+
+import { Aside } from '@astrojs/starlight/components';
+
+**Type:** `query`
+**Module:** `convex/billing/trial.ts`
+
+## Arguments
+
+```typescript
+{ orgId: string }
+```
+
+Returns a user-friendly trial status object for the org.
+Accounts for subscriptions, active trials, and exhausted trials.
