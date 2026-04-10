@@ -7,6 +7,12 @@
 
 Foundry converts raw project documents, specifications, and recordings into working software through an automated pipeline of AI-driven requirement extraction, task decomposition, autonomous agent execution, and human review.
 
+
+
+https://github.com/user-attachments/assets/b39ec089-792b-48d6-af30-ac63829e0f3a
+
+
+
 ---
 
 ## Overview
