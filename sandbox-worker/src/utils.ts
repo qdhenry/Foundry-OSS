@@ -302,6 +302,7 @@ export async function validateTerminalToken(
   if (!timestamp || !sig) return false;
   const ts = Number(timestamp);
   if (!Number.isFinite(ts) || Date.now() - ts > TERMINAL_TOKEN_TTL_MS) return false;
+  if (sig.length % 2 !== 0) return false;
 
   // Recompute HMAC using the original timestamp from the token
   const payload = `${sandboxId}:${timestamp}`;
@@ -312,7 +313,11 @@ export async function validateTerminalToken(
     false,
     ["verify"],
   );
-  const sigBytes = new Uint8Array(sig.match(/.{2}/g)?.map((b) => parseInt(b, 16)));
+  const hexPairs = sig.match(/.{2}/g);
+  if (!hexPairs || hexPairs.some((pair) => !/^[\da-f]{2}$/i.test(pair))) {
+    return false;
+  }
+  const sigBytes = new Uint8Array(hexPairs.map((b) => parseInt(b, 16)));
   return crypto.subtle.verify("HMAC", key, sigBytes, new TextEncoder().encode(payload));
 }
 

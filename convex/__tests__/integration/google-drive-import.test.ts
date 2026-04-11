@@ -104,7 +104,7 @@ function mockFetchForImport({
         if (driveStatus !== 200) {
           return new Response("Error", { status: driveStatus });
         }
-        return new Response(driveBytes, {
+        return new Response(new Uint8Array(driveBytes).buffer, {
           status: 200,
           headers: { "Content-Type": "application/pdf" },
         });
@@ -515,7 +515,7 @@ describe("importDriveFiles: per-file error resilience", () => {
           if (callCount === 1) {
             return new Response("Forbidden", { status: 403 });
           }
-          return new Response(FAKE_PDF_BYTES, { status: 200 });
+          return new Response(new Uint8Array(FAKE_PDF_BYTES).buffer, { status: 200 });
         }
 
         return new Response("Not Found", { status: 404 });

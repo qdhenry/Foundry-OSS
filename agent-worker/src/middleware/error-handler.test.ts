@@ -2,6 +2,13 @@ import { Hono } from "hono";
 import { describe, expect, it, vi } from "vitest";
 import { errorHandler } from "./error-handler";
 
+interface ErrorResponseBody {
+  error: {
+    code: string;
+    message: string;
+  };
+}
+
 describe("errorHandler", () => {
   function createApp(errorFn: () => never) {
     const app = new Hono();
@@ -20,7 +27,7 @@ describe("errorHandler", () => {
     const res = await app.request("/test");
     expect(res.status).toBe(500);
 
-    const body = await res.json();
+    const body = (await res.json()) as ErrorResponseBody;
     expect(body.error.code).toBe("INTERNAL_ERROR");
     expect(body.error.message).toBe("Something broke");
   });
@@ -34,7 +41,7 @@ describe("errorHandler", () => {
 
     const res = await app.request("/test");
     // Hono wraps statusCode usage; the handler returns it as the status code
-    const body = await res.json();
+    const body = (await res.json()) as ErrorResponseBody;
     expect(body.error.message).toBe("Not found");
   });
 
@@ -47,7 +54,7 @@ describe("errorHandler", () => {
     });
 
     const res = await app.request("/test");
-    const body = await res.json();
+    const body = (await res.json()) as ErrorResponseBody;
     expect(body.error.code).toBe("VALIDATION_ERROR");
     expect(body.error.message).toBe("Bad input");
   });

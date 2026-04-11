@@ -2,7 +2,7 @@ import { existsSync, mkdirSync } from "node:fs";
 import { resolve } from "node:path";
 import { parseArgs } from "node:util";
 import { chromium } from "playwright";
-import { type ScreenshotEntry, screenshots } from "./screenshot-manifest.ts";
+import { type ScreenshotEntry, screenshots } from "./screenshot-manifest";
 
 // ---------------------------------------------------------------------------
 // CLI args
@@ -167,7 +167,7 @@ async function main() {
   }
 
   // Filter entries
-  const filterPattern = args.filter;
+  const filterPattern = typeof args.filter === "string" ? args.filter : undefined;
   const entries = filterPattern
     ? screenshots.filter((s) => s.slug.includes(filterPattern))
     : screenshots;
@@ -220,14 +220,12 @@ async function main() {
     // Resize viewport if entry overrides default
     await page.setViewportSize(entry.viewport);
 
-    let success = false;
     for (let attempt = 1; attempt <= maxRetries; attempt++) {
       try {
         log(
           `[${captured + failed + skipped + 1}/${entries.length}] ${entry.section}/${entry.slug}${attempt > 1 ? ` (retry ${attempt})` : ""}`,
         );
         await captureEntry(page, entry, programId);
-        success = true;
         captured++;
         break;
       } catch (err) {

@@ -2,11 +2,17 @@ import { Hono } from "hono";
 import { describe, expect, it } from "vitest";
 import { orgIdMiddleware } from "./org-id";
 
+type TestAppEnv = {
+  Variables: {
+    orgId: string;
+  };
+};
+
 describe("orgIdMiddleware", () => {
   it("sets orgId from x-org-id header", async () => {
     let capturedOrgId: string | undefined;
 
-    const app = new Hono();
+    const app = new Hono<TestAppEnv>();
     app.use("/*", orgIdMiddleware);
     app.get("/test", (c) => {
       capturedOrgId = c.get("orgId");
@@ -23,7 +29,7 @@ describe("orgIdMiddleware", () => {
   it("defaults to 'unknown' when x-org-id is missing", async () => {
     let capturedOrgId: string | undefined;
 
-    const app = new Hono();
+    const app = new Hono<TestAppEnv>();
     app.use("/*", orgIdMiddleware);
     app.get("/test", (c) => {
       capturedOrgId = c.get("orgId");
@@ -36,7 +42,7 @@ describe("orgIdMiddleware", () => {
   });
 
   it("does not reject requests without x-org-id", async () => {
-    const app = new Hono();
+    const app = new Hono<TestAppEnv>();
     app.use("/*", orgIdMiddleware);
     app.get("/test", (c) => c.json({ ok: true }));
 
