@@ -49,6 +49,10 @@
 
   /* Focus ring — Foundry uses a blue-tinted ring */
   --sl-color-focus: var(--accent-default);
+
+  /* Font families — map Starlight text font to Foundry body font */
+  --sl-font: var(--font-body);
+  --sl-font-mono: var(--font-mono);
 }
 
 /* Starlight applies [data-theme='dark'] on <html>; --sl-* variables
@@ -67,6 +71,113 @@
   --sl-color-black: var(--surface-page);
   --sl-color-bg-sidebar: var(--surface-default);
   --sl-color-bg-inline-code: var(--surface-raised);
+}
+
+/* ---------- Heading font overrides ---------- */
+/* Display-tier headings use Instrument Serif per the Foundry style guide */
+
+/* Page title (Starlight PageTitle component, outside markdown content) */
+h1#_top {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 2.4rem;
+  line-height: 1.15;
+  margin-bottom: 1.25rem;
+}
+
+/* Content headings within doc pages */
+.sl-markdown-content :is(h1, h2) {
+  font-family: var(--font-display);
+  font-weight: 400;
+}
+
+/* ---------- Foundry utility classes ---------- */
+
+/* Pill badge — used in Hero for status labels */
+.foundry-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: var(--foundry-radius-full);
+  background: var(--pill-bg);
+  border: 1px solid var(--pill-border);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent-default);
+}
+
+.foundry-pill__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: var(--foundry-radius-full);
+  background: var(--accent-default);
+}
+
+/* Label — structural overlines (section numbers, tags) */
+.foundry-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---------- Sidebar navigation — match Foundry web app pattern ---------- */
+/* Starlight sidebar uses @layer starlight.core, so unlayered rules win. */
+
+/* More vertical space between top-level groups (Getting Started, Guides, etc.) */
+.top-level > li + li {
+  margin-top: 1.5rem;
+}
+
+/* Top-level group labels → small uppercase section headers
+   Matches web app: 10px uppercase, semibold, letter-spacing, accent color */
+.top-level > li > details > summary .large {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-default);
+}
+
+/* Top-level links (items without sub-items at root level) */
+.top-level > li > a.large {
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent-default);
+}
+
+/* Nested sub-group labels (Architecture & Concepts, etc.)
+   Slightly larger, normal case, secondary color — distinct from leaf items */
+ul ul details > summary .large {
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--sl-color-white);
+}
+
+/* Give group toggles more breathing room */
+summary {
+  padding: 0.4em 0.5rem;
+}
+
+/* Leaf nav links — more generous padding */
+.top-level a:not(.large) {
+  padding: 0.4em 0.5rem;
+}
+
+/* Nested item left border — use accent tint instead of default hairline */
+ul ul li {
+  border-inline-start-color: var(--border-accent);
 }
 
 /* ---------- Code-block focus state & link underline color ---------- */

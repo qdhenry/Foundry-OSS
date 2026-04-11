@@ -19,6 +19,11 @@ export default defineConfig({
   integrations: [
     starlight({
       title: "Foundry",
+      logo: {
+        dark: "./src/assets/foundry-mark-dark.svg",
+        light: "./src/assets/foundry-mark-light.svg",
+        alt: "Foundry",
+      },
       description:
         "Agentic Delivery Platform — open-source docs for self-hosters, contributors, and integrators.",
       defaultLocale: "root",
@@ -29,11 +34,11 @@ export default defineConfig({
         {
           icon: "github",
           label: "GitHub",
-          href: "https://github.com/qdhenry/Foundry",
+          href: "https://github.com/qdhenry/Foundry-OSS",
         },
       ],
       editLink: {
-        baseUrl: "https://github.com/qdhenry/Foundry/edit/main/apps/docs/",
+        baseUrl: "https://github.com/qdhenry/Foundry-OSS/edit/main/apps/docs/",
       },
       components: {
         Head: "./src/components/Head.astro",

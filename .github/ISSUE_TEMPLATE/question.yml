@@ -7,7 +7,7 @@ body:
       value: |
         **Before opening an issue**, please check if your question has already been answered:
         - [Documentation](https://docs.foundryworks.com)
-        - [GitHub Discussions](https://github.com/qdhenry/Foundry/discussions)
+        - [GitHub Discussions](https://github.com/qdhenry/Foundry-OSS/discussions)
 
         For general questions, **GitHub Discussions** is preferred over issues.
 

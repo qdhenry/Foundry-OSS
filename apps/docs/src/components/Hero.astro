@@ -6,6 +6,9 @@
  * `foundry-tokens.css` and Starlight theme variables so it responds to
  * light/dark mode automatically.
  *
+ * Design aligned with the Bespoke Agentics brand system: DM Sans
+ * typography, pill badge, hero gradient backdrop, signal arc motif.
+ *
  * Pairs with a copy-pasteable quickstart snippet and <FeatureGrid /> on
  * the home page. Starlight's native Hero is intentionally not used so
  * that the layout matches the Foundry brand rather than Starlight's
@@ -23,10 +26,10 @@ interface Props {
 const {
   tagline = "The open-source Agentic Delivery Platform. Turn plans, conversations, and requirements into shipping software.",
   primaryCta = { text: "Get started in 15 minutes", href: "/getting-started/quickstart/" },
-  secondaryCta = { text: "View on GitHub", href: "https://github.com/qdhenry/Foundry" },
+  secondaryCta = { text: "View on GitHub", href: "https://github.com/qdhenry/Foundry-OSS" },
 } = Astro.props;
 
-const quickstartSnippet = `git clone https://github.com/qdhenry/Foundry.git
+const quickstartSnippet = `git clone https://github.com/qdhenry/Foundry-OSS.git
 cd Foundry
 bun install
 cp .env.local.example .env.local   # fill in Clerk + Convex + Anthropic keys
@@ -35,8 +38,12 @@ bun run dev                         # terminal 2`;
 ---
 
 <section class="foundry-hero">
+  <div class="foundry-hero__backdrop" aria-hidden="true"></div>
   <div class="foundry-hero__content">
-    <p class="foundry-hero__eyebrow">Foundry · open source · Apache-2.0</p>
+    <span class="foundry-pill">
+      <span class="foundry-pill__dot"></span>
+      Open Source · Apache-2.0
+    </span>
     <h1 class="foundry-hero__title">
       Ship software at the <span class="foundry-hero__accent">speed of thought</span>.
     </h1>
@@ -44,7 +51,7 @@ bun run dev                         # terminal 2`;
     <div class="foundry-hero__actions">
       <a class="foundry-hero__cta foundry-hero__cta--primary" href={primaryCta.href}>
         {primaryCta.text}
-        <span aria-hidden="true">→</span>
+        <span aria-hidden="true">&rarr;</span>
       </a>
       <a
         class="foundry-hero__cta foundry-hero__cta--secondary"
@@ -64,10 +71,19 @@ bun run dev                         # terminal 2`;
 
 <style>
   .foundry-hero {
+    position: relative;
     display: grid;
-    gap: 2.5rem;
-    padding: 3.5rem 0 2.5rem;
-    border-bottom: 1px solid var(--sl-color-hairline, var(--border-subtle, rgba(148, 163, 184, 0.2)));
+    gap: 3rem;
+    padding: 5.5rem 0 4rem;
+    border-bottom: 1px solid var(--border-subtle);
+    overflow: hidden;
+  }
+
+  .foundry-hero__backdrop {
+    position: absolute;
+    inset: 0;
+    background: var(--hero-gradient);
+    pointer-events: none;
   }
 
   @media (min-width: 900px) {
@@ -78,41 +94,32 @@ bun run dev                         # terminal 2`;
     }
   }
 
-  .foundry-hero__eyebrow {
-    margin: 0 0 0.75rem;
-    font-size: 0.8125rem;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+  .foundry-hero__content {
+    position: relative;
+    z-index: 1;
   }
 
   .foundry-hero__title {
-    margin: 0;
-    font-size: clamp(2rem, 4vw + 1rem, 3.5rem);
-    line-height: 1.05;
-    font-weight: 700;
+    margin: 2.5rem 0 0;
+    font-family: var(--font-display);
+    font-size: clamp(2.2rem, 4.5vw, 3.5rem);
+    line-height: 1.15;
+    font-weight: 400;
     letter-spacing: -0.02em;
-    color: var(--sl-color-white, var(--text-primary));
+    color: var(--sl-color-white, var(--text-heading));
   }
 
   .foundry-hero__accent {
-    background: linear-gradient(
-      135deg,
-      var(--brand-blue-400, #60a5fa),
-      var(--brand-blue-600, #2563eb)
-    );
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
+    color: var(--accent-default);
   }
 
   .foundry-hero__tagline {
-    margin: 1.25rem 0 2rem;
-    font-size: 1.125rem;
-    line-height: 1.55;
+    margin: 2rem 0 2.5rem;
+    font-size: 1.0625rem;
+    line-height: 1.7;
+    font-weight: 400;
     max-width: 42rem;
-    color: var(--sl-color-gray-2, var(--text-secondary));
+    color: var(--sl-color-gray-3, var(--text-secondary));
   }
 
   .foundry-hero__actions {
@@ -125,48 +132,49 @@ bun run dev                         # terminal 2`;
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.625rem;
-    font-size: 0.9375rem;
-    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--foundry-radius-sm);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 500;
     text-decoration: none;
-    transition:
-      background-color 120ms ease,
-      border-color 120ms ease,
-      transform 120ms ease;
+    transition: all 0.25s ease;
   }
 
   .foundry-hero__cta--primary {
-    background: var(--sl-color-accent, var(--brand-blue-600, #2563eb));
-    color: var(--sl-color-black, #fff);
+    background: var(--cta-primary-bg);
+    color: var(--text-on-brand);
     border: 1px solid transparent;
   }
 
   .foundry-hero__cta--primary:hover {
-    background: var(--sl-color-accent-high, var(--brand-blue-700, #1d4ed8));
-    transform: translateY(-1px);
+    background: var(--cta-primary-hover);
+    box-shadow: var(--shadow-button-hover);
+    color: var(--text-on-brand);
   }
 
   .foundry-hero__cta--secondary {
     background: transparent;
     color: var(--sl-color-text, var(--text-primary));
-    border: 1px solid var(--sl-color-gray-5, var(--border-default, rgba(148, 163, 184, 0.35)));
+    border: 1px solid var(--border-strong);
   }
 
   .foundry-hero__cta--secondary:hover {
-    border-color: var(--sl-color-accent, var(--brand-blue-500, #3b82f6));
-    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+    border-color: var(--accent-default);
+    background: var(--interactive-active);
   }
 
   .foundry-hero__snippet {
+    position: relative;
+    z-index: 1;
     min-width: 0;
   }
 
   /* Starlight's <Code /> renders a framed panel; nudge it to feel like
      a terminal output in the hero without overriding token colors. */
   .foundry-hero__snippet :global(.expressive-code) {
-    box-shadow: var(--shadow-lg, 0 10px 30px rgba(15, 23, 42, 0.2));
-    border-radius: 0.75rem;
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--foundry-radius-lg);
     overflow: hidden;
   }
 </style>

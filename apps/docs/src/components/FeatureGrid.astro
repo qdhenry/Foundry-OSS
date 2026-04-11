@@ -102,20 +102,21 @@ const icons: Record<Feature["icon"], string> = {
 
 <style>
   .foundry-features {
-    margin: 3rem 0 1rem;
+    margin: 4.5rem 0 2rem;
   }
 
   .foundry-features__title {
-    margin: 0 0 1.25rem;
-    font-size: 1.5rem;
-    font-weight: 600;
-    letter-spacing: -0.01em;
-    color: var(--sl-color-white, var(--text-primary));
+    margin: 0 0 2rem;
+    font-family: var(--font-display);
+    font-size: 1.55rem;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    color: var(--sl-color-white, var(--text-heading));
   }
 
   .foundry-features__grid {
     display: grid;
-    gap: 1rem;
+    gap: 1.25rem;
     grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
   }
 
@@ -123,48 +124,46 @@ const icons: Record<Feature["icon"], string> = {
     position: relative;
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
-    padding: 1.25rem 1.25rem 1.5rem;
-    border-radius: 0.875rem;
-    border: 1px solid var(--sl-color-gray-5, var(--border-subtle, rgba(148, 163, 184, 0.2)));
-    background: var(--sl-color-gray-6, var(--surface-raised, rgba(255, 255, 255, 0.02)));
+    gap: 0.75rem;
+    padding: 1.5rem 1.5rem 1.75rem;
+    border-radius: var(--foundry-radius-lg);
+    border: 1px solid var(--border-default);
+    background: var(--surface-default);
     color: inherit;
     text-decoration: none;
-    transition:
-      transform 140ms ease,
-      border-color 140ms ease,
-      background-color 140ms ease;
+    transition: border-color 0.3s ease;
   }
 
   .foundry-features__card:hover {
-    transform: translateY(-2px);
-    border-color: var(--sl-color-accent, var(--brand-blue-500, #3b82f6));
-    background: var(--interactive-subtle, rgba(59, 130, 246, 0.05));
+    border-color: var(--card-hover-border);
   }
 
   .foundry-features__icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 0.5rem;
-    background: color-mix(in srgb, var(--sl-color-accent, #3b82f6) 12%, transparent);
-    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: var(--foundry-radius-md);
+    background: var(--pill-bg);
+    border: 1px solid var(--pill-border);
+    color: var(--accent-default);
   }
 
   .foundry-features__card-title {
     margin: 0;
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--sl-color-white, var(--text-primary));
+    font-family: var(--font-display);
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--sl-color-white, var(--text-heading));
   }
 
   .foundry-features__card-desc {
     margin: 0;
     font-size: 0.875rem;
-    line-height: 1.5;
-    color: var(--sl-color-gray-2, var(--text-secondary));
+    font-weight: 400;
+    line-height: 1.65;
+    color: var(--text-secondary);
   }
 
   .foundry-features__card-arrow {
@@ -172,12 +171,12 @@ const icons: Record<Feature["icon"], string> = {
     right: 1.25rem;
     bottom: 1.25rem;
     font-size: 1rem;
-    color: var(--sl-color-text-accent, var(--brand-blue-500, #3b82f6));
+    color: var(--accent-default);
     opacity: 0;
     transform: translateX(-4px);
     transition:
-      opacity 140ms ease,
-      transform 140ms ease;
+      opacity 0.2s ease,
+      transform 0.2s ease;
   }
 
   .foundry-features__card:hover .foundry-features__card-arrow {
