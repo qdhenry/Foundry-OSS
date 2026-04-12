@@ -14,5 +14,5 @@ commit-msg:
 
 pre-push:
   jobs:
-    - name: verify-ci
-      run: bun run verify:ci
+    - name: verify-push
+      run: bun run verify:push
