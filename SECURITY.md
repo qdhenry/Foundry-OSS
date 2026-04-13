@@ -2,10 +2,10 @@
 
 ## Supported Versions
 
-| Version | Supported |
-|---------|-----------|
-| latest (main) | Yes |
-| Older releases | No |
+| Version        | Supported |
+| -------------- | --------- |
+| latest (main)  | Yes       |
+| Older releases | No        |
 
 Only the latest release on `main` receives security updates.
 
@@ -15,7 +15,7 @@ Only the latest release on `main` receives security updates.
 
 Instead, please use one of these channels:
 
-1. **GitHub Private Vulnerability Reports** — preferred. Go to the [Security tab](https://github.com/qdhenry/Foundry/security/advisories/new) and submit a private advisory.
+1. **GitHub Private Vulnerability Reports** — preferred. Go to the [Security tab](https://github.com/qdhenry/Foundry-OSS/security/advisories/new) and submit a private advisory.
 2. **Email** — send details to **security@foundryworks.com**.
 
 ### What to include
@@ -28,11 +28,11 @@ Instead, please use one of these channels:
 
 ### Response timeline
 
-| Stage | SLA |
-|-------|-----|
-| Acknowledgment | 72 hours |
-| Initial assessment | 7 days |
-| Fix or mitigation | 90 days |
+| Stage              | SLA      |
+| ------------------ | -------- |
+| Acknowledgment     | 72 hours |
+| Initial assessment | 7 days   |
+| Fix or mitigation  | 90 days  |
 
 We will keep you informed of our progress throughout the process.
 

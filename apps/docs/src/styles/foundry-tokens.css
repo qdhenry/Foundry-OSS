@@ -33,6 +33,11 @@
   --brand-blue-800: #1e40af;
   --brand-blue-900: #1e3a8a;
 
+  /* Font families */
+  --font-display: "Instrument Serif", serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  --font-mono: "DM Mono", monospace;
+
   /* Border radius */
   --foundry-radius-sm: 6px;
   --foundry-radius-md: 10px;
@@ -101,6 +106,20 @@
   --shadow-card: 0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px 0 rgba(15, 23, 42, 0.03);
   --shadow-button-hover: 0 4px 20px 0 rgba(37, 99, 235, 0.2);
   --shadow-focus-ring: 0 0 0 3px rgba(37, 99, 235, 0.12);
+
+  /* Hero */
+  --hero-gradient: linear-gradient(135deg, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
+
+  /* CTA buttons */
+  --cta-primary-bg: var(--brand-blue-600);
+  --cta-primary-hover: var(--brand-blue-700);
+
+  /* Pill / badge */
+  --pill-bg: var(--interactive-subtle);
+  --pill-border: var(--border-accent);
+
+  /* Card hover */
+  --card-hover-border: var(--border-accent);
 }
 
 /* ---------- Dark theme (Starlight convention) ---------- */
@@ -163,4 +182,18 @@
   --shadow-card: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
   --shadow-button-hover: 0 4px 20px 0 rgba(59, 130, 246, 0.25);
   --shadow-focus-ring: 0 0 0 3px rgba(59, 130, 246, 0.15);
+
+  /* Hero */
+  --hero-gradient: linear-gradient(135deg, rgba(59, 130, 246, 0.06) 0%, transparent 60%);
+
+  /* CTA buttons */
+  --cta-primary-bg: var(--brand-blue-500);
+  --cta-primary-hover: var(--brand-blue-600);
+
+  /* Pill / badge */
+  --pill-bg: var(--interactive-subtle);
+  --pill-border: var(--border-accent);
+
+  /* Card hover */
+  --card-hover-border: var(--border-accent);
 }

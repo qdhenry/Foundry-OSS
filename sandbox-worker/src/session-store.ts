@@ -1988,6 +1988,11 @@ export class SessionStore extends DurableObject<Env> {
     const POLL_INTERVAL_MS = 3_000;
 
     try {
+      const sdkHandle = this.sdkHandle;
+      if (!sdkHandle || typeof sdkHandle.startProcess !== "function") {
+        throw new Error("Sandbox handle does not support startProcess().");
+      }
+
       const workingDirectory = request.workingDirectory?.trim() || "/workspace";
 
       // Set env vars at the sandbox level using the native SDK method.
@@ -1997,10 +2002,10 @@ export class SessionStore extends DurableObject<Env> {
       if (request.anthropicApiKey?.trim()) {
         sandboxEnv.ANTHROPIC_API_KEY = request.anthropicApiKey.trim();
       }
-      await this.sdkHandle?.setEnvVars(sandboxEnv);
+      await sdkHandle.setEnvVars(sandboxEnv);
 
       // Clean up any previous run artifacts.
-      await this.sdkHandle?.exec(
+      await sdkHandle.exec(
         `rm -f ${LOG_FILE} && touch ${LOG_FILE} && chown sandbox:sandbox ${LOG_FILE}`,
         {},
       );
@@ -2032,14 +2037,14 @@ export class SessionStore extends DurableObject<Env> {
           hookConfig,
         });
 
-        await this.sdkHandle?.exec(
+        await sdkHandle.exec(
           `cat > ${RUNNER_FILE} << 'SDKRUNNEREOF'\n${runnerScript}\nSDKRUNNEREOF\nchmod +x ${RUNNER_FILE} && chown sandbox:sandbox ${RUNNER_FILE}`,
           {},
         );
 
         // Ensure the SDK is importable via ESM by symlinking the global package
         // into the working directory's node_modules. ESM ignores NODE_PATH.
-        await this.sdkHandle?.exec(
+        await sdkHandle.exec(
           `mkdir -p ${shellEscape(workingDirectory)}/node_modules/@anthropic-ai && ` +
             `ln -sf $(npm root -g)/@anthropic-ai/claude-agent-sdk ${shellEscape(workingDirectory)}/node_modules/@anthropic-ai/claude-agent-sdk && ` +
             `chown -R sandbox:sandbox ${shellEscape(workingDirectory)}/node_modules`,
@@ -2062,7 +2067,7 @@ export class SessionStore extends DurableObject<Env> {
         this.appendLog("system", "Starting Claude Code execution (CLI mode).");
       }
 
-      const proc = await this.sdkHandle?.startProcess(command, {
+      const proc = await sdkHandle.startProcess(command, {
         cwd: workingDirectory,
         timeout: request.timeoutMs ?? DEFAULT_EXEC_TIMEOUT_MS,
       });
@@ -2081,7 +2086,7 @@ export class SessionStore extends DurableObject<Env> {
       const gitRoot = this.getGitRoot();
       const changedFiles = new Set<string>();
       try {
-        const watchHandle = (this.sdkHandle as any).watch(gitRoot, {
+        const watchHandle = (sdkHandle as any).watch(gitRoot, {
           include: ["**/*"],
           exclude: ["**/node_modules/**", "**/.git/**", "**/dist/**", "**/build/**", "**/.next/**"],
           recursive: true,

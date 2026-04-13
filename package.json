@@ -33,6 +33,8 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "typecheck": "bun run typecheck:web && bun run typecheck:convex && bun run typecheck:agent && bun run typecheck:worker && bun run typecheck:agent-worker && bun run typecheck:docs",
+    "verify:push": "bun run check && bun run typecheck",
+    "verify:ci": "bun run check && bun run typecheck && bun run test",
     "typecheck:web": "bun run --cwd apps/web typecheck",
     "typecheck:convex": "tsc --noEmit -p convex/tsconfig.json",
     "typecheck:agent": "tsc --noEmit -p agent-service/tsconfig.json",
